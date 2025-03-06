@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		3AA31DB62D79B3DC0036D3D7 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 3AA31DB52D79B3DA0036D3D7 /* README.md */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		3AA31D842D79B2A80036D3D7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,22 +31,13 @@
 		3AA31D732D79B2A70036D3D7 /* norlys.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = norlys.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AA31D832D79B2A80036D3D7 /* norlysTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = norlysTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AA31D8D2D79B2A80036D3D7 /* norlysUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = norlysUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3AA31DB52D79B3DA0036D3D7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		3AA31D752D79B2A70036D3D7 /* norlys */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = norlys;
-			sourceTree = "<group>";
-		};
-		3AA31D862D79B2A80036D3D7 /* norlysTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = norlysTests;
-			sourceTree = "<group>";
-		};
-		3AA31D902D79B2A80036D3D7 /* norlysUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = norlysUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -75,9 +70,8 @@
 		3AA31D6A2D79B2A70036D3D7 = {
 			isa = PBXGroup;
 			children = (
+				3AA31DB52D79B3DA0036D3D7 /* README.md */,
 				3AA31D752D79B2A70036D3D7 /* norlys */,
-				3AA31D862D79B2A80036D3D7 /* norlysTests */,
-				3AA31D902D79B2A80036D3D7 /* norlysUITests */,
 				3AA31D742D79B2A70036D3D7 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -130,9 +124,6 @@
 			dependencies = (
 				3AA31D852D79B2A80036D3D7 /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				3AA31D862D79B2A80036D3D7 /* norlysTests */,
-			);
 			name = norlysTests;
 			packageProductDependencies = (
 			);
@@ -152,9 +143,6 @@
 			);
 			dependencies = (
 				3AA31D8F2D79B2A80036D3D7 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				3AA31D902D79B2A80036D3D7 /* norlysUITests */,
 			);
 			name = norlysUITests;
 			packageProductDependencies = (
@@ -212,6 +200,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3AA31DB62D79B3DC0036D3D7 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
