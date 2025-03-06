@@ -4,14 +4,14 @@ import WebKit
 class WebViewController: UIViewController {
     // MARK: - Properties
     private var webView: WKWebView!
-    let activityIndicator = UIActivityIndicatorView(style: .medium)
+    let loadingView = UIView()
     var initialURL: URL = URL(string: "https://norlys.live")!
     
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         setupWebView()
-        setupActivityIndicator()
+        setupLoadingView()
         loadWebsite()
         
         navigationController?.setNavigationBarHidden(true, animated: false)
@@ -57,15 +57,12 @@ class WebViewController: UIViewController {
         view.addSubview(webView)
     }
     
-    private func setupActivityIndicator() {
-        activityIndicator.hidesWhenStopped = true
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(activityIndicator)
-        
-        NSLayoutConstraint.activate([
-            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
+    private func setupLoadingView() {
+        loadingView.backgroundColor = .black
+        loadingView.frame = view.bounds
+        loadingView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(loadingView)
+        view.bringSubviewToFront(loadingView)
     }
     
     // MARK: - WebView Actions

@@ -3,15 +3,15 @@ import WebKit
 // MARK: - WKNavigationDelegate
 extension WebViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        activityIndicator.startAnimating()
+        loadingView.isHidden = false
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        activityIndicator.stopAnimating()
+        loadingView.isHidden = true
     }
     
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-        activityIndicator.stopAnimating()
+        loadingView.isHidden = true
         
         let nsError = error as NSError
         if nsError.domain == NSURLErrorDomain &&
