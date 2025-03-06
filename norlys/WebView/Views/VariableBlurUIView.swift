@@ -1,12 +1,15 @@
+
 import SwiftUI
 import UIKit
 import CoreImage.CIFilterBuiltins
 import QuartzCore
 
+
 public enum VariableBlurDirection {
     case blurredTopClearBottom
     case blurredBottomClearTop
 }
+
 
 public struct VariableBlurView: UIViewRepresentable {
     
@@ -30,6 +33,7 @@ public struct VariableBlurView: UIViewRepresentable {
     public func updateUIView(_ uiView: VariableBlurUIView, context: Context) {
     }
 }
+
 
 /// credit https://github.com/jtrivedi/VariableBlurView
 open class VariableBlurUIView: UIVisualEffectView {
@@ -84,6 +88,7 @@ open class VariableBlurUIView: UIVisualEffectView {
     
     private func makeGradientImage(width: CGFloat = 100, height: CGFloat = 100, startOffset: CGFloat, direction: VariableBlurDirection) -> CGImage { // much lower resolution might be acceptable
         let ciGradientFilter =  CIFilter.linearGradient()
+//        let ciGradientFilter =  CIFilter.smoothLinearGradient()
         ciGradientFilter.color0 = CIColor.black
         ciGradientFilter.color1 = CIColor.clear
         ciGradientFilter.point0 = CGPoint(x: 0, y: height)
