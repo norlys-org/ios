@@ -5,7 +5,7 @@ class WebViewController: UIViewController {
     // MARK: - Properties
     private var webView: WKWebView!
     let loadingView = UIView()
-    var initialURL: URL = URL(string: "https://norlys.live")!
+    var initialURL: URL = URL(string: "http://localhost:3000")!
     
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
@@ -15,13 +15,21 @@ class WebViewController: UIViewController {
         loadWebsite()
         
         navigationController?.setNavigationBarHidden(true, animated: false)
+        
+        // Inject JavaScript to identify as iOS app
+        let script = """
+            window.isIOSApp = true;
+        """
+        let userScript = WKUserScript(source: script, injectionTime: .atDocumentStart, forMainFrameOnly: true)
+        webView.configuration.userContentController.addUserScript(userScript)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         if #available(iOS 11.0, *) {
-            // let topInset = view.safeAreaInsets.top
+            let topInset = view.safeAreaInsets.top
+//            let bottomInset = view.safeAreaInsets.bottom
             let newFrame = CGRect(
                 x: 0,
                 y: 0,
@@ -48,6 +56,9 @@ class WebViewController: UIViewController {
         let configuration = WKWebViewConfiguration()
         configuration.preferences.javaScriptEnabled = true
         configuration.websiteDataStore = WKWebsiteDataStore.default()
+        
+        // Add message handler
+        configuration.userContentController.add(self, name: "nativeApp")
         
         webView = WKWebView(frame: view.bounds, configuration: configuration)
         webView.navigationDelegate = self
@@ -83,5 +94,28 @@ class WebViewController: UIViewController {
             self?.webView.reload()
         }))
         present(alertController, animated: true)
+    }
+}
+
+// MARK: - WKScriptMessageHandler
+extension WebViewController: WKScriptMessageHandler {
+    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        guard let messageBody = message.body as? [String: Any] else { return }
+        
+        // Example function that does nothing but logs
+        if messageBody["action"] as? String == "exampleFunction" {
+            print("Example function called from web")
+            
+            // Send response back to web
+            let response = """
+                window.dispatchEvent(new CustomEvent('nativeResponse', {
+                    detail: {
+                        action: 'exampleFunction',
+                        status: 'success'
+                    }
+                }));
+            """
+            webView.evaluateJavaScript(response, completionHandler: nil)
+        }
     }
 } 
