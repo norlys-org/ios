@@ -38,25 +38,31 @@ class WebViewController: UIViewController {
         
         // Calculate frame that respects top safe area but extends to bottom edge
         if #available(iOS 11.0, *) {
-            let topInset = view.safeAreaInsets.top
+//            let topInset = view.safeAreaInsets.top
             let newFrame = CGRect(
                 x: 0,
-                y: topInset,
+//                y: topInset,
+                y: 0,
                 width: view.bounds.width,
-                height: view.bounds.height - topInset
+//                height: view.bounds.height - topInset
+                height: view.bounds.height
             )
             webView.frame = newFrame
         } else {
             // Fallback for older iOS versions
-            let statusBarHeight = UIApplication.shared.statusBarFrame.height
+//            let statusBarHeight = UIApplication.shared.statusBarFrame.height
             let newFrame = CGRect(
                 x: 0,
-                y: statusBarHeight,
-                width: view.bounds.width,
-                height: view.bounds.height - statusBarHeight
+                //                y: statusBarHeight,
+                                y: 0,
+                                width: view.bounds.width,
+                //                height: view.bounds.height - statusBarHeight
+                                height: view.bounds.height
             )
             webView.frame = newFrame
         }
+        
+        addVariableBlurToTop()
     }
     
     // MARK: - Setup Methods
@@ -164,5 +170,61 @@ extension WebViewController: WKUIDelegate {
         }))
         present(alertController, animated: true)
     }
-    
+}
+
+extension WebViewController {
+    // Method to add the variable blur at the top of the webView
+    func addVariableBlurToTop() {
+        // Only proceed if using iOS 13+ (required for the blur component)
+        guard #available(iOS 13.0, *) else { return }
+        
+        // Calculate the height for the blur (just the status bar area)
+        var blurHeight: CGFloat = 0
+        if #available(iOS 11.0, *) {
+            blurHeight = view.safeAreaInsets.top
+        } else {
+            blurHeight = UIApplication.shared.statusBarFrame.height
+        }
+        
+        // Skip if there's no height (e.g., in landscape on some devices)
+        guard blurHeight > 0 else { return }
+        
+        // Remove any existing blur views to prevent duplicates
+        view.subviews.forEach { subview in
+            if subview is VariableBlurUIView {
+                subview.removeFromSuperview()
+            }
+        }
+        
+        // Create the blur view
+        let blurView = VariableBlurUIView(
+            maxBlurRadius: 10,              // Maximum blur intensity
+            direction: .blurredTopClearBottom,  // Blur at top, clear at bottom
+            startOffset: -0.1                // Slight offset for better appearance
+        )
+        
+        // Position the blur view at the top of the screen
+        blurView.frame = CGRect(
+            x: 0,
+            y: 0,
+            width: view.bounds.width,
+            height: blurHeight
+        )
+        
+        // Make sure it resizes properly
+        blurView.autoresizingMask = [.flexibleWidth, .flexibleBottomMargin]
+        
+        // Add it to the view ABOVE the webView
+        view.addSubview(blurView)
+        
+        // Ensure the blur view is above the webView but below other UI elements
+        view.bringSubviewToFront(blurView)
+        
+        // Ensure activity indicator stays above the blur
+        if let activityIndicator = view.subviews.first(where: { $0 is UIActivityIndicatorView }) {
+            view.bringSubviewToFront(activityIndicator)
+        }
+        
+        print("Added blur view with height: \(blurHeight)")
+    }
 }
