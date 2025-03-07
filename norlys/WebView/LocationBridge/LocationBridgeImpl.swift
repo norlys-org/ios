@@ -1,8 +1,20 @@
 import CoreLocation
 
+/**
+ * LocationBridgeImpl
+ * 
+ * Implementation of the LocationServicesBridge protocol that provides location services
+ * using iOS CoreLocation framework. This class manages the location manager and handles
+ * the communication between the web geolocation API and native location services.
+ */
 class LocationBridgeImpl: NSObject, LocationServicesBridge {
+    /// The Core Location manager used to access device location services
     private let locationManager: CLLocationManager
+    
+    /// Stores the most recent location update
     private var lastLocation: CLLocation?
+    
+    /// Dictionary of active location watch requests and their continuations
     private var watchContinuations: [Double: AsyncStream<CLLocation>.Continuation] = [:]
     
     override init() {
@@ -11,6 +23,8 @@ class LocationBridgeImpl: NSObject, LocationServicesBridge {
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
     }
+    
+    // MARK: - LocationServicesBridge Implementation
     
     func checkPermission() async throws {
         switch locationManager.authorizationStatus {
@@ -48,7 +62,13 @@ class LocationBridgeImpl: NSObject, LocationServicesBridge {
     }
 }
 
+// MARK: - CLLocationManagerDelegate
+
 extension LocationBridgeImpl: CLLocationManagerDelegate {
+    /**
+     * Called when new location data is available.
+     * Updates the last known location and notifies all active watch requests.
+     */
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
         lastLocation = location
@@ -58,10 +78,18 @@ extension LocationBridgeImpl: CLLocationManagerDelegate {
         }
     }
     
+    /**
+     * Called when a location error occurs.
+     * Logs the error for debugging purposes.
+     */
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Location Manager Error: \(error.localizedDescription)")
     }
     
+    /**
+     * Called when location authorization status changes.
+     * Starts updating location if authorized.
+     */
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         switch manager.authorizationStatus {
         case .authorizedWhenInUse, .authorizedAlways:

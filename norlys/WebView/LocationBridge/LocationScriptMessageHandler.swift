@@ -1,8 +1,18 @@
 import WebKit
 import CoreLocation
 
+/**
+ * LocationScriptMessageHandler
+ * 
+ * Handles JavaScript messages from the web app related to geolocation services.
+ * This class acts as a bridge between the web geolocation API and native location services,
+ * translating web API calls into native location requests and sending results back to the web app.
+ */
 class LocationScriptMessageHandler: NSObject, WKScriptMessageHandler {
+    /// The bridge to native location services
     private let locationBridge: LocationServicesBridge
+    
+    /// Reference to the web view for sending JavaScript messages
     private weak var webView: WKWebView?
     
     init(locationBridge: LocationServicesBridge, webView: WKWebView) {
@@ -11,6 +21,10 @@ class LocationScriptMessageHandler: NSObject, WKScriptMessageHandler {
         super.init()
     }
     
+    /**
+     * Handles incoming JavaScript messages from the web app.
+     * Processes different geolocation actions: getCurrentPosition, watchPosition, and clearWatch.
+     */
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         guard let body = message.body as? [String: Any],
               let action = body["action"] as? String else { return }
@@ -29,6 +43,10 @@ class LocationScriptMessageHandler: NSObject, WKScriptMessageHandler {
         }
     }
     
+    /**
+     * Handles getCurrentPosition requests from the web app.
+     * Attempts to return the last known location or starts location updates to get a new position.
+     */
     private func handleGetCurrentPosition(_ body: [String: Any]) {
         Task {
             do {
@@ -48,6 +66,10 @@ class LocationScriptMessageHandler: NSObject, WKScriptMessageHandler {
         }
     }
     
+    /**
+     * Handles watchPosition requests from the web app.
+     * Starts continuous location updates and sends them back to the web app.
+     */
     private func handleWatchPosition(_ body: [String: Any]) {
         guard let watchId = body["watchId"] as? Double else { return }
         
@@ -64,6 +86,13 @@ class LocationScriptMessageHandler: NSObject, WKScriptMessageHandler {
         }
     }
     
+    /**
+     * Sends a location update back to the web app through JavaScript.
+     * - Parameters:
+     *   - location: The location to send
+     *   - callbackId: Optional ID for getCurrentPosition callbacks
+     *   - watchId: Optional ID for watchPosition callbacks
+     */
     private func sendLocationUpdate(location: CLLocation, callbackId: String? = nil, watchId: Double? = nil) {
         let script = """
             (function() {
@@ -87,6 +116,13 @@ class LocationScriptMessageHandler: NSObject, WKScriptMessageHandler {
         webView?.evaluateJavaScript(script, completionHandler: nil)
     }
     
+    /**
+     * Sends an error back to the web app through JavaScript.
+     * - Parameters:
+     *   - error: The error to send
+     *   - callbackId: Optional ID for getCurrentPosition callbacks
+     *   - watchId: Optional ID for watchPosition callbacks
+     */
     private func sendError(error: Error, callbackId: String? = nil, watchId: Double? = nil) {
         let script = """
             (function() {

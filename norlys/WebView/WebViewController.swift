@@ -2,15 +2,33 @@ import UIKit
 import WebKit
 import CoreLocation
 
+/**
+ * WebViewController
+ * 
+ * Main view controller that handles the web view functionality of the app.
+ * It manages the WKWebView, handles JavaScript bridge communication, and provides
+ * native functionality to the web app through various bridges (console, location).
+ */
 class WebViewController: UIViewController {
     // MARK: - Properties
+    
+    /// The main web view that displays web content
     var webView: WKWebView!
+    
+    /// Loading view displayed while web content is being loaded
     let loadingView = UIView()
+    
+    /// Initial URL to load in the web view
     var initialURL: URL = URL(string: "http://10.0.0.27:3001")!
+    
+    /// Bridge for handling location services
     private let locationBridge: LocationServicesBridge
+    
+    /// Handler for location-related JavaScript messages
     private var locationHandler: LocationScriptMessageHandler?
     
     // MARK: - Initialization
+    
     init() {
         self.locationBridge = LocationBridgeImpl()
         super.init(nibName: nil, bundle: nil)
@@ -22,6 +40,7 @@ class WebViewController: UIViewController {
     }
     
     // MARK: - Lifecycle Methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupWebView()
@@ -38,77 +57,36 @@ class WebViewController: UIViewController {
     }
     
     // MARK: - Setup Methods
+    
+    /**
+     * Sets up the WKWebView with required configuration and JavaScript bridges.
+     * Initializes console and location bridges for communication between web and native.
+     */
     private func setupWebView() {
         let configuration = WKWebViewConfiguration()
         configuration.preferences.javaScriptEnabled = true
         configuration.websiteDataStore = WKWebsiteDataStore.default()
         
-        // Add console.log bridge
-        let consoleScript = WKUserScript(source: """
-            function captureLog(type, args) {
-                window.webkit.messageHandlers.console.postMessage({
-                    type: type,
-                    message: Array.from(args).map(arg => {
-                        try {
-                            return typeof arg === 'object' ? JSON.stringify(arg) : String(arg);
-                        } catch (e) {
-                            return String(arg);
-                        }
-                    })
-                });
-            }
+        // Load JavaScript bridge files from Resources directory
+        if let consoleBridgePath = Bundle.main.path(forResource: "console-bridge", ofType: "js", inDirectory: "Resources"),
+           let consoleBridgeScript = try? String(contentsOfFile: consoleBridgePath, encoding: .utf8),
+           let geolocationBridgePath = Bundle.main.path(forResource: "geolocation-bridge", ofType: "js", inDirectory: "Resources"),
+           let geolocationBridgeScript = try? String(contentsOfFile: geolocationBridgePath, encoding: .utf8) {
             
-            console._log = console.log;
-            console._error = console.error;
-            console._warn = console.warn;
-            console._info = console.info;
+            let consoleScript = WKUserScript(source: consoleBridgeScript,
+                                           injectionTime: .atDocumentStart,
+                                           forMainFrameOnly: false)
             
-            console.log = function() { captureLog('log', arguments); console._log.apply(console, arguments); }
-            console.error = function() { captureLog('error', arguments); console._error.apply(console, arguments); }
-            console.warn = function() { captureLog('warn', arguments); console._warn.apply(console, arguments); }
-            console.info = function() { captureLog('info', arguments); console._info.apply(console, arguments); }
-        """, injectionTime: .atDocumentStart, forMainFrameOnly: false)
+            let geolocationScript = WKUserScript(source: geolocationBridgeScript,
+                                               injectionTime: .atDocumentStart,
+                                               forMainFrameOnly: true)
+            
+            configuration.userContentController.addUserScript(consoleScript)
+            configuration.userContentController.addUserScript(geolocationScript)
+        } else {
+            print("Failed to load JavaScript bridge files from Resources directory")
+        }
         
-        // Add geolocation bridge
-        let geolocationScript = WKUserScript(source: """
-            (function() {
-                window._geolocationCallbacks = {};
-                window._geolocationWatchers = {};
-                let watchId = 0;
-                
-                navigator.geolocation.getCurrentPosition = function(success, error, options) {
-                    const callbackId = Date.now().toString();
-                    window._geolocationCallbacks[callbackId] = { success, error };
-                    window.webkit.messageHandlers.location.postMessage({
-                        action: 'getCurrentPosition',
-                        callbackId: callbackId,
-                        options: options
-                    });
-                };
-                
-                navigator.geolocation.watchPosition = function(success, error, options) {
-                    watchId++;
-                    window._geolocationWatchers[watchId] = { success, error };
-                    window.webkit.messageHandlers.location.postMessage({
-                        action: 'watchPosition',
-                        watchId: watchId,
-                        options: options
-                    });
-                    return watchId;
-                };
-                
-                navigator.geolocation.clearWatch = function(id) {
-                    delete window._geolocationWatchers[id];
-                    window.webkit.messageHandlers.location.postMessage({
-                        action: 'clearWatch',
-                        watchId: id
-                    });
-                };
-            })();
-        """, injectionTime: .atDocumentStart, forMainFrameOnly: true)
-        
-        configuration.userContentController.addUserScript(consoleScript)
-        configuration.userContentController.addUserScript(geolocationScript)
         configuration.userContentController.add(self, name: "console")
         
         webView = WKWebView(frame: view.bounds, configuration: configuration)
@@ -123,6 +101,9 @@ class WebViewController: UIViewController {
         view.addSubview(webView)
     }
     
+    /**
+     * Sets up the loading view that is displayed while web content is being loaded.
+     */
     private func setupLoadingView() {
         loadingView.backgroundColor = .black
         loadingView.frame = view.bounds
@@ -132,11 +113,19 @@ class WebViewController: UIViewController {
     }
     
     // MARK: - WebView Actions
+    
+    /**
+     * Loads the initial website in the web view.
+     */
     private func loadWebsite() {
         let request = URLRequest(url: initialURL)
         webView.load(request)
     }
     
+    /**
+     * Displays an error alert with an option to retry loading the page.
+     * - Parameter message: The error message to display
+     */
     func showError(message: String) {
         let alertController = UIAlertController(
             title: "Error",
