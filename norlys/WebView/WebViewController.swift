@@ -1,11 +1,25 @@
 import UIKit
 import WebKit
+import CoreLocation
 
 class WebViewController: UIViewController {
     // MARK: - Properties
-    private var webView: WKWebView!
+    var webView: WKWebView!
     let loadingView = UIView()
-    var initialURL: URL = URL(string: "http://localhost:3000")!
+    var initialURL: URL = URL(string: "http://10.0.0.27:3001")!
+    private let locationBridge: LocationServicesBridge
+    private var locationHandler: LocationScriptMessageHandler?
+    
+    // MARK: - Initialization
+    init() {
+        self.locationBridge = LocationBridgeImpl()
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        self.locationBridge = LocationBridgeImpl()
+        super.init(coder: coder)
+    }
     
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
@@ -15,39 +29,11 @@ class WebViewController: UIViewController {
         loadWebsite()
         
         navigationController?.setNavigationBarHidden(true, animated: false)
-        
-        // Inject JavaScript to identify as iOS app
-        let script = """
-            window.isIOSApp = true;
-        """
-        let userScript = WKUserScript(source: script, injectionTime: .atDocumentStart, forMainFrameOnly: true)
-        webView.configuration.userContentController.addUserScript(userScript)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
-        if #available(iOS 11.0, *) {
-            let topInset = view.safeAreaInsets.top
-//            let bottomInset = view.safeAreaInsets.bottom
-            let newFrame = CGRect(
-                x: 0,
-                y: 0,
-                width: view.bounds.width,
-                height: view.bounds.height
-            )
-            webView.frame = newFrame
-        } else {
-            // let statusBarHeight = UIApplication.shared.statusBarFrame.height
-            let newFrame = CGRect(
-                x: 0,
-                y: 0,
-                width: view.bounds.width,
-                height: view.bounds.height
-            )
-            webView.frame = newFrame
-        }
-        
+        webView.frame = view.bounds
         addVariableBlurToTop()
     }
     
@@ -57,13 +43,82 @@ class WebViewController: UIViewController {
         configuration.preferences.javaScriptEnabled = true
         configuration.websiteDataStore = WKWebsiteDataStore.default()
         
-        // Add message handler
-        configuration.userContentController.add(self, name: "nativeApp")
+        // Add console.log bridge
+        let consoleScript = WKUserScript(source: """
+            function captureLog(type, args) {
+                window.webkit.messageHandlers.console.postMessage({
+                    type: type,
+                    message: Array.from(args).map(arg => {
+                        try {
+                            return typeof arg === 'object' ? JSON.stringify(arg) : String(arg);
+                        } catch (e) {
+                            return String(arg);
+                        }
+                    })
+                });
+            }
+            
+            console._log = console.log;
+            console._error = console.error;
+            console._warn = console.warn;
+            console._info = console.info;
+            
+            console.log = function() { captureLog('log', arguments); console._log.apply(console, arguments); }
+            console.error = function() { captureLog('error', arguments); console._error.apply(console, arguments); }
+            console.warn = function() { captureLog('warn', arguments); console._warn.apply(console, arguments); }
+            console.info = function() { captureLog('info', arguments); console._info.apply(console, arguments); }
+        """, injectionTime: .atDocumentStart, forMainFrameOnly: false)
+        
+        // Add geolocation bridge
+        let geolocationScript = WKUserScript(source: """
+            (function() {
+                window._geolocationCallbacks = {};
+                window._geolocationWatchers = {};
+                let watchId = 0;
+                
+                navigator.geolocation.getCurrentPosition = function(success, error, options) {
+                    const callbackId = Date.now().toString();
+                    window._geolocationCallbacks[callbackId] = { success, error };
+                    window.webkit.messageHandlers.location.postMessage({
+                        action: 'getCurrentPosition',
+                        callbackId: callbackId,
+                        options: options
+                    });
+                };
+                
+                navigator.geolocation.watchPosition = function(success, error, options) {
+                    watchId++;
+                    window._geolocationWatchers[watchId] = { success, error };
+                    window.webkit.messageHandlers.location.postMessage({
+                        action: 'watchPosition',
+                        watchId: watchId,
+                        options: options
+                    });
+                    return watchId;
+                };
+                
+                navigator.geolocation.clearWatch = function(id) {
+                    delete window._geolocationWatchers[id];
+                    window.webkit.messageHandlers.location.postMessage({
+                        action: 'clearWatch',
+                        watchId: id
+                    });
+                };
+            })();
+        """, injectionTime: .atDocumentStart, forMainFrameOnly: true)
+        
+        configuration.userContentController.addUserScript(consoleScript)
+        configuration.userContentController.addUserScript(geolocationScript)
+        configuration.userContentController.add(self, name: "console")
         
         webView = WKWebView(frame: view.bounds, configuration: configuration)
         webView.navigationDelegate = self
         webView.uiDelegate = self
         webView.scrollView.contentInsetAdjustmentBehavior = .never
+        
+        // Setup location handler
+        locationHandler = LocationScriptMessageHandler(locationBridge: locationBridge, webView: webView)
+        configuration.userContentController.add(locationHandler!, name: "location")
         
         view.addSubview(webView)
     }
@@ -89,33 +144,9 @@ class WebViewController: UIViewController {
             preferredStyle: .alert
         )
         alertController.addAction(UIAlertAction(title: "OK", style: .default))
-        
         alertController.addAction(UIAlertAction(title: "Retry", style: .default, handler: { [weak self] _ in
             self?.webView.reload()
         }))
         present(alertController, animated: true)
     }
 }
-
-// MARK: - WKScriptMessageHandler
-extension WebViewController: WKScriptMessageHandler {
-    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        guard let messageBody = message.body as? [String: Any] else { return }
-        
-        // Example function that does nothing but logs
-        if messageBody["action"] as? String == "exampleFunction" {
-            print("Example function called from web")
-            
-            // Send response back to web
-            let response = """
-                window.dispatchEvent(new CustomEvent('nativeResponse', {
-                    detail: {
-                        action: 'exampleFunction',
-                        status: 'success'
-                    }
-                }));
-            """
-            webView.evaluateJavaScript(response, completionHandler: nil)
-        }
-    }
-} 

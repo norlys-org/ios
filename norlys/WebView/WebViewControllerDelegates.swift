@@ -22,6 +22,14 @@ extension WebViewController: WKNavigationDelegate {
             showError(message: "Failed to load page: \(error.localizedDescription)")
         }
     }
+    
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        decisionHandler(.allow)
+    }
+    
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        showError(message: error.localizedDescription)
+    }
 }
 
 // MARK: - WKUIDelegate
@@ -36,4 +44,31 @@ extension WebViewController: WKUIDelegate {
         }))
         present(alertController, animated: true)
     }
-} 
+    
+    func webView(_ webView: WKWebView, requestMediaCapturePermissionFor origin: WKSecurityOrigin, initiatedByFrame frame: WKFrameInfo, type: WKMediaCaptureType, decisionHandler: @escaping (WKPermissionDecision) -> Void) {
+        decisionHandler(.grant)
+    }
+}
+
+// MARK: - WKScriptMessageHandler
+extension WebViewController: WKScriptMessageHandler {
+    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        if message.name == "console",
+           let body = message.body as? [String: Any] {
+            let type = body["type"] as? String ?? "log"
+            let messages = body["message"] as? [String] ?? []
+            let messageString = messages.joined(separator: " ")
+            
+            switch type {
+            case "error":
+                print("🔴 [WebView Error]:", messageString)
+            case "warn":
+                print("🟡 [WebView Warning]:", messageString)
+            case "info":
+                print("🔵 [WebView Info]:", messageString)
+            default:
+                print("⚪️ [WebView Log]:", messageString)
+            }
+        }
+    }
+}
