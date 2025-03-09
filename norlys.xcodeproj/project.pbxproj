@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3AA31DB62D79B3DC0036D3D7 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 3AA31DB52D79B3DA0036D3D7 /* README.md */; };
+		3AA31DB72D79B3DD0036D3D8 /* console-bridge.js in Resources */ = {isa = PBXBuildFile; fileRef = 3AA31DB62D79B3DB0036D3D8 /* console-bridge.js */; };
+		3AA31DB82D79B3DE0036D3D9 /* geolocation-bridge.js in Resources */ = {isa = PBXBuildFile; fileRef = 3AA31DB72D79B3DC0036D3D9 /* geolocation-bridge.js */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +34,8 @@
 		3AA31D832D79B2A80036D3D7 /* norlysTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = norlysTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AA31D8D2D79B2A80036D3D7 /* norlysUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = norlysUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AA31DB52D79B3DA0036D3D7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		3AA31DB62D79B3DB0036D3D8 /* console-bridge.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = "console-bridge.js"; path = "norlys/Resources/console-bridge.js"; sourceTree = SOURCE_ROOT; };
+		3AA31DB72D79B3DC0036D3D9 /* geolocation-bridge.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = "geolocation-bridge.js"; path = "norlys/Resources/geolocation-bridge.js"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -80,12 +84,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3A06A2AA2D7D93F600B6FC11 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				3AA31DB62D79B3DB0036D3D8 /* console-bridge.js */,
+				3AA31DB72D79B3DC0036D3D9 /* geolocation-bridge.js */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		3AA31D6A2D79B2A70036D3D7 = {
 			isa = PBXGroup;
 			children = (
 				3AA31DB52D79B3DA0036D3D7 /* README.md */,
 				3AA31D752D79B2A70036D3D7 /* norlys */,
 				3AA31D742D79B2A70036D3D7 /* Products */,
+				3A06A2AA2D7D93F600B6FC11 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -214,6 +228,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				3AA31DB62D79B3DC0036D3D7 /* README.md in Resources */,
+				3AA31DB72D79B3DD0036D3D8 /* console-bridge.js in Resources */,
+				3AA31DB82D79B3DE0036D3D9 /* geolocation-bridge.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -19,7 +19,7 @@ class WebViewController: UIViewController {
     let loadingView = UIView()
     
     /// Initial URL to load in the web view
-    var initialURL: URL = URL(string: "http://10.0.0.27:3001")!
+    var initialURL: URL = URL(string: "http://10.0.0.7:3000")!
     
     /// Bridge for handling location services
     private let locationBridge: LocationServicesBridge
@@ -53,7 +53,6 @@ class WebViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         webView.frame = view.bounds
-        addVariableBlurToTop()
     }
     
     // MARK: - Setup Methods
@@ -67,10 +66,10 @@ class WebViewController: UIViewController {
         configuration.preferences.javaScriptEnabled = true
         configuration.websiteDataStore = WKWebsiteDataStore.default()
         
-        // Load JavaScript bridge files from Resources directory
-        if let consoleBridgePath = Bundle.main.path(forResource: "console-bridge", ofType: "js", inDirectory: "Resources"),
+        // Load JavaScript bridge files from bundle
+        if let consoleBridgePath = Bundle.main.path(forResource: "console-bridge", ofType: "js"),
            let consoleBridgeScript = try? String(contentsOfFile: consoleBridgePath, encoding: .utf8),
-           let geolocationBridgePath = Bundle.main.path(forResource: "geolocation-bridge", ofType: "js", inDirectory: "Resources"),
+           let geolocationBridgePath = Bundle.main.path(forResource: "geolocation-bridge", ofType: "js"),
            let geolocationBridgeScript = try? String(contentsOfFile: geolocationBridgePath, encoding: .utf8) {
             
             let consoleScript = WKUserScript(source: consoleBridgeScript,
@@ -84,7 +83,7 @@ class WebViewController: UIViewController {
             configuration.userContentController.addUserScript(consoleScript)
             configuration.userContentController.addUserScript(geolocationScript)
         } else {
-            print("Failed to load JavaScript bridge files from Resources directory")
+            print("Failed to load JavaScript bridge files from bundle")
         }
         
         configuration.userContentController.add(self, name: "console")
