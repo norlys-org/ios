@@ -1,3 +1,4 @@
+@preconcurrency
 import WebKit
 
 // MARK: - WKNavigationDelegate

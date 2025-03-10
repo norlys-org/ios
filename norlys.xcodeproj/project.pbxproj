@@ -10,32 +10,43 @@
 		3AA31DB62D79B3DC0036D3D7 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 3AA31DB52D79B3DA0036D3D7 /* README.md */; };
 		3AA31DB72D79B3DD0036D3D8 /* console-bridge.js in Resources */ = {isa = PBXBuildFile; fileRef = 3AA31DB62D79B3DB0036D3D8 /* console-bridge.js */; };
 		3AA31DB82D79B3DE0036D3D9 /* geolocation-bridge.js in Resources */ = {isa = PBXBuildFile; fileRef = 3AA31DB72D79B3DC0036D3D9 /* geolocation-bridge.js */; };
+		3AD10AF72D7F4BAB00EC9A07 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AD10ABC2D7F482A00EC9A07 /* WidgetKit.framework */; };
+		3AD10AF82D7F4BAB00EC9A07 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AD10ABE2D7F482A00EC9A07 /* SwiftUI.framework */; };
+		3AD10B092D7F4BAD00EC9A07 /* norlysWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3AD10AF62D7F4BAB00EC9A07 /* norlysWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		3AA31D842D79B2A80036D3D7 /* PBXContainerItemProxy */ = {
+		3AD10B072D7F4BAD00EC9A07 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3AA31D6B2D79B2A70036D3D7 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 3AA31D722D79B2A70036D3D7;
-			remoteInfo = norlys;
-		};
-		3AA31D8E2D79B2A80036D3D7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3AA31D6B2D79B2A70036D3D7 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 3AA31D722D79B2A70036D3D7;
-			remoteInfo = norlys;
+			remoteGlobalIDString = 3AD10AF52D7F4BAB00EC9A07;
+			remoteInfo = norlysWidgetExtension;
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		3AD10AD12D7F482B00EC9A07 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				3AD10B092D7F4BAD00EC9A07 /* norlysWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		3AA31D732D79B2A70036D3D7 /* norlys.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = norlys.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		3AA31D832D79B2A80036D3D7 /* norlysTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = norlysTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		3AA31D8D2D79B2A80036D3D7 /* norlysUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = norlysUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AA31DB52D79B3DA0036D3D7 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		3AA31DB62D79B3DB0036D3D8 /* console-bridge.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = "console-bridge.js"; path = "norlys/Resources/console-bridge.js"; sourceTree = SOURCE_ROOT; };
 		3AA31DB72D79B3DC0036D3D9 /* geolocation-bridge.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = "geolocation-bridge.js"; path = "norlys/Resources/geolocation-bridge.js"; sourceTree = SOURCE_ROOT; };
+		3AD10ABC2D7F482A00EC9A07 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		3AD10ABE2D7F482A00EC9A07 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		3AD10AF62D7F4BAB00EC9A07 /* norlysWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = norlysWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -45,6 +56,13 @@
 				Info.plist,
 			);
 			target = 3AA31D722D79B2A70036D3D7 /* norlys */;
+		};
+		3AD10B0D2D7F4BAD00EC9A07 /* Exceptions for "norlysWidget" folder in "norlysWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 3AD10AF52D7F4BAB00EC9A07 /* norlysWidgetExtension */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -57,6 +75,14 @@
 			path = norlys;
 			sourceTree = "<group>";
 		};
+		3AD10AF92D7F4BAB00EC9A07 /* norlysWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				3AD10B0D2D7F4BAD00EC9A07 /* Exceptions for "norlysWidget" folder in "norlysWidgetExtension" target */,
+			);
+			path = norlysWidget;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,17 +93,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3AA31D802D79B2A80036D3D7 /* Frameworks */ = {
+		3AD10AF32D7F4BAB00EC9A07 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3AA31D8A2D79B2A80036D3D7 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				3AD10AF82D7F4BAB00EC9A07 /* SwiftUI.framework in Frameworks */,
+				3AD10AF72D7F4BAB00EC9A07 /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,6 +119,8 @@
 			children = (
 				3AA31DB52D79B3DA0036D3D7 /* README.md */,
 				3AA31D752D79B2A70036D3D7 /* norlys */,
+				3AD10AF92D7F4BAB00EC9A07 /* norlysWidget */,
+				3AD10ABB2D7F482A00EC9A07 /* Frameworks */,
 				3AA31D742D79B2A70036D3D7 /* Products */,
 				3A06A2AA2D7D93F600B6FC11 /* Recovered References */,
 			);
@@ -107,10 +130,18 @@
 			isa = PBXGroup;
 			children = (
 				3AA31D732D79B2A70036D3D7 /* norlys.app */,
-				3AA31D832D79B2A80036D3D7 /* norlysTests.xctest */,
-				3AA31D8D2D79B2A80036D3D7 /* norlysUITests.xctest */,
+				3AD10AF62D7F4BAB00EC9A07 /* norlysWidgetExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		3AD10ABB2D7F482A00EC9A07 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3AD10ABC2D7F482A00EC9A07 /* WidgetKit.framework */,
+				3AD10ABE2D7F482A00EC9A07 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -123,10 +154,12 @@
 				3AA31D6F2D79B2A70036D3D7 /* Sources */,
 				3AA31D702D79B2A70036D3D7 /* Frameworks */,
 				3AA31D712D79B2A70036D3D7 /* Resources */,
+				3AD10AD12D7F482B00EC9A07 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				3AD10B082D7F4BAD00EC9A07 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				3AA31D752D79B2A70036D3D7 /* norlys */,
@@ -138,45 +171,27 @@
 			productReference = 3AA31D732D79B2A70036D3D7 /* norlys.app */;
 			productType = "com.apple.product-type.application";
 		};
-		3AA31D822D79B2A80036D3D7 /* norlysTests */ = {
+		3AD10AF52D7F4BAB00EC9A07 /* norlysWidgetExtension */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3AA31D9A2D79B2A80036D3D7 /* Build configuration list for PBXNativeTarget "norlysTests" */;
+			buildConfigurationList = 3AD10B0A2D7F4BAD00EC9A07 /* Build configuration list for PBXNativeTarget "norlysWidgetExtension" */;
 			buildPhases = (
-				3AA31D7F2D79B2A80036D3D7 /* Sources */,
-				3AA31D802D79B2A80036D3D7 /* Frameworks */,
-				3AA31D812D79B2A80036D3D7 /* Resources */,
+				3AD10AF22D7F4BAB00EC9A07 /* Sources */,
+				3AD10AF32D7F4BAB00EC9A07 /* Frameworks */,
+				3AD10AF42D7F4BAB00EC9A07 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				3AA31D852D79B2A80036D3D7 /* PBXTargetDependency */,
 			);
-			name = norlysTests;
+			fileSystemSynchronizedGroups = (
+				3AD10AF92D7F4BAB00EC9A07 /* norlysWidget */,
+			);
+			name = norlysWidgetExtension;
 			packageProductDependencies = (
 			);
-			productName = norlysTests;
-			productReference = 3AA31D832D79B2A80036D3D7 /* norlysTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		3AA31D8C2D79B2A80036D3D7 /* norlysUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 3AA31D9D2D79B2A80036D3D7 /* Build configuration list for PBXNativeTarget "norlysUITests" */;
-			buildPhases = (
-				3AA31D892D79B2A80036D3D7 /* Sources */,
-				3AA31D8A2D79B2A80036D3D7 /* Frameworks */,
-				3AA31D8B2D79B2A80036D3D7 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				3AA31D8F2D79B2A80036D3D7 /* PBXTargetDependency */,
-			);
-			name = norlysUITests;
-			packageProductDependencies = (
-			);
-			productName = norlysUITests;
-			productReference = 3AA31D8D2D79B2A80036D3D7 /* norlysUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
+			productName = norlysWidgetExtension;
+			productReference = 3AD10AF62D7F4BAB00EC9A07 /* norlysWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -191,13 +206,8 @@
 					3AA31D722D79B2A70036D3D7 = {
 						CreatedOnToolsVersion = 16.2;
 					};
-					3AA31D822D79B2A80036D3D7 = {
+					3AD10AF52D7F4BAB00EC9A07 = {
 						CreatedOnToolsVersion = 16.2;
-						TestTargetID = 3AA31D722D79B2A70036D3D7;
-					};
-					3AA31D8C2D79B2A80036D3D7 = {
-						CreatedOnToolsVersion = 16.2;
-						TestTargetID = 3AA31D722D79B2A70036D3D7;
 					};
 				};
 			};
@@ -216,8 +226,7 @@
 			projectRoot = "";
 			targets = (
 				3AA31D722D79B2A70036D3D7 /* norlys */,
-				3AA31D822D79B2A80036D3D7 /* norlysTests */,
-				3AA31D8C2D79B2A80036D3D7 /* norlysUITests */,
+				3AD10AF52D7F4BAB00EC9A07 /* norlysWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -233,14 +242,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3AA31D812D79B2A80036D3D7 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3AA31D8B2D79B2A80036D3D7 /* Resources */ = {
+		3AD10AF42D7F4BAB00EC9A07 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -257,14 +259,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3AA31D7F2D79B2A80036D3D7 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3AA31D892D79B2A80036D3D7 /* Sources */ = {
+		3AD10AF22D7F4BAB00EC9A07 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -274,15 +269,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		3AA31D852D79B2A80036D3D7 /* PBXTargetDependency */ = {
+		3AD10B082D7F4BAD00EC9A07 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 3AA31D722D79B2A70036D3D7 /* norlys */;
-			targetProxy = 3AA31D842D79B2A80036D3D7 /* PBXContainerItemProxy */;
-		};
-		3AA31D8F2D79B2A80036D3D7 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 3AA31D722D79B2A70036D3D7 /* norlys */;
-			targetProxy = 3AA31D8E2D79B2A80036D3D7 /* PBXContainerItemProxy */;
+			target = 3AD10AF52D7F4BAB00EC9A07 /* norlysWidgetExtension */;
+			targetProxy = 3AD10B072D7F4BAD00EC9A07 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -468,75 +458,57 @@
 			};
 			name = Release;
 		};
-		3AA31D9B2D79B2A80036D3D7 /* Debug */ = {
+		3AD10B0B2D7F4BAD00EC9A07 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 82L3J9894R;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				INFOPLIST_FILE = norlysWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = norlysWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = live.norlys.norlysTests;
+				PRODUCT_BUNDLE_IDENTIFIER = live.norlys.norlys.norlysWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/norlys.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/norlys";
 			};
 			name = Debug;
 		};
-		3AA31D9C2D79B2A80036D3D7 /* Release */ = {
+		3AD10B0C2D7F4BAD00EC9A07 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 82L3J9894R;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				INFOPLIST_FILE = norlysWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = norlysWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = live.norlys.norlysTests;
+				PRODUCT_BUNDLE_IDENTIFIER = live.norlys.norlys.norlysWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/norlys.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/norlys";
-			};
-			name = Release;
-		};
-		3AA31D9E2D79B2A80036D3D7 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 82L3J9894R;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = live.norlys.norlysUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = norlys;
-			};
-			name = Debug;
-		};
-		3AA31D9F2D79B2A80036D3D7 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 82L3J9894R;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = live.norlys.norlysUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = norlys;
 			};
 			name = Release;
 		};
@@ -561,20 +533,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3AA31D9A2D79B2A80036D3D7 /* Build configuration list for PBXNativeTarget "norlysTests" */ = {
+		3AD10B0A2D7F4BAD00EC9A07 /* Build configuration list for PBXNativeTarget "norlysWidgetExtension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				3AA31D9B2D79B2A80036D3D7 /* Debug */,
-				3AA31D9C2D79B2A80036D3D7 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		3AA31D9D2D79B2A80036D3D7 /* Build configuration list for PBXNativeTarget "norlysUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				3AA31D9E2D79B2A80036D3D7 /* Debug */,
-				3AA31D9F2D79B2A80036D3D7 /* Release */,
+				3AD10B0B2D7F4BAD00EC9A07 /* Debug */,
+				3AD10B0C2D7F4BAD00EC9A07 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

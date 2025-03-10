@@ -9,6 +9,44 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>norlysWidgetExtension.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>3AA31D722D79B2A70036D3D7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3AA31D822D79B2A80036D3D7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3AA31D8C2D79B2A80036D3D7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3AD10AB92D7F482A00EC9A07</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3AD10AD92D7F4B5F00EC9A07</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3AD10AF52D7F4BAB00EC9A07</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 	</dict>
 </dict>
 </plist>
