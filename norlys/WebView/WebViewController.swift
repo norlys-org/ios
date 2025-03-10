@@ -1,6 +1,7 @@
 import UIKit
 import WebKit
 import CoreLocation
+import AVFoundation
 
 /**
  * WebViewController
@@ -19,7 +20,7 @@ class WebViewController: UIViewController {
     let loadingView = UIView()
     
     /// Initial URL to load in the web view
-    var initialURL: URL = URL(string: "http://10.0.0.7:3001")!
+    var initialURL: URL = URL(string: "http://10.0.0.42:3001")!
     
     /// Bridge for handling location services
     private let locationBridge: LocationServicesBridge
