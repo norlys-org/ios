@@ -50,12 +50,16 @@ struct Provider: TimelineProvider {
                 // Process magnetic data
                 let magneticData = magJsonArray.dropFirst().map { row -> (Double, Double, Bool, Date) in
                     let btValue = Double(row[1]) ?? 0.0
-                    let bzValue = Double(row[4]) ?? 0.0  // bz_gsm is at index 4
+                    let bzValue = Double(row[4]) ?? 0.0
                     let active = row[9] == "0"
                     let date = ISO8601DateFormatter().date(from: row[0].replacingOccurrences(of: " ", with: "T") + "Z") ?? Date()
                     return (btValue, bzValue, active, date)
                 }
-                .filter { $0.2 } // Only keep points where active is true
+                .filter { $0.2 }
+                .sorted { $0.3 < $1.3 }  // Sort by date, oldest first
+                
+                // Create historical data array with timestamps
+                let historicalData = magneticData.map { ($0.3, $0.0, $0.1) }
                 
                 // Get the last plasma speed
                 if let lastPlasmaRow = plasmaJsonArray.dropFirst().last,
@@ -63,8 +67,8 @@ struct Provider: TimelineProvider {
                     let distance = 1_500_000.0 // km
                     let travelTime = distance / speed / 60 // Convert to minutes
                     
-                    if let lastDataDate = magneticData.first?.3 {
-                        let earthHitDate = lastDataDate.addingTimeInterval(-travelTime * 60) // Convert minutes to seconds
+                    if let lastDataDate = magneticData.last?.3 {
+                        let earthHitDate = lastDataDate.addingTimeInterval(-travelTime * 60)
                         
                         // Find the index closest to earth hit date
                         let earthHitIndex = magneticData.enumerated().min { a, b in
@@ -73,22 +77,23 @@ struct Provider: TimelineProvider {
                         
                         let btValues = magneticData.map { $0.0 }
                         let bzValues = magneticData.map { $0.1 }
-                        let lastBtValue = btValues.first ?? 0.0
-                        let firstBtValue = btValues.last ?? 0.0
-                        let lastBzValue = bzValues.first ?? 0.0
-                        let firstBzValue = bzValues.last ?? 0.0
+                        let lastBtValue = btValues.last ?? 0.0
+                        let firstBtValue = btValues.first ?? 0.0
+                        let lastBzValue = bzValues.last ?? 0.0
+                        let firstBzValue = bzValues.first ?? 0.0
                         
-                        let entry = SimpleEntry(
+                        var entry = SimpleEntry(
                             date: currentDate,
                             btValue: lastBtValue,
                             btTrend: lastBtValue - firstBtValue,
                             bzValue: lastBzValue,
                             bzTrend: lastBzValue - firstBzValue,
-                            historicalBtData: Array(btValues.reversed()), // Reverse the data to show oldest to newest
-                            historicalBzData: Array(bzValues.reversed()),
-                            earthHitIndex: earthHitIndex, // The original index is now correct
+                            historicalBtData: btValues,
+                            historicalBzData: bzValues,
+                            earthHitIndex: earthHitIndex,
                             earthHitTimeMinutes: Int(round(travelTime))
                         )
+                        entry.historicalData = historicalData
                         
                         let nextUpdate = Calendar.current.date(byAdding: .minute, value: 1, to: currentDate)!
                         let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
@@ -100,17 +105,18 @@ struct Provider: TimelineProvider {
                 // Fallback if plasma data calculation fails
                 let btValues = magneticData.map { $0.0 }
                 let bzValues = magneticData.map { $0.1 }
-                let entry = SimpleEntry(
+                var entry = SimpleEntry(
                     date: currentDate,
-                    btValue: btValues.first ?? 0.0,
-                    btTrend: (btValues.first ?? 0.0) - (btValues.last ?? 0.0),
-                    bzValue: bzValues.first ?? 0.0,
-                    bzTrend: (bzValues.first ?? 0.0) - (bzValues.last ?? 0.0),
-                    historicalBtData: Array(btValues.reversed()),
-                    historicalBzData: Array(bzValues.reversed()),
+                    btValue: btValues.last ?? 0.0,
+                    btTrend: (btValues.last ?? 0.0) - (btValues.first ?? 0.0),
+                    bzValue: bzValues.last ?? 0.0,
+                    bzTrend: (bzValues.last ?? 0.0) - (bzValues.first ?? 0.0),
+                    historicalBtData: btValues,
+                    historicalBzData: bzValues,
                     earthHitIndex: nil,
                     earthHitTimeMinutes: nil
                 )
+                entry.historicalData = historicalData
                 
                 let nextUpdate = Calendar.current.date(byAdding: .minute, value: 1, to: currentDate)!
                 let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
@@ -144,6 +150,7 @@ struct SimpleEntry: TimelineEntry {
     let historicalBzData: [Double]
     let earthHitIndex: Int?
     let earthHitTimeMinutes: Int?
+    var historicalData: [(date: Date, bt: Double, bz: Double)]  // Changed to var instead of let
     
     init(date: Date, btValue: Double, btTrend: Double, bzValue: Double, bzTrend: Double, historicalBtData: [Double], historicalBzData: [Double], earthHitIndex: Int? = nil, earthHitTimeMinutes: Int? = nil) {
         self.date = date
@@ -155,6 +162,7 @@ struct SimpleEntry: TimelineEntry {
         self.historicalBzData = historicalBzData
         self.earthHitIndex = earthHitIndex
         self.earthHitTimeMinutes = earthHitTimeMinutes
+        self.historicalData = []  // This will be replaced in the actual timeline provider
     }
 }
 
@@ -188,7 +196,6 @@ struct norlysWidgetEntryView : View {
                     .font(.custom("Helvetica", size: 12))
                     .fontWeight(.bold)
                     .foregroundColor(.gray)
-                    .padding(.top, 2)  // Add minimal top padding
             }
             
             HStack(alignment: .lastTextBaseline) {
@@ -218,7 +225,7 @@ struct norlysWidgetEntryView : View {
             }
             .padding(.bottom, 8)  // Add spacing between text and graph
             
-            if !entry.historicalBtData.isEmpty {
+            if !entry.historicalData.isEmpty {
                 Chart {
                     // Zero line for Bz
                     RuleMark(
@@ -228,19 +235,20 @@ struct norlysWidgetEntryView : View {
                     .lineStyle(StrokeStyle(lineWidth: 1))
                     
                     // Earth hit vertical line
-                    if let earthHitIndex = entry.earthHitIndex {
+                    if let earthHitIndex = entry.earthHitIndex,
+                       earthHitIndex < entry.historicalData.count {
                         RuleMark(
-                            x: .value("Earth Hit", Double(earthHitIndex))
+                            x: .value("Earth Hit", entry.historicalData[earthHitIndex].date)
                         )
                         .foregroundStyle(.white)
                         .lineStyle(StrokeStyle(lineWidth: 1, dash: [2, 2]))
                     }
                     
                     // Bt data points (white)
-                    ForEach(Array(entry.historicalBtData.enumerated()), id: \.offset) { index, value in
+                    ForEach(entry.historicalData, id: \.date) { dataPoint in
                         PointMark(
-                            x: .value("Index", Double(index)),
-                            y: .value("Value", value)
+                            x: .value("Time", dataPoint.date),
+                            y: .value("Bt", dataPoint.bt)
                         )
                         .foregroundStyle(.white)
                         .symbol(.circle)
@@ -248,10 +256,10 @@ struct norlysWidgetEntryView : View {
                     }
                     
                     // Bz data points (red)
-                    ForEach(Array(entry.historicalBzData.enumerated()), id: \.offset) { index, value in
+                    ForEach(entry.historicalData, id: \.date) { dataPoint in
                         PointMark(
-                            x: .value("Index", Double(index)),
-                            y: .value("Value", value)
+                            x: .value("Time", dataPoint.date),
+                            y: .value("Bz", dataPoint.bz)
                         )
                         .foregroundStyle(Color(uiColor: UIColor(red: 1.0, green: 0.0, blue: 0.0, alpha: 1.0)))
                         .symbol(.circle)
@@ -265,7 +273,7 @@ struct norlysWidgetEntryView : View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-        .padding(.horizontal, 2)  // Reduce horizontal padding from 6 to 4
+        .padding(2)
         .background(Color.black)
     }
 }
@@ -288,7 +296,27 @@ struct norlysWidget: Widget {
 #Preview("Small Widget", as: .systemSmall) {
     norlysWidget()
 } timeline: {
-    SimpleEntry(date: .now, btValue: 4.5, btTrend: 0.3, bzValue: 0.0, bzTrend: 0.0, historicalBtData: Array(repeating: 4.5, count: 100).enumerated().map { index, value in 
-        value + sin(Double(index) * 0.1) * 0.5 
-    }, historicalBzData: [], earthHitIndex: 50, earthHitTimeMinutes: 50)
+    var entry = SimpleEntry(
+        date: .now,
+        btValue: 4.5,
+        btTrend: 0.3,
+        bzValue: 0.0,
+        bzTrend: 0.0,
+        historicalBtData: Array(repeating: 4.5, count: 100).enumerated().map { index, value in
+            value + sin(Double(index) * 0.1) * 0.5
+        },
+        historicalBzData: [],
+        earthHitIndex: 50,
+        earthHitTimeMinutes: 50
+    )
+    
+    // Add sample historical data for preview
+    let now = Date()
+    entry.historicalData = (0..<100).map { i in
+        let date = now.addingTimeInterval(TimeInterval(-6 * 3600 + i * 360))  // 6 hours of data
+        let bt = 4.5 + sin(Double(i) * 0.1) * 0.5
+        let bz = 2.0 + cos(Double(i) * 0.1) * 0.5
+        return (date, bt, bz)
+    }
+    return [entry]  // Return an array containing the entry
 }
