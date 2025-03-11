@@ -17,16 +17,27 @@ struct WebcamWidgetConfiguration: Codable {
 
 // MARK: - Provider
 struct WebcamProvider: AppIntentTimelineProvider {
-    func timeline(for configuration: Intent, in context: Context) async -> Timeline<Entry> {
+    typealias Entry = WebcamEntry
+    typealias Intent = SelectWebcamIntent
+    
+    func timeline(for configuration: Intent, in context: Context) async -> Timeline<WebcamEntry> {
+        let currentDate = Date()
+        let nextUpdate = Calendar.current.date(byAdding: .minute, value: 1, to: currentDate)!
+
+        let webcam = configuration.webcam ?? Webcam(id: "skibotn", name: "Skibotn")
+        let entry = WebcamEntry(date: currentDate, webcam: webcam)
         
+        return Timeline(entries: [entry], policy: .after(nextUpdate))
     }
     
-    func snapshot(for configuration: Intent, in context: Context) async -> some TimelineEntry {
-        
+    func snapshot(for configuration: Intent, in context: Context) async -> WebcamEntry {
+        let webcam = Webcam(id: "skibotn", name: "Skibotn")
+        return WebcamEntry(date: Date(), webcam: webcam)
     }
     
-    func placeholder(in context: Context) -> some TimelineEntry {
-        
+    func placeholder(in context: Context) -> WebcamEntry {
+        let webcam = Webcam(id: "loading", name: "Loading...")
+        return WebcamEntry(date: Date(), webcam: webcam)
     }
 }
 
@@ -58,12 +69,14 @@ struct WebcamWidgetEntryView: View {
             }
             
             Text(entry.webcam.name)
-                .font(.system(size: 12, weight: .bold))
+                .font(.custom("Helvetica", size: 12).weight(.bold))
                 .foregroundColor(.white)
-                .padding(4)
+                .padding(6)
                 .background {
-                    Color.black.opacity(0.5)
+                    Color.gray.opacity(0.7)
+                        .cornerRadius(5)
                 }
+                .padding(14)
         }
     }
 }
@@ -78,8 +91,8 @@ struct WebcamWidget: Widget {
         ) { entry in
             WebcamWidgetEntryView(entry: entry)
         }
-        .configurationDisplayName("All-Sky Camera")
-        .description("Display all-sky camera images from various locations")
+        .configurationDisplayName("Webcam")
+        .description("Displays selected webcam and updates every minute.")
         .supportedFamilies([.systemSmall])
         .contentMarginsDisabled()
     }

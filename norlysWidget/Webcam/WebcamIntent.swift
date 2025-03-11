@@ -12,7 +12,7 @@ struct Webcam: AppEntity {
     var id: String
     var name: String
 
-    static var typeDisplayRepresentation: TypeDisplayRepresentation = "Webcam location"
+    static var typeDisplayRepresentation: TypeDisplayRepresentation = "Webcam Location"
     static var defaultQuery = WebcamQuery()
     
     var displayRepresentation: DisplayRepresentation {
@@ -20,7 +20,9 @@ struct Webcam: AppEntity {
     }
     
     static let allCases: [Webcam] = [
-        Webcam(id: "tromso", name: "Tromsø")
+        Webcam(id: "skibotn", name: "Skibotn"),
+        Webcam(id: "svalbard", name: "Longyearbyen"),
+        Webcam(id: "kilpisjarvi", name: "Kilpisjärvi")
     ]
 }
 
@@ -29,19 +31,19 @@ struct WebcamQuery: EntityQuery {
         Webcam.allCases.filter { identifiers.contains($0.id) }
     }
     
-    func suggestedEntities() async throws -> some ResultsCollection {
+    func suggestedEntities() async throws -> [Webcam] {
         Webcam.allCases
     }
     
-    func defaultResult() async -> DefaultValue? {
+    func defaultResult() async -> Webcam? {
         Webcam.allCases.first
     }
 }
 
 struct SelectWebcamIntent: WidgetConfigurationIntent {
-    static var title: LocalizedStringResource = "ttt"
-    static var description: IntentDescription = IntentDescription("d")
+    static var title: LocalizedStringResource = "Webcam Location"
+    static var description: IntentDescription = IntentDescription("Select webcam location")
     
     @Parameter(title: "Webcam location")
-    var webcam: Webcam
+    var webcam: Webcam?
 }

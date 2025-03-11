@@ -358,7 +358,6 @@ struct norlysWidgetEntryView : View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
-        .padding(2)
         .background(Color.black)
     }
 }
