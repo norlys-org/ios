@@ -10,11 +10,6 @@ import WidgetKit
 import SwiftUI
 import Intents
 
-// MARK: - Configuration
-struct WebcamWidgetConfiguration: Codable {
-    let location: String
-}
-
 // MARK: - Provider
 struct WebcamProvider: AppIntentTimelineProvider {
     typealias Entry = WebcamEntry
@@ -25,19 +20,37 @@ struct WebcamProvider: AppIntentTimelineProvider {
         let nextUpdate = Calendar.current.date(byAdding: .minute, value: 1, to: currentDate)!
 
         let webcam = configuration.webcam ?? Webcam(id: "skibotn", name: "Skibotn")
-        let entry = WebcamEntry(date: currentDate, webcam: webcam)
-        
+        var imageData: Data? = nil
+        if let url = URL(string: "https://api.norlys.live/images/all-sky/\(webcam.id)") {
+            do {
+                let (data, _) = try await URLSession.shared.data(from: url)
+                imageData = data
+            } catch {
+                imageData = nil
+            }
+        }
+
+        let entry = WebcamEntry(date: currentDate, webcam: webcam, imageData: imageData)
         return Timeline(entries: [entry], policy: .after(nextUpdate))
     }
     
     func snapshot(for configuration: Intent, in context: Context) async -> WebcamEntry {
         let webcam = Webcam(id: "skibotn", name: "Skibotn")
-        return WebcamEntry(date: Date(), webcam: webcam)
+        var imageData: Data? = nil
+        if let url = URL(string: "https://api.norlys.live/images/all-sky/\(webcam.id)") {
+            do {
+                let (data, _) = try await URLSession.shared.data(from: url)
+                imageData = data
+            } catch {
+                imageData = nil
+            }
+        }
+        return WebcamEntry(date: Date(), webcam: webcam, imageData: imageData)
     }
     
     func placeholder(in context: Context) -> WebcamEntry {
         let webcam = Webcam(id: "loading", name: "Loading...")
-        return WebcamEntry(date: Date(), webcam: webcam)
+        return WebcamEntry(date: Date(), webcam: webcam, imageData: nil)
     }
 }
 
@@ -45,38 +58,30 @@ struct WebcamProvider: AppIntentTimelineProvider {
 struct WebcamEntry: TimelineEntry {
     let date: Date
     let webcam: Webcam
+    let imageData: Data?
 }
 
 // MARK: - Widget View
 struct WebcamWidgetEntryView: View {
     let entry: WebcamEntry
-    
+   
     var body: some View {
         ZStack(alignment: .topLeading) {
-            AsyncImage(url: URL(string: "https://api.norlys.live/images/all-sky/\(entry.webcam.id)")) { phase in
-                switch phase {
-                case .empty:
-                    Color.black
-                case .success(let image):
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                case .failure:
-                    Color.black
-                @unknown default:
-                    Color.black
-                }
+            if let imageData = entry.imageData, let uiImage = UIImage(data: imageData) {
+                Image(uiImage: uiImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+            } else {
+                Color.black
             }
             
             Text(entry.webcam.name)
                 .font(.custom("Helvetica", size: 12).weight(.bold))
                 .foregroundColor(.white)
                 .padding(6)
-                .background {
-                    Color.gray.opacity(0.7)
-                        .cornerRadius(5)
-                }
-                .padding(14)
+                .background(.ultraThinMaterial)
+                .clipShape(RoundedRectangle(cornerRadius: 5))
+                .padding(10)
         }
     }
 }
