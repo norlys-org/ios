@@ -11,6 +11,6 @@ import SwiftUI
 @main
 struct norlysWidgetBundle: WidgetBundle {
     var body: some Widget {
-        norlysWidget()
+        RTSWWidget()
     }
 }
