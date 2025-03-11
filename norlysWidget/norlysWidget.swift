@@ -51,7 +51,7 @@ struct Provider: TimelineProvider {
                 let magneticData = magJsonArray.dropFirst().map { row -> (Double, Double, Bool, Date) in
                     let btValue = Double(row[1]) ?? 0.0
                     let bzValue = Double(row[4]) ?? 0.0
-                    let active = row[9] == "0"
+                    let active = row[9] == "1"
                     let date = ISO8601DateFormatter().date(from: row[0].replacingOccurrences(of: " ", with: "T") + "Z") ?? Date()
                     return (btValue, bzValue, active, date)
                 }
