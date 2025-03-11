@@ -34,6 +34,9 @@ struct Provider: TimelineProvider {
     
     func createMockEntry() -> SimpleEntry {
         let mockData = loadMockData()
+        let endDateComponents = DateComponents(year: 2025, month: 3, day: 11, hour: 10, minute: 7)
+        let endDate = Calendar.current.date(from: endDateComponents)!
+        let startDate = endDate.addingTimeInterval(-6 * 3600)
         let magneticData = mockData.map { row -> (Double, Double, Bool, Date) in
             let btValue = Double(row[1]) ?? 0.0
             let bzValue = Double(row[4]) ?? 0.0
@@ -55,7 +58,7 @@ struct Provider: TimelineProvider {
         let earthHitIndex = magneticData.count
         
         var entry = SimpleEntry(
-            date: Date(),
+            date: endDate,
             btValue: lastBtValue,
             btTrend: lastBtValue - firstBtValue,
             bzValue: lastBzValue,
@@ -66,7 +69,16 @@ struct Provider: TimelineProvider {
             earthHitTimeMinutes: 42
         )
         
-        entry.historicalData = magneticData.map { ($0.3, $0.0, $0.1) }
+        let totalPoints = magneticData.count
+        if totalPoints > 1 {
+            let interval = endDate.timeIntervalSince(startDate) / Double(totalPoints - 1)
+            entry.historicalData = (0..<totalPoints).map { i in
+                let date = startDate.addingTimeInterval(Double(i) * interval)
+                return (date, btValues[i], bzValues[i])
+            }
+        } else {
+            entry.historicalData = []
+        }
         return entry
     }
 
@@ -314,8 +326,9 @@ struct norlysWidgetEntryView : View {
                 }
                 .chartYScale(domain: -calculateMaxMagnitude()...calculateMaxMagnitude())
                 .chartXAxis(.hidden)
-                .chartYAxis(.hidden)
-                .frame(height: 50)
+                    .chartYAxis(.hidden)
+                    .chartXScale(domain: entry.date.addingTimeInterval(-21600)...entry.date)
+                    .frame(height: 50)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
@@ -338,12 +351,14 @@ struct norlysWidget: Widget {
     }
 }
 
-@available(iOSApplicationExtension 17.0, *)
 #Preview("Small Widget", as: .systemSmall) {
     norlysWidget()
 } timeline: {
+    let endDateComponents = DateComponents(year: 2025, month: 3, day: 11, hour: 10, minute: 7)
+    let endDate = Calendar.current.date(from: endDateComponents)!
+    let startDate = endDate.addingTimeInterval(-6 * 3600)
     var entry = SimpleEntry(
-        date: .now,
+        date: endDate,
         btValue: 4.5,
         btTrend: 0.3,
         bzValue: 0.0,
@@ -356,13 +371,13 @@ struct norlysWidget: Widget {
         earthHitTimeMinutes: 50
     )
     
-    // Add sample historical data for preview
-    let now = Date()
-    entry.historicalData = (0..<100).map { i in
-        let date = now.addingTimeInterval(TimeInterval(-6 * 3600 + i * 360))  // 6 hours of data
+    let totalPoints = 100
+    let interval = endDate.timeIntervalSince(startDate) / Double(totalPoints - 1)
+    entry.historicalData = (0..<totalPoints).map { i in
+        let date = startDate.addingTimeInterval(Double(i) * interval)
         let bt = 4.5 + sin(Double(i) * 0.1) * 0.5
         let bz = 2.0 + cos(Double(i) * 0.1) * 0.5
         return (date, bt, bz)
     }
-    return [entry]  // Return an array containing the entry
+    return [entry]
 }
