@@ -12,5 +12,6 @@ import SwiftUI
 struct norlysWidgetBundle: WidgetBundle {
     var body: some Widget {
         RTSWWidget()
+        WebcamWidget()
     }
 }
