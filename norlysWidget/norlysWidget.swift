@@ -286,8 +286,8 @@ struct norlysWidget: Widget {
             norlysWidgetEntryView(entry: entry)
                 .containerBackground(.black, for: .widget)
         }
-        .configurationDisplayName("Magnetic Field Widget")
-        .description("Displays current Bt value with trend")
+        .configurationDisplayName("Solar Wind Magnetic Field Widget")
+        .description("Displays the solar wind magnetic field strength's value and the last 6 hours of Bz and Bt values as a scatter plot.")
         .supportedFamilies([.systemSmall])
     }
 }
