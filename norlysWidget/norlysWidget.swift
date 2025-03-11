@@ -23,13 +23,59 @@ struct MagneticData: Codable {
 }
 
 struct Provider: TimelineProvider {
+    func loadMockData() -> [[String]] {
+        if let path = Bundle.main.path(forResource: "mockData", ofType: "json"),
+           let data = try? Data(contentsOf: URL(fileURLWithPath: path)),
+           let jsonArray = try? JSONDecoder().decode([[String]].self, from: data) {
+            return Array(jsonArray.dropFirst()) // Convert subsequence back to array
+        }
+        return []
+    }
+    
+    func createMockEntry() -> SimpleEntry {
+        let mockData = loadMockData()
+        let magneticData = mockData.map { row -> (Double, Double, Bool, Date) in
+            let btValue = Double(row[1]) ?? 0.0
+            let bzValue = Double(row[4]) ?? 0.0
+            let active = row[9] == "1"
+            let date = ISO8601DateFormatter().date(from: row[0].replacingOccurrences(of: " ", with: "T") + "Z") ?? Date()
+            return (btValue, bzValue, active, date)
+        }
+        .filter { $0.2 }
+        .sorted { $0.3 < $1.3 }
+        
+        let btValues = magneticData.map { $0.0 }
+        let bzValues = magneticData.map { $0.1 }
+        let lastBtValue = btValues.last ?? 0.0
+        let firstBtValue = btValues.first ?? 0.0
+        let lastBzValue = bzValues.last ?? 0.0
+        let firstBzValue = bzValues.first ?? 0.0
+        
+        // Calculate a realistic earth hit index about 1/3 through the data
+        let earthHitIndex = magneticData.count
+        
+        var entry = SimpleEntry(
+            date: Date(),
+            btValue: lastBtValue,
+            btTrend: lastBtValue - firstBtValue,
+            bzValue: lastBzValue,
+            bzTrend: lastBzValue - firstBzValue,
+            historicalBtData: btValues,
+            historicalBzData: bzValues,
+            earthHitIndex: earthHitIndex,
+            earthHitTimeMinutes: 42
+        )
+        
+        entry.historicalData = magneticData.map { ($0.3, $0.0, $0.1) }
+        return entry
+    }
+
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), btValue: 0.0, btTrend: 0.0, bzValue: 0.0, bzTrend: 0.0, historicalBtData: [], historicalBzData: [], earthHitIndex: nil, earthHitTimeMinutes: nil)
+        return createMockEntry()
     }
 
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> Void) {
-        let entry = SimpleEntry(date: Date(), btValue: 0.0, btTrend: 0.0, bzValue: 0.0, bzTrend: 0.0, historicalBtData: [], historicalBzData: [], earthHitIndex: nil, earthHitTimeMinutes: nil)
-        completion(entry)
+        completion(createMockEntry())
     }
     
     func getTimeline(in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> Void) {
