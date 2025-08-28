@@ -30,10 +30,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
     }
     
+    // MARK: - 🔔 Push Notification Callbacks
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        let token = deviceToken.map { String(format: "%02x", $0) }.joined()
+        print("📲 APNs device token:", token)
+        
+        DispatchQueue.main.async {
+            PushBridge.shared.webView?.evaluateJavaScript(
+                "window.onPushTokenReceived && window.onPushTokenReceived('\(token)')"
+            )
+        }
+    }
+
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("❌ Failed to register for remote notifications:", error.localizedDescription)
+        
+        let msg = error.localizedDescription.replacingOccurrences(of: "'", with: "\\'")
+        DispatchQueue.main.async {
+            PushBridge.shared.webView?.evaluateJavaScript(
+                "window.onPushError && window.onPushError('\(msg)')"
+            )
+        }
+    }
+    
     // MARK: - UISceneSession Lifecycle (iOS 13+)
     
     @available(iOS 13.0, *)
-    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+    func application(_ application: UIApplication, onfigurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
 }

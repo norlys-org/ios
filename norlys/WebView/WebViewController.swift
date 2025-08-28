@@ -2,10 +2,11 @@ import UIKit
 import WebKit
 import CoreLocation
 import AVFoundation
+import UserNotifications
 
 /**
  * WebViewController
- * 
+ *
  * Main view controller that handles the web view functionality of the app.
  * It manages the WKWebView, handles JavaScript bridge communication, and provides
  * native functionality to the web app through various bridges (console, location).
@@ -20,7 +21,8 @@ class WebViewController: UIViewController {
     let loadingView = UIView()
     
     /// Initial URL to load in the web view
-    var initialURL: URL = URL(string: "http://10.0.0.42:3001")!
+    var initialURL: URL = URL(string: "http://192.168.1.9:3000")!
+//    var initialURL: URL = URL(string: "https://ny.norlys.live")!
     
     /// Bridge for handling location services
     private let locationBridge: LocationServicesBridge
@@ -71,6 +73,14 @@ class WebViewController: UIViewController {
         }
         configuration.websiteDataStore = WKWebsiteDataStore.default()
         
+        let isIOSFlagJS = "window.isIOSApp = true;"
+        let isIOSFlagScript = WKUserScript(
+            source: isIOSFlagJS,
+            injectionTime: .atDocumentStart,
+            forMainFrameOnly: false
+        )
+        configuration.userContentController.addUserScript(isIOSFlagScript)
+        
         // Load JavaScript bridge files from bundle
         if let consoleBridgePath = Bundle.main.path(forResource: "console-bridge", ofType: "js"),
            let consoleBridgeScript = try? String(contentsOfFile: consoleBridgePath, encoding: .utf8),
@@ -87,11 +97,13 @@ class WebViewController: UIViewController {
             
             configuration.userContentController.addUserScript(consoleScript)
             configuration.userContentController.addUserScript(geolocationScript)
+            print("Console bridge loaded successfully")
         } else {
             print("Failed to load JavaScript bridge files from bundle")
         }
         
         configuration.userContentController.add(self, name: "console")
+        configuration.userContentController.add(self, name: "requestPush")
         
         webView = WKWebView(frame: view.bounds, configuration: configuration)
         webView.navigationDelegate = self
@@ -103,6 +115,9 @@ class WebViewController: UIViewController {
         configuration.userContentController.add(locationHandler!, name: "location")
         
         view.addSubview(webView)
+
+        // save reference for AppDelegate to send token back
+        PushBridge.shared.webView = webView
     }
     
     /**
@@ -142,4 +157,10 @@ class WebViewController: UIViewController {
         }))
         present(alertController, animated: true)
     }
+}
+
+// MARK: - Push Bridge holder
+final class PushBridge {
+    static let shared = PushBridge()
+    weak var webView: WKWebView?
 }

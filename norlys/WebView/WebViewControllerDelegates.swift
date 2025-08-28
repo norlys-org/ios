@@ -101,22 +101,36 @@ extension WebViewController: WKScriptMessageHandler {
      * Currently handles console messages (log, error, warn, info) and formats them for native output.
      */
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        if message.name == "console",
-           let body = message.body as? [String: Any] {
-            let type = body["type"] as? String ?? "log"
-            let messages = body["message"] as? [String] ?? []
-            let messageString = messages.joined(separator: " ")
+            if message.name == "console",
+               let body = message.body as? [String: Any] {
+                let type = body["type"] as? String ?? "log"
+                let messages = body["message"] as? [String] ?? []
+                let messageString = messages.joined(separator: " ")
+                
+                switch type {
+                case "error":
+                    print("🔴 [WebView Error]:", messageString)
+                case "warn":
+                    print("🟡 [WebView Warning]:", messageString)
+                case "info":
+                    print("🔵 [WebView Info]:", messageString)
+                default:
+                    print("⚪️ [WebView Log]:", messageString)
+                }
+            }
             
-            switch type {
-            case "error":
-                print("🔴 [WebView Error]:", messageString)
-            case "warn":
-                print("🟡 [WebView Warning]:", messageString)
-            case "info":
-                print("🔵 [WebView Info]:", messageString)
-            default:
-                print("⚪️ [WebView Log]:", messageString)
+            else if message.name == "requestPush" {
+                UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, _ in
+                    DispatchQueue.main.async {
+                        if granted {
+                            UIApplication.shared.registerForRemoteNotifications()
+                        } else {
+                            self.webView.evaluateJavaScript(
+                                "window.onPushPermissionDenied && window.onPushPermissionDenied()"
+                            )
+                        }
+                    }
+                }
             }
         }
-    }
 }

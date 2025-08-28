@@ -301,8 +301,7 @@ struct norlysWidgetEntryView : View {
                         .font(.custom("Helvetica", size: 32))
                         .fontWeight(.bold)
                         .foregroundColor(.white)
-                        .truncationMode(.clip)
-                    
+             
                     Text("(nT)")
                         .font(.custom("Helvetica", size: 10))
                         .fontWeight(.bold)
