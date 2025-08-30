@@ -315,7 +315,7 @@ struct norlysWidgetEntryView : View {
                         .foregroundColor(entry.btTrend >= 0 ? .green : .red)
                 }
             }
-            .padding(.bottom, 8)  // Spacing between text and graph
+            .padding(.bottom, 8)
             
             // Display the historical data graph if available.
             if !entry.historicalData.isEmpty {
@@ -335,7 +335,7 @@ struct norlysWidgetEntryView : View {
                 let bzSeries = GraphDataSeries(
                     label: "Bz",
                     data: entry.historicalData.map { DataPoint(date: $0.date, value: $0.bz) },
-                    color: .red
+                    color: Color(red: 1.0, green: 0.0, blue: 0.0)
                 )
                 
                 // Determine vertical marker date from earth hit index, if available.
@@ -354,11 +354,15 @@ struct norlysWidgetEntryView : View {
                     chartDomain: entry.date.addingTimeInterval(-21600)...entry.date,
                     yDomain: -maxMagnitude...maxMagnitude
                 )
-                .frame(height: 50)
+                .frame(height: 80)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+        .padding(.horizontal, 15)
+        .padding(.bottom, 5)
+        .padding(.top, 10)
         .background(Color.black)
+        .clipped()  // Ensures the background extends to edges
     }
 }
 
@@ -376,6 +380,7 @@ struct RTSWWidget: Widget {
         .configurationDisplayName("Solar Wind Magnetic Field Widget")
         .description("Displays the solar wind magnetic field strength's value and the last 6 hours of Bz and Bt values as a scatter plot.")
         .supportedFamilies([.systemSmall])
+        .contentMarginsDisabled()
     }
 }
 
