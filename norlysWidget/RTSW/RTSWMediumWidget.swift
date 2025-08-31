@@ -28,13 +28,15 @@ struct PlasmaData: Codable {
 
 struct MediumProvider: TimelineProvider {
     
+    // This function loads local mock JSON data for testing.
+    // It returns magnetic and plasma data arrays (excluding the header row) if available.
     func loadMockData() -> ([[String]], [[String]]) {
         // Load mock magnetic data
         let mockMagData: [[String]] = {
             if let path = Bundle.main.path(forResource: "mockMagData", ofType: "json"),
                let data = try? Data(contentsOf: URL(fileURLWithPath: path)),
                let jsonArray = try? JSONDecoder().decode([[String]].self, from: data) {
-                return Array(jsonArray.dropFirst())
+                return Array(jsonArray.dropFirst()) // Drop header row if present.
             }
             return []
         }()
@@ -44,7 +46,7 @@ struct MediumProvider: TimelineProvider {
             if let path = Bundle.main.path(forResource: "mockPlasmaData", ofType: "json"),
                let data = try? Data(contentsOf: URL(fileURLWithPath: path)),
                let jsonArray = try? JSONDecoder().decode([[String]].self, from: data) {
-                return Array(jsonArray.dropFirst())
+                return Array(jsonArray.dropFirst()) // Drop header row if present.
             }
             return []
         }()
@@ -52,13 +54,15 @@ struct MediumProvider: TimelineProvider {
         return (mockMagData, mockPlasmaData)
     }
     
+    /// Creates a mock timeline entry using local mock data.
     func createMockEntry() -> MediumEntry {
         let (mockMagData, mockPlasmaData) = loadMockData()
         let endDateComponents = DateComponents(year: 2025, month: 3, day: 11, hour: 10, minute: 7)
         let endDate = Calendar.current.date(from: endDateComponents)!
         let startDate = endDate.addingTimeInterval(-6 * 3600)
         
-        // Process magnetic data
+        // Process each row of mock magnetic data to extract bt and bz values,
+        // active flag, and convert the time tag into a Date object.
         let magneticData = mockMagData.map { row -> (Double, Double, Bool, Date) in
             let btValue = Double(row[1]) ?? 0.0
             let bzValue = Double(row[4]) ?? 0.0
@@ -66,10 +70,10 @@ struct MediumProvider: TimelineProvider {
             let date = ISO8601DateFormatter().date(from: row[0].replacingOccurrences(of: " ", with: "T") + "Z") ?? Date()
             return (btValue, bzValue, active, date)
         }
-        .filter { $0.2 }
-        .sorted { $0.3 < $1.3 }
+        .filter { $0.2 }  // Filter only active data points.
+        .sorted { $0.3 < $1.3 }  // Sort by date (oldest first).
         
-        // Process plasma data
+        // Process each row of mock plasma data to extract speed and density values.
         let plasmaData = mockPlasmaData.map { row -> (Double, Double, Bool, Date) in
             let speed = Double(row[1]) ?? 0.0
             let density = Double(row[2]) ?? 0.0
@@ -77,14 +81,15 @@ struct MediumProvider: TimelineProvider {
             let date = ISO8601DateFormatter().date(from: row[0].replacingOccurrences(of: " ", with: "T") + "Z") ?? Date()
             return (speed, density, active, date)
         }
-        .filter { $0.2 }
-        .sorted { $0.3 < $1.3 }
+        .filter { $0.2 }  // Filter only active data points.
+        .sorted { $0.3 < $1.3 }  // Sort by date (oldest first).
         
         let btValues = magneticData.map { $0.0 }
         let bzValues = magneticData.map { $0.1 }
         let speedValues = plasmaData.map { $0.0 }
         let densityValues = plasmaData.map { $0.1 }
         
+        // Estimate the earth hit index based on the count of active magnetic data points.
         let earthHitIndex = magneticData.count / 2
         
         var entry = MediumEntry(
@@ -105,7 +110,7 @@ struct MediumProvider: TimelineProvider {
             earthHitTimeMinutes: 42
         )
         
-        // Create historical data points with timestamps
+        // Create historical data points with timestamps for both magnetic and plasma data.
         let totalMagPoints = magneticData.count
         let totalPlasmaPoints = plasmaData.count
         
@@ -128,14 +133,17 @@ struct MediumProvider: TimelineProvider {
         return entry
     }
     
+    /// Provides a placeholder entry for widget previews.
     func placeholder(in context: Context) -> MediumEntry {
         return createMockEntry()
     }
     
+    /// Provides a snapshot entry for widget previews.
     func getSnapshot(in context: Context, completion: @escaping (MediumEntry) -> Void) {
         completion(createMockEntry())
     }
     
+    /// Fetches real-time data from remote endpoints and constructs timeline entries for the widget.
     func getTimeline(in context: Context, completion: @escaping (Timeline<MediumEntry>) -> Void) {
         Task {
             let currentDate = Date()
@@ -229,25 +237,9 @@ struct MediumProvider: TimelineProvider {
                 completion(timeline)
                 
             } catch {
-                // Fallback entry
-                let entry = MediumEntry(
-                    date: currentDate,
-                    btValue: 0.0,
-                    btTrend: 0.0,
-                    bzValue: 0.0,
-                    bzTrend: 0.0,
-                    speedValue: 0.0,
-                    speedTrend: 0.0,
-                    densityValue: 0.0,
-                    densityTrend: 0.0,
-                    historicalBtData: [],
-                    historicalBzData: [],
-                    historicalSpeedData: [],
-                    historicalDensityData: [],
-                    earthHitIndex: nil,
-                    earthHitTimeMinutes: nil
-                )
-                let timeline = Timeline(entries: [entry], policy: .after(currentDate.addingTimeInterval(60)))
+                // Fallback to mock data if network request fails
+                let mockEntry = createMockEntry()
+                let timeline = Timeline(entries: [mockEntry], policy: .after(currentDate.addingTimeInterval(60)))
                 completion(timeline)
             }
         }
@@ -273,7 +265,9 @@ struct MediumEntry: TimelineEntry {
     let earthHitIndex: Int?
     let earthHitTimeMinutes: Int?
     
+    /// historicalMagData: Stores tuples of (date, bt, bz) values for plotting.
     var historicalMagData: [(date: Date, bt: Double, bz: Double)] = []
+    /// historicalPlasmaData: Stores tuples of (date, speed, density) values for plotting.
     var historicalPlasmaData: [(date: Date, speed: Double, density: Double)] = []
 }
 
@@ -282,6 +276,7 @@ struct MediumEntry: TimelineEntry {
 struct RTSWMediumWidgetEntryView: View {
     var entry: MediumEntry
     
+    // Helper function to convert a time in minutes to a formatted string (e.g., 'In 45 minutes' or 'In 1h 15m').
     private func formatTimeEstimate(_ minutes: Int) -> String {
         if minutes < 60 {
             return "In \(minutes) minutes"
