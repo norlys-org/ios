@@ -14,5 +14,6 @@ struct norlysWidgetBundle: WidgetBundle {
         RTSWWidget()
         RTSWMediumWidget()
         WebcamWidget()
+        LysWidget()
     }
 }
