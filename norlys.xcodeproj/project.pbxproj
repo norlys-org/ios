@@ -10,6 +10,7 @@
 		3AA31DB62D79B3DC0036D3D7 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 3AA31DB52D79B3DA0036D3D7 /* README.md */; };
 		3AA31DB72D79B3DD0036D3D8 /* console-bridge.js in Resources */ = {isa = PBXBuildFile; fileRef = 3AA31DB62D79B3DB0036D3D8 /* console-bridge.js */; };
 		3AA31DB82D79B3DE0036D3D9 /* geolocation-bridge.js in Resources */ = {isa = PBXBuildFile; fileRef = 3AA31DB72D79B3DC0036D3D9 /* geolocation-bridge.js */; };
+		3AB5A0E42E65F7920050ED63 /* SwiftProtobuf in Frameworks */ = {isa = PBXBuildFile; productRef = 3AB5A0E32E65F7920050ED63 /* SwiftProtobuf */; };
 		3AD10AF72D7F4BAB00EC9A07 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AD10ABC2D7F482A00EC9A07 /* WidgetKit.framework */; };
 		3AD10AF82D7F4BAB00EC9A07 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AD10ABE2D7F482A00EC9A07 /* SwiftUI.framework */; };
 		3AD10B092D7F4BAD00EC9A07 /* norlysWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 3AD10AF62D7F4BAB00EC9A07 /* norlysWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -99,6 +100,7 @@
 			files = (
 				3AD10AF82D7F4BAB00EC9A07 /* SwiftUI.framework in Frameworks */,
 				3AD10AF72D7F4BAB00EC9A07 /* WidgetKit.framework in Frameworks */,
+				3AB5A0E42E65F7920050ED63 /* SwiftProtobuf in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -188,6 +190,7 @@
 			);
 			name = norlysWidgetExtension;
 			packageProductDependencies = (
+				3AB5A0E32E65F7920050ED63 /* SwiftProtobuf */,
 			);
 			productName = norlysWidgetExtension;
 			productReference = 3AD10AF62D7F4BAB00EC9A07 /* norlysWidgetExtension.appex */;
@@ -220,6 +223,9 @@
 			);
 			mainGroup = 3AA31D6A2D79B2A70036D3D7;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				3AB5A0E22E65F7920050ED63 /* XCRemoteSwiftPackageReference "swift-protobuf" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 3AA31D742D79B2A70036D3D7 /* Products */;
 			projectDirPath = "";
@@ -555,6 +561,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3AB5A0E22E65F7920050ED63 /* XCRemoteSwiftPackageReference "swift-protobuf" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-protobuf.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.31.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3AB5A0E32E65F7920050ED63 /* SwiftProtobuf */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3AB5A0E22E65F7920050ED63 /* XCRemoteSwiftPackageReference "swift-protobuf" */;
+			productName = SwiftProtobuf;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3AA31D6B2D79B2A70036D3D7 /* Project object */;
 }
