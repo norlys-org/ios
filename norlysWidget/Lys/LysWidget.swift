@@ -440,11 +440,12 @@ struct LysWidgetEntryView: View {
                         RuleMark(y: .value("Grid", value))
                             .foregroundStyle(Color.gray.opacity(0.3))
                             .lineStyle(StrokeStyle(lineWidth: 0.5))
-                            .annotation(position: .leading, alignment: .center) {
+                            .annotation(position: .overlay, alignment: .leading) {
                                 Text("\(Int(value))")
                                     .font(.custom("Helvetica", size: 8))
                                     .foregroundColor(.gray)
                                     .background(Color.black)
+                                    .offset(x: -20)
                             }
                     }
                     
@@ -478,8 +479,9 @@ struct LysWidgetEntryView: View {
                     }
                 }
                 .chartPlotStyle { plot in
-                    plot.padding(.leading, 16)
+                    plot.padding(.leading, 15)
                 }
+                .chartXScale(range: .plotDimension(padding: 0))
                 .chartYScale(domain: 0...maxValue)
                 .chartXAxis(.hidden)
                 .chartYAxis(.hidden)
