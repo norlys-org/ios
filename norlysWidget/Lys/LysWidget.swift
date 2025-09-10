@@ -346,29 +346,32 @@ struct LysEntry: TimelineEntry {
 struct LysWidgetEntryView: View {
     var entry: LysEntry
     
-    /// Calculates the maximum value for scaling the graph (fixed scale 0-1000)
+    /// Calculates the maximum value for scaling the graph:
+    /// max(1000, max value of the dataset)
     private var maxValue: Double {
-        return 1000.0 // Fixed scale as mentioned in the original JS code
+        let dataMax = entry.historicalData.map { $0.1 }.max() ?? 0
+        return Swift.max(1000.0, dataMax)
     }
     
-    /// Grid lines to show on the chart
+    /// Grid lines to show on the chart, scaled to the dynamic max
     private var gridLineValues: [Double] {
-        return [250, 500, 750]
+        let m = maxValue
+        return [0.25 * m, 0.5 * m, 0.75 * m]
     }
     
     /// Format timespan display text
     private var timespanText: String {
         switch entry.timespan.id {
-        case "6h": return "Over 6 hours"
-        case "24h": return "Over 24 hours"
-        case "7d": return "Over 7 days"
+        case "6h": return "6 hours"
+        case "24h": return "24 hours"
+        case "7d": return "7 days"
         default: return "Over \(entry.timespan.name.lowercased())"
         }
     }
     
     /// Format latitude zone display text
     private var latitudeText: String {
-        return String(entry.latitudeZone.apiKey.prefix(1)).uppercased() + "Lys"
+        return String(entry.latitudeZone.apiKey.prefix(1)).uppercased() + "-Lys Index"
     }
     
     /// Check if this is an error state (no data)
@@ -379,10 +382,18 @@ struct LysWidgetEntryView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             // Timespan text
-            Text(timespanText)
-                .font(.custom("Helvetica", size: 12))
-                .fontWeight(.bold)
-                .foregroundColor(.gray)
+            HStack(alignment: .bottom, spacing: 4) {
+                Text(latitudeText)
+                    .font(.custom("Helvetica", size: 10))
+                    .fontWeight(.bold)
+                    .foregroundColor(.white)
+                
+                Text("(" + timespanText + ")")
+                    .font(.custom("Helvetica", size: 8))
+                    .fontWeight(.bold)
+                    .foregroundColor(.gray)
+            }
+            .padding(.bottom, 6)
             
             if isErrorState {
                 // Error state view
@@ -406,13 +417,13 @@ struct LysWidgetEntryView: View {
             } else {
                 // Normal data view
                 // Current Lys value and trend
-                HStack(alignment: .lastTextBaseline) {
-                    HStack(alignment: .lastTextBaseline, spacing: 2) {
-                        Text(latitudeText)
-                            .font(.custom("Helvetica", size: 10))
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
-                        
+                VStack(alignment: .leading, spacing: -3) {
+                    Text("Right now")
+                        .font(.custom("Helvetica", size: 8))
+                        .fontWeight(.bold)
+                        .foregroundColor(.gray)
+                    
+                    HStack(alignment: .lastTextBaseline, spacing: 4) {
                         Text(String(format: "%.0f", entry.currentValue))
                             .font(.custom("Helvetica", size: 32))
                             .fontWeight(.bold)
@@ -420,7 +431,7 @@ struct LysWidgetEntryView: View {
                         
                         VStack(alignment: .leading, spacing: 4) {
                             Text(String(format: "%+.0f", entry.trend))
-                                .font(.custom("Helvetica", size: 14))
+                                .font(.custom("Helvetica", size: 10))
                                 .fontWeight(.bold)
                                 .foregroundColor(entry.trend >= 0 ? .green : .red)
                             
@@ -431,7 +442,7 @@ struct LysWidgetEntryView: View {
                         }
                     }
                 }
-                .padding(.bottom, 8)
+                .padding(.bottom, 0)
                 
                 // Historical data chart
                 Chart {
@@ -482,7 +493,7 @@ struct LysWidgetEntryView: View {
                     plot.padding(.leading, 15)
                 }
                 .chartXScale(range: .plotDimension(padding: 0))
-                .chartYScale(domain: 0...maxValue)
+                .chartYScale(domain: 0...maxValue) // <-- dynamic scale
                 .chartXAxis(.hidden)
                 .chartYAxis(.hidden)
                 .frame(height: 80)
@@ -511,8 +522,8 @@ struct LysWidget: Widget {
         ) { entry in
             LysWidgetEntryView(entry: entry)
         }
-        .configurationDisplayName("Lys Indices Widget")
-        .description("Displays Lys index value and trends with configurable timespan and latitude.")
+        .configurationDisplayName("H-Lys & M-Lys indices Widget:")
+        .description("Displays a precise geomagnetic activity index with configurable timespan and latitude (H-Lys for high geomagnetic latitudes and M-Lys for mid-geomagnetic latitudes")
         .supportedFamilies([.systemSmall])
         .contentMarginsDisabled()
     }

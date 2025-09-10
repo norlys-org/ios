@@ -5,7 +5,7 @@
 //  Created by Hugo on 10.03.2025.
 //  This widget displays the solar wind magnetic field strength and trends.
 //  It uses either local mock data or real-time data fetched from NOAA's SWPC,
-//  processes magnetic field measurements, and displays a scatter plot for the last 6 hours of data.
+//  processes magnetic field measurements, and displays a scatter plot for the last 4 hours of data.
 //
 
 import WidgetKit
@@ -44,35 +44,38 @@ struct Provider: TimelineProvider {
         return []
     }
     
-    /// Creates a mock timeline entry using local mock data.
+    /// Creates a mock timeline entry using local mock data for the last 4 hours.
     func createMockEntry() -> SimpleEntry {
         let mockData = loadMockData()
+        // Use a fixed "now" for reproducible preview; adjust as needed.
         let endDateComponents = DateComponents(year: 2025, month: 3, day: 11, hour: 10, minute: 7)
         let endDate = Calendar.current.date(from: endDateComponents)!
-        let startDate = endDate.addingTimeInterval(-6 * 3600)
+        let startDate = endDate.addingTimeInterval(-4 * 3600) // 4 hours
         
         // Process each row of mock data to extract magnetic field values (bt and bz),
         // active flag, and convert the time tag into a Date object.
-        let magneticData = mockData.map { row -> (Double, Double, Bool, Date) in
+        let parsed = mockData.map { row -> (bt: Double, bz: Double, active: Bool, date: Date) in
             let btValue = Double(row[1]) ?? 0.0
             let bzValue = Double(row[4]) ?? 0.0
             let active = row[9] == "1"
             let date = ISO8601DateFormatter().date(from: row[0].replacingOccurrences(of: " ", with: "T") + "Z") ?? Date()
             return (btValue, bzValue, active, date)
         }
-        .filter { $0.2 }  // Filter only active data points.
-        .sorted { $0.3 < $1.3 }  // Sort by date (oldest first).
+        .filter { $0.active }                    // only active
+        .sorted { $0.date < $1.date }            // oldest first
         
-        let btValues = magneticData.map { $0.0 }
-        let bzValues = magneticData.map { $0.1 }
+        // Keep only the last 4 hours relative to endDate
+        let filtered = parsed.filter { $0.date >= startDate && $0.date <= endDate }
+        
+        let btValues = filtered.map { $0.bt }
+        let bzValues = filtered.map { $0.bz }
         let lastBtValue = btValues.last ?? 0.0
         let firstBtValue = btValues.first ?? 0.0
         let lastBzValue = bzValues.last ?? 0.0
         let firstBzValue = bzValues.first ?? 0.0
         
-        // Compute the trend for bt and bz values using the first and last data points,
-        // and estimate the earth hit index based on the count of active data points.
-        let earthHitIndex = magneticData.count
+        // Estimate the earth hit index based on the count of active data points.
+        let earthHitIndex = filtered.count
         
         var entry = SimpleEntry(
             date: endDate,
@@ -86,8 +89,8 @@ struct Provider: TimelineProvider {
             earthHitTimeMinutes: 42
         )
         
-        // Create a timeline of historical data points with evenly spaced timestamps.
-        let totalPoints = magneticData.count
+        // Create a timeline of historical data points with evenly spaced timestamps across 4 hours.
+        let totalPoints = filtered.count
         if totalPoints > 1 {
             let interval = endDate.timeIntervalSince(startDate) / Double(totalPoints - 1)
             entry.historicalData = (0..<totalPoints).map { i in
@@ -110,10 +113,13 @@ struct Provider: TimelineProvider {
         completion(createMockEntry())
     }
     
-    /// Fetches real-time data from remote endpoints and constructs timeline entries for the widget.
+    /// Fetches real-time data and constructs timeline entries for the last 4 hours from "now".
     func getTimeline(in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> Void) {
         Task {
             let currentDate = Date()
+            let fourHoursAgo = currentDate.addingTimeInterval(-4 * 3600)
+            
+            // NOAA endpoints provide up to the last 6 hours; we'll fetch and then filter to 4h.
             let magDataURL = URL(string: "https://services.swpc.noaa.gov/text/rtsw/data/mag-6-hour.i.json")!
             let plasmaDataURL = URL(string: "https://services.swpc.noaa.gov/text/rtsw/data/plasma-6-hour.i.json")!
             
@@ -127,36 +133,38 @@ struct Provider: TimelineProvider {
                 let plasmaJsonArray = try JSONDecoder().decode([[String]].self, from: plasmaData)
                 
                 // Process magnetic data: parse, filter active entries, and sort by date (oldest first).
-                let magneticData = magJsonArray.dropFirst().map { row -> (Double, Double, Bool, Date) in
+                let magneticDataAll = magJsonArray.dropFirst().map { row -> (bt: Double, bz: Double, active: Bool, date: Date) in
                     let btValue = Double(row[1]) ?? 0.0
                     let bzValue = Double(row[4]) ?? 0.0
                     let active = row[9] == "1"
                     let date = ISO8601DateFormatter().date(from: row[0].replacingOccurrences(of: " ", with: "T") + "Z") ?? Date()
                     return (btValue, bzValue, active, date)
                 }
-                .filter { $0.2 }
-                .sorted { $0.3 < $1.3 }
+                .filter { $0.active }
+                .sorted { $0.date < $1.date }
                 
-                // Create historical data array with timestamps.
-                let historicalData = magneticData.map { ($0.3, $0.0, $0.1) }
+                // Filter to the last 4 hours relative to currentDate
+                let magneticData = magneticDataAll.filter { $0.date >= fourHoursAgo && $0.date <= currentDate }
+                
+                // Create historical data array with timestamps (already 4h-filtered).
+                let historicalData = magneticData.map { ($0.date, $0.bt, $0.bz) }
                 
                 // Process plasma data to calculate travel time.
                 if let lastPlasmaRow = plasmaJsonArray.dropFirst().last,
                    let speed = Double(lastPlasmaRow[1]) {
                     let distance = 1_500_000.0 // km
-                    // Calculate the travel time (in minutes) based on a fixed distance and the measured plasma speed.
-                    let travelTime = distance / speed / 60
+                    let travelTime = distance / speed / 60 // minutes
                     
-                    if let lastDataDate = magneticData.last?.3 {
+                    if let lastDataDate = magneticData.last?.date {
                         let earthHitDate = lastDataDate.addingTimeInterval(-travelTime * 60)
                         
-                        // Determine the index in the magnetic data array that is closest to the estimated earth hit time.
+                        // Determine the index in the filtered (4h) magnetic data closest to the earth hit time.
                         let earthHitIndex = magneticData.enumerated().min { a, b in
-                            abs(a.element.3.timeIntervalSince(earthHitDate)) < abs(b.element.3.timeIntervalSince(earthHitDate))
+                            abs(a.element.date.timeIntervalSince(earthHitDate)) < abs(b.element.date.timeIntervalSince(earthHitDate))
                         }?.offset
                         
-                        let btValues = magneticData.map { $0.0 }
-                        let bzValues = magneticData.map { $0.1 }
+                        let btValues = magneticData.map { $0.bt }
+                        let bzValues = magneticData.map { $0.bz }
                         let lastBtValue = btValues.last ?? 0.0
                         let firstBtValue = btValues.first ?? 0.0
                         let lastBzValue = bzValues.last ?? 0.0
@@ -182,9 +190,9 @@ struct Provider: TimelineProvider {
                     }
                 }
                 
-                // Fallback if plasma data calculation fails.
-                let btValues = magneticData.map { $0.0 }
-                let bzValues = magneticData.map { $0.1 }
+                // Fallback if plasma data calculation fails (use 4h-filtered data).
+                let btValues = magneticData.map { $0.bt }
+                let bzValues = magneticData.map { $0.bz }
                 var entry = SimpleEntry(
                     date: currentDate,
                     btValue: btValues.last ?? 0.0,
@@ -283,36 +291,75 @@ struct norlysWidgetEntryView : View {
         VStack(alignment: .leading, spacing: 0) {
             // Display the time estimate for the next event (e.g., earth hit) if available.
             if let timeMinutes = entry.earthHitTimeMinutes {
-                Text(formatTimeEstimate(timeMinutes))
-                    .font(.custom("Helvetica", size: 12))
-                    .fontWeight(.bold)
-                    .foregroundColor(.gray)
+                HStack(alignment: .bottom, spacing: 4) {
+                    Text("IMF")
+                        .font(.custom("Helvetica", size: 10))
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+            
+                    Text("(" + formatTimeEstimate(timeMinutes) + ")")
+                        .font(.custom("Helvetica", size: 8))
+                        .fontWeight(.bold)
+                        .foregroundColor(.gray)
+                }
+                .padding(.bottom, 6)
             }
             
             // Display the Bt measurement and its trend.
             HStack(alignment: .lastTextBaseline) {
-                HStack(alignment: .lastTextBaseline, spacing: 2) {
+                VStack(alignment: .leading, spacing: -3) {
                     Text("Bt")
                         .font(.custom("Helvetica", size: 10))
                         .fontWeight(.bold)
                         .foregroundColor(.white)
                     
-                    Text(String(format: "%.1f", abs(entry.btValue)))
-                        .font(.custom("Helvetica", size: 32))
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
-             
-                    Text("(nT)")
+                    HStack(alignment: .lastTextBaseline, spacing: 2) {
+                        Text(String(format: "%.0f", entry.btValue))
+                            .font(.custom("Helvetica", size: 28))
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                        
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text(String(format: "%+.1f", entry.btTrend))
+                                .font(.custom("Helvetica", size: 10))
+                                .fontWeight(.bold)
+                                .foregroundColor(entry.btTrend >= 0 ? .green : .red)
+                            
+                            Text("(nT)")
+                                .font(.custom("Helvetica", size: 6))
+                                .fontWeight(.bold)
+                                .foregroundColor(.gray)
+                        }
+
+                    }
+                }
+                .frame(width: 55, alignment: .leading)
+                
+                VStack(alignment: .leading, spacing: -3) {
+                    Text("Bz")
                         .font(.custom("Helvetica", size: 10))
                         .fontWeight(.bold)
-                        .foregroundColor(.gray)
-                }
-                
-                HStack(alignment: .lastTextBaseline, spacing: 2) {
-                    Text(String(format: "%+.1f", entry.btTrend))
-                        .font(.custom("Helvetica", size: 14))
-                        .fontWeight(.bold)
-                        .foregroundColor(entry.btTrend >= 0 ? .green : .red)
+                        .foregroundColor(Color(red: 1, green: 0, blue: 0))
+                    
+                    HStack(alignment: .lastTextBaseline, spacing: 2) {
+                        Text(String(format: "%.0f", entry.bzValue))
+                            .font(.custom("Helvetica", size: 28))
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                        
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text(String(format: "%+.1f", entry.bzTrend))
+                                .font(.custom("Helvetica", size: 10))
+                                .fontWeight(.bold)
+                                .foregroundColor(entry.bzTrend >= 0 ? .green : .red)
+                            
+                            Text("(nT)")
+                                .font(.custom("Helvetica", size: 6))
+                                .fontWeight(.bold)
+                                .foregroundColor(.gray)
+                        }
+
+                    }
                 }
             }
             .padding(.bottom, 8)
@@ -320,7 +367,6 @@ struct norlysWidgetEntryView : View {
             // Display the historical data graph if available.
             if !entry.historicalData.isEmpty {
                 // Prepare data series for the scatter plot by mapping historical data for Bt (white) and Bz (red) values.
-                // Also, determine a vertical marker based on the earth hit index to indicate the event time on the graph.
                 let maxMagnitude = max(
                     entry.historicalData.map { abs($0.bt) }.max() ?? 0,
                     entry.historicalData.map { abs($0.bz) }.max() ?? 0
@@ -351,10 +397,10 @@ struct norlysWidgetEntryView : View {
                     dataSeries: [btSeries, bzSeries],
                     zeroLine: true,
                     verticalMarkerDate: verticalMarker,
-                    chartDomain: entry.date.addingTimeInterval(-21600)...entry.date,
+                    chartDomain: entry.date.addingTimeInterval(-14400)...entry.date, // 4 hours window
                     yDomain: -maxMagnitude...maxMagnitude
                 )
-                .frame(height: 80)
+                .frame(height: 70)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
@@ -377,8 +423,8 @@ struct RTSWWidget: Widget {
             norlysWidgetEntryView(entry: entry)
                 .containerBackground(.black, for: .widget)
         }
-        .configurationDisplayName("Solar Wind Magnetic Field Widget")
-        .description("Displays the solar wind magnetic field strength's value and the last 6 hours of Bz and Bt values as a scatter plot.")
+        .configurationDisplayName("Solar wind magnetic field widget")
+        .description("Displays the solar wind magnetic field strength (IMF Bt) and vertical magnitude (IMF Bz) over the last 4 hours, including a short-term forecast.")
         .supportedFamilies([.systemSmall])
         .contentMarginsDisabled()
     }
@@ -392,7 +438,7 @@ struct RTSWWidget: Widget {
 } timeline: {
     let endDateComponents = DateComponents(year: 2025, month: 3, day: 11, hour: 10, minute: 7)
     let endDate = Calendar.current.date(from: endDateComponents)!
-    let startDate = endDate.addingTimeInterval(-6 * 3600)
+    let startDate = endDate.addingTimeInterval(-4 * 3600) // 4 hours
     var entry = SimpleEntry(
         date: endDate,
         btValue: 4.5,

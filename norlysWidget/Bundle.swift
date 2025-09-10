@@ -11,9 +11,10 @@ import SwiftUI
 @main
 struct norlysWidgetBundle: WidgetBundle {
     var body: some Widget {
+        WebcamWidget()
         RTSWWidget()
         RTSWMediumWidget()
-        WebcamWidget()
         LysWidget()
+        NorlysPositionWidget()
     }
 }

@@ -59,7 +59,7 @@ struct MediumProvider: TimelineProvider {
         let (mockMagData, mockPlasmaData) = loadMockData()
         let endDateComponents = DateComponents(year: 2025, month: 3, day: 11, hour: 10, minute: 7)
         let endDate = Calendar.current.date(from: endDateComponents)!
-        let startDate = endDate.addingTimeInterval(-6 * 3600)
+        let startDate = endDate.addingTimeInterval(-4 * 3600) // Changed to 4 hours
         
         // Process each row of mock magnetic data to extract bt and bz values,
         // active flag, and convert the time tag into a Date object.
@@ -71,6 +71,7 @@ struct MediumProvider: TimelineProvider {
             return (btValue, bzValue, active, date)
         }
         .filter { $0.2 }  // Filter only active data points.
+        .filter { $0.3 >= startDate } // Filter to last 4 hours
         .sorted { $0.3 < $1.3 }  // Sort by date (oldest first).
         
         // Process each row of mock plasma data to extract speed and density values.
@@ -82,6 +83,7 @@ struct MediumProvider: TimelineProvider {
             return (speed, density, active, date)
         }
         .filter { $0.2 }  // Filter only active data points.
+        .filter { $0.3 >= startDate } // Filter to last 4 hours
         .sorted { $0.3 < $1.3 }  // Sort by date (oldest first).
         
         let btValues = magneticData.map { $0.0 }
@@ -147,6 +149,7 @@ struct MediumProvider: TimelineProvider {
     func getTimeline(in context: Context, completion: @escaping (Timeline<MediumEntry>) -> Void) {
         Task {
             let currentDate = Date()
+            let startDate = currentDate.addingTimeInterval(-4 * 3600) // Changed to 4 hours
             let magDataURL = URL(string: "https://services.swpc.noaa.gov/text/rtsw/data/mag-6-hour.i.json")!
             let plasmaDataURL = URL(string: "https://services.swpc.noaa.gov/text/rtsw/data/plasma-6-hour.i.json")!
             
@@ -168,6 +171,7 @@ struct MediumProvider: TimelineProvider {
                     return (btValue, bzValue, active, date)
                 }
                 .filter { $0.2 }
+                .filter { $0.3 >= startDate } // Filter to last 4 hours
                 .sorted { $0.3 < $1.3 }
                 
                 // Process plasma data (speed in row[1], density in row[2])
@@ -179,6 +183,7 @@ struct MediumProvider: TimelineProvider {
                     return (speed, density, active, date)
                 }
                 .filter { $0.2 }
+                .filter { $0.3 >= startDate } // Filter to last 4 hours
                 .sorted { $0.3 < $1.3 }
                 
                 // Calculate earth hit timing
@@ -299,77 +304,130 @@ struct RTSWMediumWidgetEntryView: View {
                     .font(.custom("Helvetica", size: 8))
                     .fontWeight(.bold)
                     .foregroundColor(.gray)
-                    .padding(.bottom, -5)
+                    .padding(.bottom, 0)
             }
             
-            // Graph 1: Bt + Bz
-            HStack(alignment: .center, spacing: 2) {
-        
-                VStack(alignment: .leading, spacing: -3) {
-                
-                    
-                    HStack(alignment: .lastTextBaseline, spacing: 2) {
-                        Text("Bt")
-                            .font(.custom("Helvetica", size: 10))
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
-                    
-                        Text(String(format: "%.1f", abs(entry.btValue)))
-                            .font(.custom("Helvetica", size: 30))
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
-                        
-                        VStack(alignment: .leading, spacing: 6) {
-                            Text(String(format: "%+.1f", entry.btTrend))
+            // Graph 1: Bt + Bz with Forecast
+            ZStack(alignment: .topLeading) {
+                HStack(alignment: .center, spacing: 2) {
+                    HStack(alignment: .center, spacing: 10) {
+                        VStack(alignment: .leading, spacing: -3) {
+                            Text("Bt")
                                 .font(.custom("Helvetica", size: 10))
                                 .fontWeight(.bold)
-                                .foregroundColor(entry.btTrend >= 0 ? .green : .red)
+                                .foregroundColor(.white)
                             
-                            Text("(nT)")
-                                .font(.custom("Helvetica", size: 6))
+                            HStack(alignment: .lastTextBaseline, spacing: 2) {
+                                Text(String(format: "%.1f", entry.btValue))
+                                    .font(.custom("Helvetica", size: 30))
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.white)
+                                
+                                VStack(alignment: .leading, spacing: 6) {
+                                    Text(String(format: "%+.1f", entry.btTrend))
+                                        .font(.custom("Helvetica", size: 10))
+                                        .fontWeight(.bold)
+                                        .foregroundColor(entry.btTrend >= 0 ? .green : .red)
+    
+                                    Text("(nT)")
+                                        .font(.custom("Helvetica", size: 6))
+                                        .fontWeight(.bold)
+                                        .foregroundColor(.gray)
+                                }
+                            }
+                        }
+                        
+//                        VStack(alignment: .leading, spacing: -3) {
+//                            Text("Bz")
+//                                .font(.custom("Helvetica", size: 10))
+//                                .fontWeight(.bold)
+//                                .foregroundColor(Color(red: 1.0, green: 0.0, blue: 0.0))
+//
+//                            HStack(alignment: .lastTextBaseline, spacing: 2) {
+//                                Text(String(format: "%.1f", abs(entry.bzValue)))
+//                                    .font(.custom("Helvetica", size: 30))
+//                                    .fontWeight(.bold)
+//                                    .foregroundColor(.white)
+//
+//                                VStack(alignment: .leading, spacing: 6) {
+////                                    Text(String(format: "%+.1f", entry.bzTrend))
+////                                        .font(.custom("Helvetica", size: 10))
+////                                        .fontWeight(.bold)
+////                                        .foregroundColor(entry.bzTrend >= 0 ? .green : .red)
+//
+//                                    Text("(nT)")
+//                                        .font(.custom("Helvetica", size: 6))
+//                                        .fontWeight(.bold)
+//                                        .foregroundColor(.gray)
+//                                }
+//                            }
+//                        }
+                    }
+                    .frame(width: 85, alignment: .leading)
+                    
+                    // Graph section
+                    if !entry.historicalMagData.isEmpty {
+                        let maxMagMagnitude = max(
+                            entry.historicalMagData.map { abs($0.bt) }.max() ?? 0,
+                            entry.historicalMagData.map { abs($0.bz) }.max() ?? 0
+                        )
+                        
+                        let btSeries = GraphDataSeries(
+                            label: "Bt",
+                            data: entry.historicalMagData.map { DataPoint(date: $0.date, value: $0.bt) },
+                            color: .white
+                        )
+                        let bzSeries = GraphDataSeries(
+                            label: "Bz",
+                            data: entry.historicalMagData.map { DataPoint(date: $0.date, value: $0.bz) },
+                            color: Color(red: 1.0, green: 0.0, blue: 0.0)
+                        )
+                        
+                        let verticalMarker: Date? = {
+                            if let index = entry.earthHitIndex, index < entry.historicalMagData.count {
+                                return entry.historicalMagData[index].date
+                            }
+                            return nil
+                        }()
+                        
+                        ReusableGraphView(
+                            dataSeries: [btSeries, bzSeries],
+                            zeroLine: true,
+                            verticalMarkerDate: verticalMarker,
+                            chartDomain: entry.date.addingTimeInterval(-14400)...entry.date, // Changed to 4 hours
+                            yDomain: -maxMagMagnitude...maxMagMagnitude
+                        )
+                        .frame(maxWidth: .infinity)
+                    }
+                }
+                .frame(height: 35)
+                
+                // Forecast legend positioned in the forecast area
+                if let _ = entry.earthHitIndex {
+                    GeometryReader { geometry in
+                        if let verticalMarker = {
+                            if let index = entry.earthHitIndex, index < entry.historicalMagData.count {
+                                return entry.historicalMagData[index].date
+                            }
+                            return nil
+                        }() {
+                            let chartStart = entry.date.addingTimeInterval(-14400)
+                            let chartEnd = entry.date
+                            let totalDuration = chartEnd.timeIntervalSince(chartStart)
+                            let markerProgress = verticalMarker.timeIntervalSince(chartStart) / totalDuration
+                            let labelStartX = (markerProgress * (geometry.size.width - 90)) + 92 // Account for left labels width
+                            let forecastWidth = geometry.size.width - labelStartX
+                            let centerX = labelStartX + (forecastWidth / 2)
+                            
+                            Text("Forecast")
+                                .font(.custom("Helvetica", size: 8))
                                 .fontWeight(.bold)
                                 .foregroundColor(.gray)
+                                .position(x: centerX, y: -10)
                         }
                     }
                 }
-                .frame(width: 90, alignment: .leading)
-                
-                // Graph section
-                if !entry.historicalMagData.isEmpty {
-                    let maxMagMagnitude = max(
-                        entry.historicalMagData.map { abs($0.bt) }.max() ?? 0,
-                        entry.historicalMagData.map { abs($0.bz) }.max() ?? 0
-                    )
-                    
-                    let btSeries = GraphDataSeries(
-                        label: "Bt",
-                        data: entry.historicalMagData.map { DataPoint(date: $0.date, value: $0.bt) },
-                        color: .white
-                    )
-                    let bzSeries = GraphDataSeries(
-                        label: "Bz",
-                        data: entry.historicalMagData.map { DataPoint(date: $0.date, value: $0.bz) },
-                        color: Color(red: 1.0, green: 0.0, blue: 0.0)
-                    )
-                    
-                    let verticalMarker: Date? = {
-                        if let index = entry.earthHitIndex, index < entry.historicalMagData.count {
-                            return entry.historicalMagData[index].date
-                        }
-                        return nil
-                    }()
-                    
-                    ReusableGraphView(
-                        dataSeries: [btSeries, bzSeries],
-                        zeroLine: true,
-                        verticalMarkerDate: verticalMarker,
-                        chartDomain: entry.date.addingTimeInterval(-21600)...entry.date,
-                        yDomain: -maxMagMagnitude...maxMagMagnitude
-                    )
-                    .frame(maxWidth: .infinity)
-                }
             }
-            .frame(height: 35)
             
             Spacer().frame(height: 2)
             
@@ -402,7 +460,7 @@ struct RTSWMediumWidgetEntryView: View {
 
                     }
                 }
-                .frame(width: 90, alignment: .leading)
+                .frame(width: 85, alignment: .leading)
                 
                 // Graph section
                 if !entry.historicalPlasmaData.isEmpty {
@@ -427,7 +485,7 @@ struct RTSWMediumWidgetEntryView: View {
                         dataSeries: [speedSeries],
                         zeroLine: false,
                         verticalMarkerDate: verticalMarker,
-                        chartDomain: entry.date.addingTimeInterval(-21600)...entry.date,
+                        chartDomain: entry.date.addingTimeInterval(-14400)...entry.date, // Changed to 4 hours
                         yDomain: minSpeed...maxSpeed
                     )
                     .frame(maxWidth: .infinity)
@@ -467,7 +525,7 @@ struct RTSWMediumWidgetEntryView: View {
                     
                     }
                 }
-                .frame(width: 90, alignment: .leading)
+                .frame(width: 85, alignment: .leading)
                 
                 // Graph section
                 if !entry.historicalPlasmaData.isEmpty {
@@ -492,7 +550,7 @@ struct RTSWMediumWidgetEntryView: View {
                         dataSeries: [densitySeries],
                         zeroLine: false,
                         verticalMarkerDate: verticalMarker,
-                        chartDomain: entry.date.addingTimeInterval(-21600)...entry.date,
+                        chartDomain: entry.date.addingTimeInterval(-14400)...entry.date, // Changed to 4 hours
                         yDomain: minDensity...maxDensity
                     )
                     .frame(maxWidth: .infinity)
@@ -519,8 +577,8 @@ struct RTSWMediumWidget: Widget {
             RTSWMediumWidgetEntryView(entry: entry)
                 .containerBackground(.black, for: .widget)
         }
-        .configurationDisplayName("Solar Wind Widget")
-        .description("Displays magnetic field (Bt/Bz), solar wind speed, and plasma density with 6-hour trends.")
+        .configurationDisplayName("Solar wind widget")
+        .description("Displays the solar wind magnetic field strength and vertical magnitude (IMF Bt/Bz), speed and density over the last 4 hours, including a short-term forecast.")
         .supportedFamilies([.systemMedium])
         .contentMarginsDisabled()
     }
@@ -533,7 +591,7 @@ struct RTSWMediumWidget: Widget {
 } timeline: {
     let endDateComponents = DateComponents(year: 2025, month: 3, day: 11, hour: 10, minute: 7)
     let endDate = Calendar.current.date(from: endDateComponents)!
-    let startDate = endDate.addingTimeInterval(-6 * 3600)
+    let startDate = endDate.addingTimeInterval(-4 * 3600) // Changed to 4 hours
     
     var entry = MediumEntry(
         date: endDate,

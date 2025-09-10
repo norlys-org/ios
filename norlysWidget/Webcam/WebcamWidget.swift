@@ -96,8 +96,8 @@ struct WebcamWidget: Widget {
         ) { entry in
             WebcamWidgetEntryView(entry: entry)
         }
-        .configurationDisplayName("Webcam")
-        .description("Displays selected webcam and updates every minute.")
+        .configurationDisplayName("Webcam Widget")
+        .description("Displays an aurora webcam and updates every minute. Location can be configured.")
         .supportedFamilies([.systemSmall])
         .contentMarginsDisabled()
     }
