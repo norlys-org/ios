@@ -21,8 +21,8 @@ class WebViewController: UIViewController {
     let loadingView = UIView()
     
     /// Initial URL to load in the web view
-    var initialURL: URL = URL(string: "http://192.168.1.9:3000")!
-//    var initialURL: URL = URL(string: "https://ny.norlys.live")!
+//    var initialURL: URL = URL(string: "http://192.168.1.9:3000")!
+    var initialURL: URL = URL(string: "https://ny.norlys.live")!
     
     /// Bridge for handling location services
     private let locationBridge: LocationServicesBridge
