@@ -418,7 +418,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = norlys;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "This app needs access to location when open and in the background.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app needs access to location when open to provide location-based features.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app uses location to tailor maps and graphs for the user's location, but never stores it.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
@@ -455,7 +455,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = norlys;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "This app needs access to location when open and in the background.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app needs access to location when open to provide location-based features.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app uses location to tailor maps and graphs for the user's location, but never stores it.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
