@@ -42,13 +42,31 @@
             }
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "variations" : {
             "plural" : {
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld 分钟"
+                  "value" : "%lld분"
+                }
+              }
+            }
+          }
+        },
+        "nb" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld minutt"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld minutter"
                 }
               }
             }
@@ -84,19 +102,13 @@
             }
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "variations" : {
             "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld minutt"
-                }
-              },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld minutter"
+                  "value" : "%lld 分钟"
                 }
               }
             }
@@ -121,10 +133,16 @@
             "value" : "1年"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "1 年"
+            "value" : "1년"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 år"
           }
         },
         "ru" : {
@@ -133,10 +151,10 @@
             "value" : "1 год"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "1 år"
+            "value" : "1 年"
           }
         }
       }
@@ -149,10 +167,16 @@
             "value" : "2時間"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "2 小时"
+            "value" : "2시간"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "2 timer"
           }
         },
         "ru" : {
@@ -161,10 +185,10 @@
             "value" : "2 часа"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "2 timer"
+            "value" : "2 小时"
           }
         }
       }
@@ -177,10 +201,16 @@
             "value" : "24時間"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "24 小时"
+            "value" : "24시간"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "24 timer"
           }
         },
         "ru" : {
@@ -189,10 +219,10 @@
             "value" : "24 часа"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "24 timer"
+            "value" : "24 小时"
           }
         }
       }
@@ -205,10 +235,16 @@
             "value" : "3日間"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "3 天"
+            "value" : "3일"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "3 dager"
           }
         },
         "ru" : {
@@ -217,10 +253,10 @@
             "value" : "3 дня"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "3 dager"
+            "value" : "3 天"
           }
         }
       }
@@ -233,10 +269,16 @@
             "value" : "30日間"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "30 天"
+            "value" : "30일"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30 dager"
           }
         },
         "ru" : {
@@ -245,10 +287,10 @@
             "value" : "30 дней"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "30 dager"
+            "value" : "30 天"
           }
         }
       }
@@ -261,10 +303,16 @@
             "value" : "5年"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "5 年"
+            "value" : "5년"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5 år"
           }
         },
         "ru" : {
@@ -273,10 +321,10 @@
             "value" : "5 лет"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "5 år"
+            "value" : "5 年"
           }
         }
       }
@@ -289,10 +337,16 @@
             "value" : "54日間"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "54 天"
+            "value" : "54일"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "54 dager"
           }
         },
         "ru" : {
@@ -301,10 +355,10 @@
             "value" : "54 дня"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "54 dager"
+            "value" : "54 天"
           }
         }
       }
@@ -317,10 +371,16 @@
             "value" : "6時間"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "6 小时"
+            "value" : "6시간"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "6 timer"
           }
         },
         "ru" : {
@@ -329,10 +389,10 @@
             "value" : "6 часов"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "6 timer"
+            "value" : "6 小时"
           }
         }
       }
@@ -345,10 +405,16 @@
             "value" : "7日間"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "7 天"
+            "value" : "7일"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "7 dager"
           }
         },
         "ru" : {
@@ -357,10 +423,10 @@
             "value" : "7 дней"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "7 dager"
+            "value" : "7 天"
           }
         }
       }
@@ -397,13 +463,31 @@
             }
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "variations" : {
             "plural" : {
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "约 %lld 小时"
+                  "value" : "약 %lld시간"
+                }
+              }
+            }
+          }
+        },
+        "nb" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "omtrent %lld time"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "omtrent %lld timer"
                 }
               }
             }
@@ -439,19 +523,13 @@
             }
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "variations" : {
             "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "omtrent %lld time"
-                }
-              },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "omtrent %lld timer"
+                  "value" : "约 %lld 小时"
                 }
               }
             }
@@ -467,10 +545,16 @@
             "value" : "約1時間"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "约 1 小时"
+            "value" : "약 1시간"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "omtrent 1 time"
           }
         },
         "ru" : {
@@ -479,10 +563,10 @@
             "value" : "около 1 часа"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "omtrent 1 time"
+            "value" : "约 1 小时"
           }
         }
       }
@@ -498,10 +582,16 @@
             "value" : "オーロラ活動"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "极光活动"
+            "value" : "오로라 활동"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nordlysaktivitet"
           }
         },
         "ru" : {
@@ -510,10 +600,10 @@
             "value" : "Авроральная активность"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nordlysaktivitet"
+            "value" : "极光活动"
           }
         }
       }
@@ -526,10 +616,16 @@
             "value" : "現在地のオーロラ"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "您所在位置的极光"
+            "value" : "현재 위치의 오로라"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nordlys der du er"
           }
         },
         "ru" : {
@@ -538,10 +634,10 @@
             "value" : "Сияние в вашем местоположении"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nordlys der du er"
+            "value" : "您所在位置的极光"
           }
         }
       }
@@ -554,10 +650,16 @@
             "value" : "オーロラ地球儀"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "极光地球仪"
+            "value" : "오로라 지구본"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nordlysglobus"
           }
         },
         "ru" : {
@@ -566,10 +668,10 @@
             "value" : "Глобус полярных сияний"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nordlysglobus"
+            "value" : "极光地球仪"
           }
         }
       }
@@ -582,10 +684,16 @@
             "value" : "オーロラ地球儀の設定"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "极光地球仪设置"
+            "value" : "오로라 지구본 설정"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Innstillinger for nordlysglobus"
           }
         },
         "ru" : {
@@ -594,10 +702,10 @@
             "value" : "Настройка глобуса полярных сияний"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Innstillinger for nordlysglobus"
+            "value" : "极光地球仪设置"
           }
         }
       }
@@ -610,10 +718,16 @@
             "value" : "自動"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "自动"
+            "value" : "자동"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Auto"
           }
         },
         "ru" : {
@@ -622,10 +736,10 @@
             "value" : "Авто"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Auto"
+            "value" : "自动"
           }
         }
       }
@@ -638,10 +752,16 @@
             "value" : "反太陽向き +"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "背离太阳 +"
+            "value" : "반태양 방향 +"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bort +"
           }
         },
         "ru" : {
@@ -650,10 +770,10 @@
             "value" : "От Солнца +"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bort +"
+            "value" : "背离太阳 +"
           }
         }
       }
@@ -672,10 +792,16 @@
             "value" : "中心"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "中心"
+            "value" : "중심"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sentrum"
           }
         },
         "ru" : {
@@ -684,10 +810,10 @@
             "value" : "Центр"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sentrum"
+            "value" : "中心"
           }
         }
       }
@@ -700,10 +826,16 @@
             "value" : "中心"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "中心位置"
+            "value" : "중심 위치"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sentrer på"
           }
         },
         "ru" : {
@@ -712,10 +844,10 @@
             "value" : "Центрировать на"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sentrer på"
+            "value" : "中心位置"
           }
         }
       }
@@ -728,10 +860,16 @@
             "value" : "オーロラ地球儀の中心を選択します"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "选择极光地球仪的中心"
+            "value" : "오로라 지구본의 중심을 선택하세요"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Velg hva nordlysglobusen skal sentreres på"
           }
         },
         "ru" : {
@@ -740,10 +878,10 @@
             "value" : "Выберите, на чём центрировать глобус полярных сияний"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Velg hva nordlysglobusen skal sentreres på"
+            "value" : "选择极光地球仪的中心"
           }
         }
       }
@@ -756,10 +894,16 @@
             "value" : "太陽風ウィジェットに表示する衛星、期間、成分を設定します"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "设置太阳风小组件显示的卫星、时间段和分量"
+            "value" : "태양풍 위젯에 표시할 위성, 기간, 성분을 설정합니다"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Velg satellitten, tidsperioden og komponentene som solvind-widgeten viser"
           }
         },
         "ru" : {
@@ -768,10 +912,10 @@
             "value" : "Настройте спутник, период и компоненты, отображаемые виджетом солнечного ветра"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Velg satellitten, tidsperioden og komponentene som solvind-widgeten viser"
+            "value" : "设置太阳风小组件显示的卫星、时间段和分量"
           }
         }
       }
@@ -784,10 +928,16 @@
             "value" : "Lys指数ウィジェットの期間と緯度を設定します"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "设置 Lys 指数小组件的时间段和纬度"
+            "value" : "Lys 지수 위젯의 기간과 위도를 설정합니다"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Velg tidsrom og breddegrad for Lys-indeks-widgeten"
           }
         },
         "ru" : {
@@ -796,10 +946,10 @@
             "value" : "Настройте период и широту для виджета индекса Lys"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Velg tidsrom og breddegrad for Lys-indeks-widgeten"
+            "value" : "设置 Lys 指数小组件的时间段和纬度"
           }
         }
       }
@@ -812,10 +962,16 @@
             "value" : "データを読み込めませんでした"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "数据加载失败"
+            "value" : "데이터를 불러올 수 없습니다"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kunne ikke laste inn data"
           }
         },
         "ru" : {
@@ -824,10 +980,10 @@
             "value" : "Не удалось загрузить данные"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kunne ikke laste inn data"
+            "value" : "数据加载失败"
           }
         }
       }
@@ -840,10 +996,16 @@
             "value" : "現在のオーロラ活動"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "当前极光活动"
+            "value" : "현재 오로라 활동"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nåværende nordlysaktivitet"
           }
         },
         "ru" : {
@@ -852,10 +1014,10 @@
             "value" : "Текущая авроральная активность"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nåværende nordlysaktivitet"
+            "value" : "当前极光活动"
           }
         }
       }
@@ -868,10 +1030,16 @@
             "value" : "現在地"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "当前位置"
+            "value" : "현재 위치"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nåværende posisjon"
           }
         },
         "ru" : {
@@ -880,10 +1048,10 @@
             "value" : "Текущее местоположение"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nåværende posisjon"
+            "value" : "当前位置"
           }
         }
       }
@@ -896,10 +1064,16 @@
             "value" : "密度"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "密度"
+            "value" : "밀도"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tetthet"
           }
         },
         "ru" : {
@@ -908,10 +1082,10 @@
             "value" : "Плотность"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tetthet"
+            "value" : "密度"
           }
         }
       }
@@ -924,10 +1098,16 @@
             "value" : "期間と緯度を設定できる精密な地磁気活動指数を表示します（H-Lysは高地磁気緯度、M-Lysは中地磁気緯度）。"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "显示精确的地磁活动指数，可设置时间段和纬度（H-Lys 用于高地磁纬度，M-Lys 用于中地磁纬度）。"
+            "value" : "기간과 위도를 설정할 수 있는 정밀한 지자기 활동 지수를 표시합니다(H-Lys는 고지자기 위도, M-Lys는 중지자기 위도)."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Viser en presis geomagnetisk aktivitetsindeks med valgfri tidsperiode og breddegrad (H-Lys for høye geomagnetiske breddegrader og M-Lys for midlere)."
           }
         },
         "ru" : {
@@ -936,10 +1116,10 @@
             "value" : "Показывает точный индекс геомагнитной активности с настраиваемым периодом и широтой (H-Lys для высоких геомагнитных широт и M-Lys для средних)."
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Viser en presis geomagnetisk aktivitetsindeks med valgfri tidsperiode og breddegrad (H-Lys for høye geomagnetiske breddegrader og M-Lys for midlere)."
+            "value" : "显示精确的地磁活动指数，可设置时间段和纬度（H-Lys 用于高地磁纬度，M-Lys 用于中地磁纬度）。"
           }
         }
       }
@@ -952,10 +1132,16 @@
             "value" : "オーロラのウェブカメラを表示し、毎分更新します。場所を設定できます。"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "显示极光网络摄像头画面，每分钟更新一次。可设置地点。"
+            "value" : "오로라 웹캠을 표시하며 매분 업데이트됩니다. 위치를 설정할 수 있습니다."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Viser et nordlyswebkamera og oppdateres hvert minutt. Plasseringen kan velges."
           }
         },
         "ru" : {
@@ -964,10 +1150,10 @@
             "value" : "Показывает веб-камеру полярных сияний и обновляется каждую минуту. Местоположение можно выбрать."
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Viser et nordlyswebkamera og oppdateres hvert minutt. Plasseringen kan velges."
+            "value" : "显示极光网络摄像头画面，每分钟更新一次。可设置地点。"
           }
         }
       }
@@ -980,10 +1166,16 @@
             "value" : "現在地の真上に強いオーロラが現れる確率を表示します。"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "显示您当前位置上空出现强极光的概率。"
+            "value" : "현재 위치 상공에 강한 오로라가 나타날 확률을 표시합니다."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Viser sannsynligheten for sterkt nordlys over der du er nå."
           }
         },
         "ru" : {
@@ -992,10 +1184,10 @@
             "value" : "Показывает вероятность сильного полярного сияния над вашим текущим местоположением."
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Viser sannsynligheten for sterkt nordlys over der du er nå."
+            "value" : "显示您当前位置上空出现强极光的概率。"
           }
         }
       }
@@ -1008,10 +1200,16 @@
             "value" : "norlys.live と同じくリアルタイムの太陽風を表示：IMF Bt/Bz、Phi、速度、密度。衛星、期間、成分を設定できます。"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "与 norlys.live 相同，显示实时太阳风：IMF Bt/Bz、Phi、速度和密度，可设置卫星、时间段和分量。"
+            "value" : "norlys.live와 같이 실시간 태양풍을 표시합니다: IMF Bt/Bz, Phi, 속도, 밀도. 위성, 기간, 성분을 설정할 수 있습니다."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Viser sanntids solvind som på norlys.live: IMF Bt/Bz, Phi, hastighet og tetthet, med valgfri satellitt, tidsperiode og komponenter."
           }
         },
         "ru" : {
@@ -1020,10 +1218,10 @@
             "value" : "Показывает солнечный ветер в реальном времени, как на norlys.live: ММП Bt/Bz, Фи, скорость и плотность, с настраиваемым спутником, периодом и компонентами."
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Viser sanntids solvind som på norlys.live: IMF Bt/Bz, Phi, hastighet og tetthet, med valgfri satellitt, tidsperiode og komponenter."
+            "value" : "与 norlys.live 相同，显示实时太阳风：IMF Bt/Bz、Phi、速度和密度，可设置卫星、时间段和分量。"
           }
         }
       }
@@ -1036,10 +1234,16 @@
             "value" : "過去4時間の太陽風の磁場強度（IMF Bt）と南北成分（IMF Bz）を短期予報とともに表示します。"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "显示过去 4 小时太阳风的磁场强度（IMF Bt）和南北分量（IMF Bz），并包含短期预报。"
+            "value" : "지난 4시간 동안의 태양풍 자기장 세기(IMF Bt)와 남북 성분(IMF Bz)을 단기 예보와 함께 표시합니다."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Viser solvindens magnetfeltstyrke (IMF Bt) og vertikale komponent (IMF Bz) de siste 4 timene, med et korttidsvarsel."
           }
         },
         "ru" : {
@@ -1048,10 +1252,10 @@
             "value" : "Показывает силу магнитного поля солнечного ветра (ММП Bt) и его вертикальную составляющую (ММП Bz) за последние 4 часа, включая краткосрочный прогноз."
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Viser solvindens magnetfeltstyrke (IMF Bt) og vertikale komponent (IMF Bz) de siste 4 timene, med et korttidsvarsel."
+            "value" : "显示过去 4 小时太阳风的磁场强度（IMF Bt）和南北分量（IMF Bz），并包含短期预报。"
           }
         }
       }
@@ -1064,10 +1268,16 @@
             "value" : "過去4時間の太陽風の磁場強度と南北成分（IMF Bt/Bz）、速度、密度を短期予報とともに表示します。"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "显示过去 4 小时太阳风的磁场强度和南北分量（IMF Bt/Bz）、速度和密度，并包含短期预报。"
+            "value" : "지난 4시간 동안의 태양풍 자기장 세기와 남북 성분(IMF Bt/Bz), 속도, 밀도를 단기 예보와 함께 표시합니다."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Viser solvindens magnetfeltstyrke og vertikale komponent (IMF Bt/Bz), hastighet og tetthet de siste 4 timene, med et korttidsvarsel."
           }
         },
         "ru" : {
@@ -1076,10 +1286,10 @@
             "value" : "Показывает силу магнитного поля солнечного ветра и его вертикальную составляющую (ММП Bt/Bz), скорость и плотность за последние 4 часа, включая краткосрочный прогноз."
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Viser solvindens magnetfeltstyrke og vertikale komponent (IMF Bt/Bz), hastighet og tetthet de siste 4 timene, med et korttidsvarsel."
+            "value" : "显示过去 4 小时太阳风的磁场强度和南北分量（IMF Bt/Bz）、速度和密度，并包含短期预报。"
           }
         }
       }
@@ -1095,10 +1305,16 @@
             "value" : "ダイナミック"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "活跃多变"
+            "value" : "역동적"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dynamisk"
           }
         },
         "ru" : {
@@ -1107,10 +1323,10 @@
             "value" : "Динамичный"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dynamisk"
+            "value" : "活跃多变"
           }
         }
       }
@@ -1123,10 +1339,16 @@
             "value" : "極めてダイナミック"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "极其活跃多变"
+            "value" : "극도로 역동적"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ekstremt dynamisk"
           }
         },
         "ru" : {
@@ -1135,10 +1357,10 @@
             "value" : "Чрезвычайно динамичный"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ekstremt dynamisk"
+            "value" : "极其活跃多变"
           }
         }
       }
@@ -1151,10 +1373,16 @@
             "value" : "予報"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "预报"
+            "value" : "예보"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Varsel"
           }
         },
         "ru" : {
@@ -1163,10 +1391,10 @@
             "value" : "Прогноз"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Varsel"
+            "value" : "预报"
           }
         }
       }
@@ -1182,10 +1410,16 @@
             "value" : "H-Lys・M-Lys指数"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "H-Lys 和 M-Lys 指数"
+            "value" : "H-Lys 및 M-Lys 지수"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "H-Lys- og M-Lys-indekser"
           }
         },
         "ru" : {
@@ -1194,10 +1428,10 @@
             "value" : "Индексы H-Lys и M-Lys"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "H-Lys- og M-Lys-indekser"
+            "value" : "H-Lys 和 M-Lys 指数"
           }
         }
       }
@@ -1210,10 +1444,16 @@
             "value" : "H-Lys指数"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "H-Lys 指数"
+            "value" : "H-Lys 지수"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "H-Lys-indeks"
           }
         },
         "ru" : {
@@ -1222,10 +1462,10 @@
             "value" : "Индекс H-Lys"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "H-Lys-indeks"
+            "value" : "H-Lys 指数"
           }
         }
       }
@@ -1238,10 +1478,16 @@
             "value" : "高緯度"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "高纬度"
+            "value" : "고위도"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Høye breddegrader"
           }
         },
         "ru" : {
@@ -1250,10 +1496,10 @@
             "value" : "Высокие широты"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Høye breddegrader"
+            "value" : "高纬度"
           }
         }
       }
@@ -1296,13 +1542,31 @@
             }
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "variations" : {
             "plural" : {
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld 小时后"
+                  "value" : "%lld시간 후"
+                }
+              }
+            }
+          }
+        },
+        "nb" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Om %lld time"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Om %lld timer"
                 }
               }
             }
@@ -1338,19 +1602,13 @@
             }
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "variations" : {
             "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Om %lld time"
-                }
-              },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Om %lld timer"
+                  "value" : "%lld 小时后"
                 }
               }
             }
@@ -1390,13 +1648,31 @@
             }
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "variations" : {
             "plural" : {
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld 分钟后"
+                  "value" : "%lld분 후"
+                }
+              }
+            }
+          }
+        },
+        "nb" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Om %lld minutt"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Om %lld minutter"
                 }
               }
             }
@@ -1432,19 +1708,13 @@
             }
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "variations" : {
             "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Om %lld minutt"
-                }
-              },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "Om %lld minutter"
+                  "value" : "%lld 分钟后"
                 }
               }
             }
@@ -1460,10 +1730,16 @@
             "value" : "%1$lld時間%2$lld分後"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$lld 小时 %2$lld 分钟后"
+            "value" : "%1$lld시간 %2$lld분 후"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Om %1$lld t %2$lld m"
           }
         },
         "ru" : {
@@ -1472,10 +1748,10 @@
             "value" : "Через %1$lld ч %2$lld мин"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Om %1$lld t %2$lld m"
+            "value" : "%1$lld 小时 %2$lld 分钟后"
           }
         }
       }
@@ -1488,10 +1764,16 @@
             "value" : "緯度"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "纬度"
+            "value" : "위도"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Breddegrad"
           }
         },
         "ru" : {
@@ -1500,10 +1782,10 @@
             "value" : "Широта"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Breddegrad"
+            "value" : "纬度"
           }
         }
       }
@@ -1516,10 +1798,16 @@
             "value" : "緯度帯"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "纬度带"
+            "value" : "위도대"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Breddegradssone"
           }
         },
         "ru" : {
@@ -1528,10 +1816,10 @@
             "value" : "Широтная зона"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Breddegradssone"
+            "value" : "纬度带"
           }
         }
       }
@@ -1544,10 +1832,16 @@
             "value" : "1分未満"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "不到 1 分钟"
+            "value" : "1분 미만"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "mindre enn ett minutt"
           }
         },
         "ru" : {
@@ -1556,10 +1850,10 @@
             "value" : "меньше минуты"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "mindre enn ett minutt"
+            "value" : "不到 1 分钟"
           }
         }
       }
@@ -1572,10 +1866,16 @@
             "value" : "ライブ"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "实时"
+            "value" : "실시간"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "LIVE"
           }
         },
         "ru" : {
@@ -1584,10 +1884,10 @@
             "value" : "В ЭФИРЕ"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "LIVE"
+            "value" : "实时"
           }
         }
       }
@@ -1600,10 +1900,16 @@
             "value" : "読み込み中…"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "加载中…"
+            "value" : "불러오는 중…"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Laster inn …"
           }
         },
         "ru" : {
@@ -1612,10 +1918,10 @@
             "value" : "Загрузка…"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Laster inn …"
+            "value" : "加载中…"
           }
         }
       }
@@ -1628,10 +1934,16 @@
             "value" : "Lys指数の設定"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lys 指数设置"
+            "value" : "Lys 지수 설정"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Innstillinger for Lys-indeks"
           }
         },
         "ru" : {
@@ -1640,10 +1952,10 @@
             "value" : "Настройка индекса Lys"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Innstillinger for Lys-indeks"
+            "value" : "Lys 指数设置"
           }
         }
       }
@@ -1656,10 +1968,16 @@
             "value" : "M-Lys指数"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "M-Lys 指数"
+            "value" : "M-Lys 지수"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "M-Lys-indeks"
           }
         },
         "ru" : {
@@ -1668,10 +1986,10 @@
             "value" : "Индекс M-Lys"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "M-Lys-indeks"
+            "value" : "M-Lys 指数"
           }
         }
       }
@@ -1687,10 +2005,16 @@
             "value" : "中緯度"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "中纬度"
+            "value" : "중위도"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Midlere breddegrader"
           }
         },
         "ru" : {
@@ -1699,10 +2023,10 @@
             "value" : "Средние широты"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Midlere breddegrader"
+            "value" : "中纬度"
           }
         }
       }
@@ -1715,10 +2039,16 @@
             "value" : "過去%2$@の%1$@データがありません"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "过去 %2$@ 没有 %1$@ 数据"
+            "value" : "지난 %2$@ 동안 %1$@ 데이터가 없습니다"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingen %1$@-data de siste %2$@"
           }
         },
         "ru" : {
@@ -1727,10 +2057,10 @@
             "value" : "Нет данных %1$@ за последние %2$@"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ingen %1$@-data de siste %2$@"
+            "value" : "过去 %2$@ 没有 %1$@ 数据"
           }
         }
       }
@@ -1743,10 +2073,16 @@
             "value" : "データがありません"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "暂无数据"
+            "value" : "데이터 없음"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingen data tilgjengelig"
           }
         },
         "ru" : {
@@ -1755,10 +2091,10 @@
             "value" : "Нет данных"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ingen data tilgjengelig"
+            "value" : "暂无数据"
           }
         }
       }
@@ -1771,10 +2107,16 @@
             "value" : "過去%@の太陽風データがありません"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "过去 %@ 没有太阳风数据"
+            "value" : "지난 %@ 동안 태양풍 데이터가 없습니다"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingen solvinddata de siste %@"
           }
         },
         "ru" : {
@@ -1783,10 +2125,10 @@
             "value" : "Нет данных о солнечном ветре за последние %@"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ingen solvinddata de siste %@"
+            "value" : "过去 %@ 没有太阳风数据"
           }
         }
       }
@@ -1799,10 +2141,16 @@
             "value" : "北半球"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "北半球"
+            "value" : "북반구"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den nordlige halvkule"
           }
         },
         "ru" : {
@@ -1811,10 +2159,10 @@
             "value" : "Северное полушарие"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Den nordlige halvkule"
+            "value" : "北半球"
           }
         }
       }
@@ -1827,10 +2175,16 @@
             "value" : "/ 10"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "/ 10"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "av 10"
           }
         },
         "ru" : {
@@ -1839,10 +2193,10 @@
             "value" : "из 10"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "av 10"
+            "value" : "/ 10"
           }
         }
       }
@@ -1855,10 +2209,16 @@
             "value" : "過去%@"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "过去 %@"
+            "value" : "지난 %@"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siste %@"
           }
         },
         "ru" : {
@@ -1867,10 +2227,10 @@
             "value" : "За %@"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Siste %@"
+            "value" : "过去 %@"
           }
         }
       }
@@ -1883,7 +2243,13 @@
             "value" : "Phi"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Phi"
+          }
+        },
+        "nb" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Phi"
@@ -1895,7 +2261,7 @@
             "value" : "Фи"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Phi"
@@ -1911,10 +2277,16 @@
             "value" : "現在"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "当前"
+            "value" : "현재"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Akkurat nå"
           }
         },
         "ru" : {
@@ -1923,10 +2295,10 @@
             "value" : "Сейчас"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Akkurat nå"
+            "value" : "当前"
           }
         }
       }
@@ -1939,10 +2311,16 @@
             "value" : "衛星"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "卫星"
+            "value" : "위성"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Satellitt"
           }
         },
         "ru" : {
@@ -1951,10 +2329,10 @@
             "value" : "Спутник"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Satellitt"
+            "value" : "卫星"
           }
         }
       }
@@ -1967,10 +2345,16 @@
             "value" : "ウェブカメラの場所を選択"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "选择网络摄像头位置"
+            "value" : "웹캠 위치 선택"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Velg webkamera-plassering"
           }
         },
         "ru" : {
@@ -1979,10 +2363,10 @@
             "value" : "Выберите расположение веб-камеры"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Velg webkamera-plassering"
+            "value" : "选择网络摄像头位置"
           }
         }
       }
@@ -1995,10 +2379,16 @@
             "value" : "By を表示"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "显示 By"
+            "value" : "By 표시"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vis By"
           }
         },
         "ru" : {
@@ -2007,10 +2397,10 @@
             "value" : "Показывать By"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vis By"
+            "value" : "显示 By"
           }
         }
       }
@@ -2023,10 +2413,16 @@
             "value" : "Bz を表示"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "显示 Bz"
+            "value" : "Bz 표시"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vis Bz"
           }
         },
         "ru" : {
@@ -2035,10 +2431,10 @@
             "value" : "Показывать Bz"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vis Bz"
+            "value" : "显示 Bz"
           }
         }
       }
@@ -2051,10 +2447,16 @@
             "value" : "Phi を表示"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "显示 Phi"
+            "value" : "Phi 표시"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vis Phi"
           }
         },
         "ru" : {
@@ -2063,10 +2465,10 @@
             "value" : "Показывать Фи"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vis Phi"
+            "value" : "显示 Phi"
           }
         }
       }
@@ -2079,10 +2481,16 @@
             "value" : "Theta を表示"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "显示 Theta"
+            "value" : "Theta 표시"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vis Theta"
           }
         },
         "ru" : {
@@ -2091,10 +2499,10 @@
             "value" : "Показывать Тета"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Vis Theta"
+            "value" : "显示 Theta"
           }
         }
       }
@@ -2110,10 +2518,16 @@
             "value" : "太陽風"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "太阳风"
+            "value" : "태양풍"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solvind"
           }
         },
         "ru" : {
@@ -2122,10 +2536,10 @@
             "value" : "Солнечный ветер"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Solvind"
+            "value" : "太阳风"
           }
         }
       }
@@ -2138,10 +2552,16 @@
             "value" : "太陽風の設定"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "太阳风设置"
+            "value" : "태양풍 설정"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Innstillinger for solvind"
           }
         },
         "ru" : {
@@ -2150,10 +2570,10 @@
             "value" : "Настройка солнечного ветра"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Innstillinger for solvind"
+            "value" : "太阳风设置"
           }
         }
       }
@@ -2166,10 +2586,16 @@
             "value" : "太陽風の磁場"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "太阳风磁场"
+            "value" : "태양풍 자기장"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solvindens magnetfelt"
           }
         },
         "ru" : {
@@ -2178,10 +2604,10 @@
             "value" : "Магнитное поле солнечного ветра"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Solvindens magnetfelt"
+            "value" : "太阳风磁场"
           }
         }
       }
@@ -2194,10 +2620,16 @@
             "value" : "太陽風スタックプロット"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "太阳风堆叠图"
+            "value" : "태양풍 스택 플롯"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solvind-stabelplott"
           }
         },
         "ru" : {
@@ -2206,10 +2638,10 @@
             "value" : "Графики солнечного ветра"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Solvind-stabelplott"
+            "value" : "太阳风堆叠图"
           }
         }
       }
@@ -2222,10 +2654,16 @@
             "value" : "太陽風"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "太阳风"
+            "value" : "태양풍"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solvind"
           }
         },
         "ru" : {
@@ -2234,10 +2672,10 @@
             "value" : "Солнечный ветер"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Solvind"
+            "value" : "太阳风"
           }
         }
       }
@@ -2250,10 +2688,16 @@
             "value" : "南半球"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "南半球"
+            "value" : "남반구"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Den sørlige halvkule"
           }
         },
         "ru" : {
@@ -2262,10 +2706,10 @@
             "value" : "Южное полушарие"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Den sørlige halvkule"
+            "value" : "南半球"
           }
         }
       }
@@ -2278,10 +2722,16 @@
             "value" : "速度"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "速度"
+            "value" : "속도"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hastighet"
           }
         },
         "ru" : {
@@ -2290,10 +2740,10 @@
             "value" : "Скорость"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hastighet"
+            "value" : "速度"
           }
         }
       }
@@ -2309,10 +2759,16 @@
             "value" : "真上の強いオーロラ"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "头顶强极光"
+            "value" : "내 머리 위 강한 오로라"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sterkt nordlys over meg"
           }
         },
         "ru" : {
@@ -2321,10 +2777,10 @@
             "value" : "Сильное сияние надо мной"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sterkt nordlys over meg"
+            "value" : "头顶强极光"
           }
         }
       }
@@ -2337,10 +2793,16 @@
             "value" : "norlys.live と同じく、norlys モデルを地球儀に表示：オーロラオーバル、昼夜境界線、サブストーム、現在地。現在地またはいずれかの地磁気極を中心に表示します。"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "与 norlys.live 相同，在地球仪上显示 norlys 模型：极光椭圆带、晨昏线、亚暴和您的位置，可以您所在位置或任一地磁极为中心。"
+            "value" : "norlys.live와 같이 지구본 위에 norlys 모델을 표시합니다: 오로라 오벌, 명암 경계선, 서브스톰, 현재 위치. 현재 위치 또는 지자기극을 중심으로 표시합니다."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "norlys-modellen på globusen, som på norlys.live: nordlysovalene, terminatoren, substormer og posisjonen din, sentrert på deg eller på en av de geomagnetiske polene."
           }
         },
         "ru" : {
@@ -2349,10 +2811,10 @@
             "value" : "Модель norlys на глобусе, как на norlys.live: авроральные овалы, терминатор, суббури и ваше местоположение, с центром на вас или на одном из геомагнитных полюсов."
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "norlys-modellen på globusen, som på norlys.live: nordlysovalene, terminatoren, substormer og posisjonen din, sentrert på deg eller på en av de geomagnetiske polene."
+            "value" : "与 norlys.live 相同，在地球仪上显示 norlys 模型：极光椭圆带、晨昏线、亚暴和您的位置，可以您所在位置或任一地磁极为中心。"
           }
         }
       }
@@ -2365,7 +2827,13 @@
             "value" : "Theta"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Theta"
+          }
+        },
+        "nb" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Theta"
@@ -2377,7 +2845,7 @@
             "value" : "Тета"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Theta"
@@ -2396,10 +2864,16 @@
             "value" : "期間"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "时间段"
+            "value" : "기간"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tidsperiode"
           }
         },
         "ru" : {
@@ -2408,10 +2882,10 @@
             "value" : "Период"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tidsperiode"
+            "value" : "时间段"
           }
         }
       }
@@ -2424,10 +2898,16 @@
             "value" : "期間"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "时间段"
+            "value" : "기간"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tidsrom"
           }
         },
         "ru" : {
@@ -2436,10 +2916,10 @@
             "value" : "Период"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tidsrom"
+            "value" : "时间段"
           }
         }
       }
@@ -2452,10 +2932,16 @@
             "value" : "太陽向き -"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "朝向太阳 -"
+            "value" : "태양 방향 -"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mot -"
           }
         },
         "ru" : {
@@ -2464,10 +2950,10 @@
             "value" : "К Солнцу -"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mot -"
+            "value" : "朝向太阳 -"
           }
         }
       }
@@ -2480,10 +2966,16 @@
             "value" : "地球への到達時間："
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "抵达地球所需时间："
+            "value" : "지구 도달 시간: "
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reisetid til Jorden: "
           }
         },
         "ru" : {
@@ -2492,10 +2984,10 @@
             "value" : "Время в пути до Земли: "
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reisetid til Jorden: "
+            "value" : "抵达地球所需时间："
           }
         }
       }
@@ -2508,10 +3000,16 @@
             "value" : "到達時間："
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "所需时间："
+            "value" : "도달 시간: "
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reisetid: "
           }
         },
         "ru" : {
@@ -2520,10 +3018,10 @@
             "value" : "Время в пути: "
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Reisetid: "
+            "value" : "所需时间："
           }
         }
       }
@@ -2536,10 +3034,16 @@
             "value" : "Lysデータを取得できません"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "无法获取 Lys 数据"
+            "value" : "Lys 데이터를 가져올 수 없습니다"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kunne ikke hente Lys-data"
           }
         },
         "ru" : {
@@ -2548,10 +3052,10 @@
             "value" : "Не удалось получить данные Lys"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kunne ikke hente Lys-data"
+            "value" : "无法获取 Lys 数据"
           }
         }
       }
@@ -2564,10 +3068,16 @@
             "value" : "太陽風データを取得できません"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "无法获取太阳风数据"
+            "value" : "태양풍 데이터를 가져올 수 없습니다"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kunne ikke hente solvinddata"
           }
         },
         "ru" : {
@@ -2576,10 +3086,10 @@
             "value" : "Не удалось получить данные о солнечном ветре"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Kunne ikke hente solvinddata"
+            "value" : "无法获取太阳风数据"
           }
         }
       }
@@ -2592,10 +3102,16 @@
             "value" : "利用不可"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "不可用"
+            "value" : "사용할 수 없음"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utilgjengelig"
           }
         },
         "ru" : {
@@ -2604,10 +3120,10 @@
             "value" : "Недоступно"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Utilgjengelig"
+            "value" : "不可用"
           }
         }
       }
@@ -2620,10 +3136,16 @@
             "value" : "%@前に更新"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@前更新"
+            "value" : "%@ 전에 업데이트됨"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oppdatert for %@ siden"
           }
         },
         "ru" : {
@@ -2632,10 +3154,10 @@
             "value" : "Обновлено %@ назад"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Oppdatert for %@ siden"
+            "value" : "%@前更新"
           }
         }
       }
@@ -2648,10 +3170,16 @@
             "value" : "更新まで"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "距离更新"
+            "value" : "업데이트까지"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oppdateres om"
           }
         },
         "ru" : {
@@ -2660,10 +3188,10 @@
             "value" : "Обновление через"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Oppdateres om"
+            "value" : "距离更新"
           }
         }
       }
@@ -2679,10 +3207,16 @@
             "value" : "非常にダイナミック"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "非常活跃多变"
+            "value" : "매우 역동적"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Svært dynamisk"
           }
         },
         "ru" : {
@@ -2691,10 +3225,10 @@
             "value" : "Очень динамичный"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Svært dynamisk"
+            "value" : "非常活跃多变"
           }
         }
       }
@@ -2707,10 +3241,16 @@
             "value" : "ウェブカメラの場所"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "网络摄像头位置"
+            "value" : "웹캠 위치"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Webkamera-plassering"
           }
         },
         "ru" : {
@@ -2719,10 +3259,10 @@
             "value" : "Расположение веб-камеры"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Webkamera-plassering"
+            "value" : "网络摄像头位置"
           }
         }
       }
@@ -2735,10 +3275,16 @@
             "value" : "ウェブカメラの場所"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "网络摄像头位置"
+            "value" : "웹캠 위치"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Webkamera-plassering"
           }
         },
         "ru" : {
@@ -2747,10 +3293,10 @@
             "value" : "Расположение веб-камеры"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Webkamera-plassering"
+            "value" : "网络摄像头位置"
           }
         }
       }
@@ -2763,10 +3309,16 @@
             "value" : "ウェブカメラ"
           }
         },
-        "zh-Hans" : {
+        "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "网络摄像头"
+            "value" : "웹캠"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Webkamera"
           }
         },
         "ru" : {
@@ -2775,10 +3327,10 @@
             "value" : "Веб-камера"
           }
         },
-        "nb" : {
+        "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Webkamera"
+            "value" : "网络摄像头"
           }
         }
       }

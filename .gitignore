@@ -86,3 +86,6 @@ iOSInjectionProject/
 
 # macOS
 .DS_Store
+
+## Index data Xcode writes inside the project when passed a stray -Xcc flag
+*.xcodeproj/-Xcc/
