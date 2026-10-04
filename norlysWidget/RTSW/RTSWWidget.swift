@@ -4,29 +4,13 @@
 //
 //  Created by Hugo on 10.03.2025.
 //  This widget displays the solar wind magnetic field strength and trends.
-//  It uses either local mock data or real-time data fetched from NOAA's SWPC,
+//  It uses either local mock data or real-time data fetched from NOAA's SWPC HAPI feed,
 //  processes magnetic field measurements, and displays a scatter plot for the last 4 hours of data.
 //
 
 import WidgetKit
 import SwiftUI
 import Charts
-
-// MARK: - Data Models
-
-/// MagneticData: Data model representing a magnetic field measurement from the source.
-struct MagneticData: Codable {
-    let time_tag: String
-    let bt: String
-    let bx_gsm: String
-    let by_gsm: String
-    let bz_gsm: String
-    let lat_gsm: String
-    let lon_gsm: String
-    let quality: String
-    let source: String
-    let active: String
-}
 
 // MARK: - Timeline Provider
 
@@ -118,40 +102,18 @@ struct Provider: TimelineProvider {
         Task {
             let currentDate = Date()
             let fourHoursAgo = currentDate.addingTimeInterval(-4 * 3600)
-            
-            // NOAA endpoints provide up to the last 6 hours; we'll fetch and then filter to 4h.
-            let magDataURL = URL(string: "https://services.swpc.noaa.gov/text/rtsw/data/mag-6-hour.i.json")!
-            let plasmaDataURL = URL(string: "https://services.swpc.noaa.gov/text/rtsw/data/plasma-6-hour.i.json")!
-            
+
             do {
-                // Fetch real-time magnetic data from NOAA's SWPC endpoint.
-                let (magData, _) = try await URLSession.shared.data(from: magDataURL)
-                let magJsonArray = try JSONDecoder().decode([[String]].self, from: magData)
-                
-                // Fetch real-time plasma data needed to calculate the solar wind travel time.
-                let (plasmaData, _) = try await URLSession.shared.data(from: plasmaDataURL)
-                let plasmaJsonArray = try JSONDecoder().decode([[String]].self, from: plasmaData)
-                
-                // Process magnetic data: parse, filter active entries, and sort by date (oldest first).
-                let magneticDataAll = magJsonArray.dropFirst().map { row -> (bt: Double, bz: Double, active: Bool, date: Date) in
-                    let btValue = Double(row[1]) ?? 0.0
-                    let bzValue = Double(row[4]) ?? 0.0
-                    let active = row[9] == "1"
-                    let date = ISO8601DateFormatter().date(from: row[0].replacingOccurrences(of: " ", with: "T") + "Z") ?? Date()
-                    return (btValue, bzValue, active, date)
-                }
-                .filter { $0.active }
-                .sorted { $0.date < $1.date }
-                
-                // Filter to the last 4 hours relative to currentDate
-                let magneticData = magneticDataAll.filter { $0.date >= fourHoursAgo && $0.date <= currentDate }
-                
-                // Create historical data array with timestamps (already 4h-filtered).
+                // Fetch magnetic and plasma data from the active satellite via NOAA's HAPI feed.
+                async let magFetch = HAPI.fetchActiveMag(from: fourHoursAgo, to: currentDate)
+                async let plasmaFetch = HAPI.fetchActivePlasma(from: fourHoursAgo, to: currentDate)
+                let (magneticData, plasmaData) = try await (magFetch, plasmaFetch)
+
+                // Create historical data array with timestamps.
                 let historicalData = magneticData.map { ($0.date, $0.bt, $0.bz) }
-                
-                // Process plasma data to calculate travel time.
-                if let lastPlasmaRow = plasmaJsonArray.dropFirst().last,
-                   let speed = Double(lastPlasmaRow[1]) {
+
+                // Use the latest plasma speed to calculate the solar wind travel time.
+                if let speed = plasmaData.last?.speed, speed > 0 {
                     let distance = 1_500_000.0 // km
                     let travelTime = distance / speed / 60 // minutes
                     
@@ -268,14 +230,14 @@ struct norlysWidgetEntryView : View {
     // Helper function to convert a time in minutes to a formatted string (e.g., 'In 45 minutes' or 'In 1h 15m').
     private func formatTimeEstimate(_ minutes: Int) -> String {
         if minutes < 60 {
-            return "In \(minutes) minutes"
+            return String(localized: "In \(minutes) minutes")
         } else {
             let hours = minutes / 60
             let remainingMinutes = minutes % 60
             if remainingMinutes == 0 {
-                return "In \(hours) hour\(hours > 1 ? "s" : "")"
+                return String(localized: "In \(hours) hours")
             } else {
-                return "In \(hours)h \(remainingMinutes)m"
+                return String(localized: "In \(hours)h \(remainingMinutes)m")
             }
         }
     }

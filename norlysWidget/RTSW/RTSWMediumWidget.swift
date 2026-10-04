@@ -11,19 +11,6 @@ import WidgetKit
 import SwiftUI
 import Charts
 
-// MARK: - Data Models
-
-/// PlasmaData: Data model representing plasma measurements from the source.
-struct PlasmaData: Codable {
-    let time_tag: String
-    let speed: String
-    let density: String
-    let temperature: String
-    let quality: String
-    let source: String
-    let active: String
-}
-
 // MARK: - Timeline Provider for Medium Widget
 
 struct MediumProvider: TimelineProvider {
@@ -150,55 +137,25 @@ struct MediumProvider: TimelineProvider {
         Task {
             let currentDate = Date()
             let startDate = currentDate.addingTimeInterval(-4 * 3600) // Changed to 4 hours
-            let magDataURL = URL(string: "https://services.swpc.noaa.gov/text/rtsw/data/mag-6-hour.i.json")!
-            let plasmaDataURL = URL(string: "https://services.swpc.noaa.gov/text/rtsw/data/plasma-6-hour.i.json")!
-            
+
             do {
-                // Fetch magnetic data
-                let (magData, _) = try await URLSession.shared.data(from: magDataURL)
-                let magJsonArray = try JSONDecoder().decode([[String]].self, from: magData)
-                
-                // Fetch plasma data
-                let (plasmaData, _) = try await URLSession.shared.data(from: plasmaDataURL)
-                let plasmaJsonArray = try JSONDecoder().decode([[String]].self, from: plasmaData)
-                
-                // Process magnetic data
-                let magneticData = magJsonArray.dropFirst().map { row -> (Double, Double, Bool, Date) in
-                    let btValue = Double(row[1]) ?? 0.0
-                    let bzValue = Double(row[4]) ?? 0.0
-                    let active = row[9] == "1"
-                    let date = ISO8601DateFormatter().date(from: row[0].replacingOccurrences(of: " ", with: "T") + "Z") ?? Date()
-                    return (btValue, bzValue, active, date)
-                }
-                .filter { $0.2 }
-                .filter { $0.3 >= startDate } // Filter to last 4 hours
-                .sorted { $0.3 < $1.3 }
-                
-                // Process plasma data (speed in row[1], density in row[2])
-                let processedPlasmaData = plasmaJsonArray.dropFirst().map { row -> (Double, Double, Bool, Date) in
-                    let speed = Double(row[1]) ?? 0.0
-                    let density = Double(row[2]) ?? 0.0
-                    let active = row[6] == "1"
-                    let date = ISO8601DateFormatter().date(from: row[0].replacingOccurrences(of: " ", with: "T") + "Z") ?? Date()
-                    return (speed, density, active, date)
-                }
-                .filter { $0.2 }
-                .filter { $0.3 >= startDate } // Filter to last 4 hours
-                .sorted { $0.3 < $1.3 }
-                
+                // Fetch magnetic and plasma data from the active satellite via NOAA's HAPI feed.
+                async let magFetch = HAPI.fetchActiveMag(from: startDate, to: currentDate)
+                async let plasmaFetch = HAPI.fetchActivePlasma(from: startDate, to: currentDate)
+                let (magneticData, processedPlasmaData) = try await (magFetch, plasmaFetch)
+
                 // Calculate earth hit timing
                 let earthHitIndex: Int?
                 let earthHitTimeMinutes: Int?
-                
-                if let lastPlasmaRow = plasmaJsonArray.dropFirst().last,
-                   let speed = Double(lastPlasmaRow[1]) {
+
+                if let speed = processedPlasmaData.last?.speed, speed > 0 {
                     let distance = 1_500_000.0 // km
                     let travelTime = distance / speed / 60
-                    
-                    if let lastDataDate = magneticData.last?.3 {
+
+                    if let lastDataDate = magneticData.last?.date {
                         let earthHitDate = lastDataDate.addingTimeInterval(-travelTime * 60)
                         earthHitIndex = magneticData.enumerated().min { a, b in
-                            abs(a.element.3.timeIntervalSince(earthHitDate)) < abs(b.element.3.timeIntervalSince(earthHitDate))
+                            abs(a.element.date.timeIntervalSince(earthHitDate)) < abs(b.element.date.timeIntervalSince(earthHitDate))
                         }?.offset
                         earthHitTimeMinutes = Int(round(travelTime))
                     } else {
@@ -209,11 +166,11 @@ struct MediumProvider: TimelineProvider {
                     earthHitIndex = nil
                     earthHitTimeMinutes = nil
                 }
-                
-                let btValues = magneticData.map { $0.0 }
-                let bzValues = magneticData.map { $0.1 }
-                let speedValues = processedPlasmaData.map { $0.0 }
-                let densityValues = processedPlasmaData.map { $0.1 }
+
+                let btValues = magneticData.map { $0.bt }
+                let bzValues = magneticData.map { $0.bz }
+                let speedValues = processedPlasmaData.map { $0.speed }
+                let densityValues = processedPlasmaData.map { $0.density }
                 
                 var entry = MediumEntry(
                     date: currentDate,
@@ -234,8 +191,8 @@ struct MediumProvider: TimelineProvider {
                 )
                 
                 // Create historical data arrays
-                entry.historicalMagData = magneticData.map { ($0.3, $0.0, $0.1) }
-                entry.historicalPlasmaData = processedPlasmaData.map { ($0.3, $0.0, $0.1) }
+                entry.historicalMagData = magneticData.map { ($0.date, $0.bt, $0.bz) }
+                entry.historicalPlasmaData = processedPlasmaData.map { ($0.date, $0.speed, $0.density) }
                 
                 let nextUpdate = Calendar.current.date(byAdding: .minute, value: 1, to: currentDate)!
                 let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
@@ -284,14 +241,14 @@ struct RTSWMediumWidgetEntryView: View {
     // Helper function to convert a time in minutes to a formatted string (e.g., 'In 45 minutes' or 'In 1h 15m').
     private func formatTimeEstimate(_ minutes: Int) -> String {
         if minutes < 60 {
-            return "In \(minutes) minutes"
+            return String(localized: "In \(minutes) minutes")
         } else {
             let hours = minutes / 60
             let remainingMinutes = minutes % 60
             if remainingMinutes == 0 {
-                return "In \(hours) hour\(hours > 1 ? "s" : "")"
+                return String(localized: "In \(hours) hours")
             } else {
-                return "In \(hours)h \(remainingMinutes)m"
+                return String(localized: "In \(hours)h \(remainingMinutes)m")
             }
         }
     }

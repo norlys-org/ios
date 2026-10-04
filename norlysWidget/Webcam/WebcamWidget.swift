@@ -49,7 +49,7 @@ struct WebcamProvider: AppIntentTimelineProvider {
     }
     
     func placeholder(in context: Context) -> WebcamEntry {
-        let webcam = Webcam(id: "loading", name: "Loading...")
+        let webcam = Webcam(id: "loading", name: String(localized: "Loading..."))
         return WebcamEntry(date: Date(), webcam: webcam, imageData: nil)
     }
 }

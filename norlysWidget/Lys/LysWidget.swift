@@ -362,16 +362,16 @@ struct LysWidgetEntryView: View {
     /// Format timespan display text
     private var timespanText: String {
         switch entry.timespan.id {
-        case "6h": return "6 hours"
-        case "24h": return "24 hours"
-        case "7d": return "7 days"
-        default: return "Over \(entry.timespan.name.lowercased())"
+        case "6h": return String(localized: "6 hours")
+        case "24h": return String(localized: "24 hours")
+        case "7d": return String(localized: "7 days")
+        default: return String(localized: "Over \(entry.timespan.name.lowercased())")
         }
     }
     
     /// Format latitude zone display text
     private var latitudeText: String {
-        return String(entry.latitudeZone.apiKey.prefix(1)).uppercased() + "-Lys Index"
+        entry.latitudeZone.apiKey == "high" ? String(localized: "H-Lys Index") : String(localized: "M-Lys Index")
     }
     
     /// Check if this is an error state (no data)

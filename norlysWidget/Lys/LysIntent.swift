@@ -17,13 +17,13 @@ struct Timespan: AppEntity {
     static var defaultQuery = TimespanQuery()
     
     var displayRepresentation: DisplayRepresentation {
-        DisplayRepresentation(title: "\(name)")
+        DisplayRepresentation(title: LocalizedStringResource(stringLiteral: name))
     }
     
     static let allCases: [Timespan] = [
-        Timespan(id: "6h", name: "6 hours", hours: 6),
-        Timespan(id: "24h", name: "24 hours", hours: 24),
-        Timespan(id: "7d", name: "7 days", hours: 168) // 7 * 24
+        Timespan(id: "6h", name: String(localized: "6 hours"), hours: 6),
+        Timespan(id: "24h", name: String(localized: "24 hours"), hours: 24),
+        Timespan(id: "7d", name: String(localized: "7 days"), hours: 168) // 7 * 24
     ]
 }
 
@@ -50,12 +50,12 @@ struct LatitudeZone: AppEntity {
     static var defaultQuery = LatitudeZoneQuery()
     
     var displayRepresentation: DisplayRepresentation {
-        DisplayRepresentation(title: "\(name)")
+        DisplayRepresentation(title: LocalizedStringResource(stringLiteral: name))
     }
     
     static let allCases: [LatitudeZone] = [
-        LatitudeZone(id: "high", name: "High Latitudes", apiKey: "high"),
-        LatitudeZone(id: "mid", name: "Mid Latitudes", apiKey: "mid")
+        LatitudeZone(id: "high", name: String(localized: "High Latitudes"), apiKey: "high"),
+        LatitudeZone(id: "mid", name: String(localized: "Mid Latitudes"), apiKey: "mid")
     ]
 }
 
