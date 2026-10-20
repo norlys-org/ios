@@ -40,28 +40,16 @@ struct RTSWLargeProvider: AppIntentTimelineProvider {
         return Timeline(entries: entries, policy: .after(entry.nextUpdate))
     }
 
-    /// Fetches the window ending now from the chosen satellite, together with the HAPI satellites
-    /// drawn in grey behind it, and prepares the plots. Retries in five minutes when nothing came back.
+    /// Fetches the window ending now from every NOAA satellite, the chosen one drawn in colour and
+    /// the others in grey behind it, and prepares the plots. Retries in a minute when nothing came back.
     private func createEntry(for configuration: SelectRTSWConfigurationIntent, in context: Context) async -> RTSWLargeEntry {
         let currentDate = Date()
         let satellite = configuration.satellite
-        let timespan = configuration.timespan.clamped(to: satellite.longestTimespan)
+        let timespan = configuration.timespan
         let window = DateInterval(start: currentDate.addingTimeInterval(-timespan.duration), end: currentDate)
 
         do {
-            let data: RTSWData
-            switch satellite {
-            case .imap:
-                async let core = try? RTSWFetcher.fetchRTSW(from: window.start, to: window.end, cadence: timespan.cadence)
-                let imap = try await RTSWFetcher.fetchIMAP(from: window.start, to: window.end)
-                data = (await core ?? RTSWData()).merged(with: imap)
-            case .stereo:
-                async let core = try? RTSWFetcher.fetchRTSW(from: window.start, to: window.end, cadence: timespan.cadence)
-                let stereo = try await RTSWFetcher.fetchSTEREO(from: window.start, to: window.end)
-                data = (await core ?? RTSWData()).merged(with: stereo)
-            default:
-                data = try await RTSWFetcher.fetchRTSW(from: window.start, to: window.end, cadence: timespan.cadence)
-            }
+            let data = try await RTSWFetcher.fetchRTSW(from: window.start, to: window.end, cadence: timespan.cadence)
 
             let stack = RTSWStack(
                 data: data,
@@ -85,7 +73,7 @@ struct RTSWLargeProvider: AppIntentTimelineProvider {
             return RTSWLargeEntry(
                 date: currentDate,
                 updatedAt: currentDate,
-                nextUpdate: currentDate.addingTimeInterval(300),
+                nextUpdate: currentDate.addingTimeInterval(timespan.reloadInterval),
                 satellite: satellite,
                 timespan: timespan,
                 stack: nil
@@ -95,7 +83,7 @@ struct RTSWLargeProvider: AppIntentTimelineProvider {
             return RTSWLargeEntry(
                 date: currentDate,
                 updatedAt: currentDate,
-                nextUpdate: currentDate.addingTimeInterval(300),
+                nextUpdate: currentDate.addingTimeInterval(timespan.reloadInterval),
                 satellite: satellite,
                 timespan: timespan,
                 stack: nil,
@@ -107,7 +95,7 @@ struct RTSWLargeProvider: AppIntentTimelineProvider {
     /// Creates an entry from the bundled sample data, for previews and the widget gallery.
     private func createMockEntry(for configuration: SelectRTSWConfigurationIntent, in context: Context) -> RTSWLargeEntry {
         let currentDate = Date()
-        let timespan = configuration.timespan.clamped(to: configuration.satellite.longestTimespan)
+        let timespan = configuration.timespan
         let window = DateInterval(start: currentDate.addingTimeInterval(-timespan.duration), end: currentDate)
         return RTSWLargeEntry(
             date: currentDate,
@@ -128,7 +116,7 @@ struct RTSWLargeProvider: AppIntentTimelineProvider {
 
     private func components(of configuration: SelectRTSWConfigurationIntent) -> RTSWComponents {
         RTSWComponents(by: configuration.showBy, bz: configuration.showBz,
-                       phi: configuration.showPhi, theta: configuration.showTheta)
+                       phi: configuration.angle == .phi, theta: configuration.angle == .theta)
     }
 
     /// Width the plots will be drawn at, which the data is thinned to. Falls back to a common
@@ -178,7 +166,7 @@ struct RTSWLargeEntry: TimelineEntry {
     /// When the timeline asks to be reloaded, which the "Updates in" countdown runs to.
     let nextUpdate: Date
     let satellite: RTSWSatellite
-    /// The period shown, which IMAP and STEREO cap at a day.
+    /// The period shown.
     let timespan: RTSWTimespan
     /// The plots to draw, nil when there is nothing to draw.
     let stack: RTSWStack?
@@ -221,7 +209,6 @@ struct RTSWLargeWidgetEntryView: View {
                     status: entry.date < entry.nextUpdate
                         ? .updatesIn(entry.updatedAt...entry.nextUpdate)
                         : .updated(entry.updatedAt),
-                    watermark: entry.satellite == .stereo ? "STEREO" : nil,
                     size: geometry.size
                 )
             }
@@ -263,7 +250,7 @@ struct RTSWLargeWidget: Widget {
             RTSWLargeWidgetEntryView(entry: entry)
                 .containerBackground(.black, for: .widget)
         }
-        .configurationDisplayName("Solar wind stackplot widget")
+        .configurationDisplayName("Solar wind")
         .description("Displays the real-time solar wind like norlys.live: IMF Bt/Bz, Phi, speed and density, with a configurable satellite, time period and components.")
         .supportedFamilies([.systemLarge])
         .contentMarginsDisabled()

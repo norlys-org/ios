@@ -19,6 +19,11 @@
 			</array>
 		</dict>
 	</dict>
+	<key>WKAppBoundDomains</key>
+	<array>
+		<string>norlys.live</string>
+		<string>www.norlys.live</string>
+	</array>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

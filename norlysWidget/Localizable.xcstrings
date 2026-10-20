@@ -4,6 +4,15 @@
     "" : {
       "shouldTranslate" : false
     },
+    "(km/s)" : {
+      "shouldTranslate" : false
+    },
+    "(nT)" : {
+      "shouldTranslate" : false
+    },
+    "(p/cm³)" : {
+      "shouldTranslate" : false
+    },
     "%@" : {
       "shouldTranslate" : false
     },
@@ -75,12 +84,6 @@
         "ru" : {
           "variations" : {
             "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%lld минута"
-                }
-              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -91,6 +94,12 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%lld минут"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld минута"
                 }
               },
               "other" : {
@@ -115,15 +124,6 @@
           }
         }
       }
-    },
-    "(km/s)" : {
-      "shouldTranslate" : false
-    },
-    "(nT)" : {
-      "shouldTranslate" : false
-    },
-    "(p/cm³)" : {
-      "shouldTranslate" : false
     },
     "1 year" : {
       "localizations" : {
@@ -193,40 +193,6 @@
         }
       }
     },
-    "24 hours" : {
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "24時間"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "24시간"
-          }
-        },
-        "nb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "24 timer"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "24 часа"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "24 小时"
-          }
-        }
-      }
-    },
     "3 days" : {
       "localizations" : {
         "ja" : {
@@ -261,40 +227,6 @@
         }
       }
     },
-    "30 days" : {
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "30日間"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "30일"
-          }
-        },
-        "nb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "30 dager"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "30 дней"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "30 天"
-          }
-        }
-      }
-    },
     "5 years" : {
       "localizations" : {
         "ja" : {
@@ -325,40 +257,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "5 年"
-          }
-        }
-      }
-    },
-    "54 days" : {
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "54日間"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "54일"
-          }
-        },
-        "nb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "54 dager"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "54 дня"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "54 天"
           }
         }
       }
@@ -431,6 +329,108 @@
         }
       }
     },
+    "24 hours" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "24時間"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "24시간"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "24 timer"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "24 часа"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "24 小时"
+          }
+        }
+      }
+    },
+    "30 days" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30日間"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30일"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30 dager"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30 дней"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30 天"
+          }
+        }
+      }
+    },
+    "54 days" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "54日間"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "54일"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "54 dager"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "54 дня"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "54 天"
+          }
+        }
+      }
+    },
     "about %lld hours" : {
       "localizations" : {
         "en" : {
@@ -496,12 +496,6 @@
         "ru" : {
           "variations" : {
             "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "около %lld часа"
-                }
-              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -512,6 +506,12 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "около %lld часов"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "около %lld часа"
                 }
               },
               "other" : {
@@ -638,40 +638,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "您所在位置的极光"
-          }
-        }
-      }
-    },
-    "Aurora globe" : {
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "オーロラ地球儀"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "오로라 지구본"
-          }
-        },
-        "nb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nordlysglobus"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Глобус полярных сияний"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "极光地球仪"
           }
         }
       }
@@ -1365,6 +1331,40 @@
         }
       }
     },
+    "Field angle" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "磁場の角度"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "자기장 각도"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Feltvinkel"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Угол поля"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "磁场角度"
+          }
+        }
+      }
+    },
     "Forecast" : {
       "localizations" : {
         "ja" : {
@@ -1504,9 +1504,6 @@
         }
       }
     },
-    "IMAP" : {
-      "shouldTranslate" : false
-    },
     "IMF" : {
       "shouldTranslate" : false
     },
@@ -1575,12 +1572,6 @@
         "ru" : {
           "variations" : {
             "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Через %lld час"
-                }
-              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -1591,6 +1582,12 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Через %lld часов"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Через %lld час"
                 }
               },
               "other" : {
@@ -1681,12 +1678,6 @@
         "ru" : {
           "variations" : {
             "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "Через %lld минуту"
-                }
-              },
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
@@ -1697,6 +1688,12 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Через %lld минут"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Через %lld минуту"
                 }
               },
               "other" : {
@@ -2133,6 +2130,74 @@
         }
       }
     },
+    "None" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "なし"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "없음"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingen"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Нет"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无"
+          }
+        }
+      }
+    },
+    "Norlys model" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "norlysモデル"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Norlys 모델"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Norlys-modellen"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Модель Norlys"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Norlys 模型"
+          }
+        }
+      }
+    },
     "Northern hemisphere" : {
       "localizations" : {
         "ja" : {
@@ -2439,76 +2504,42 @@
         }
       }
     },
-    "Show Phi" : {
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Phi を表示"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Phi 표시"
-          }
-        },
-        "nb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vis Phi"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Показывать Фи"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "显示 Phi"
-          }
-        }
-      }
-    },
-    "Show Theta" : {
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Theta を表示"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Theta 표시"
-          }
-        },
-        "nb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vis Theta"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Показывать Тета"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "显示 Theta"
-          }
-        }
-      }
-    },
     "SOLAR 1" : {
       "shouldTranslate" : false
+    },
+    "Solar wind" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "太陽風"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "태양풍"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solvind"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Солнечный ветер"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "太阳风"
+          }
+        }
+      }
     },
     "Solar Wind" : {
       "localizations" : {
@@ -2608,40 +2639,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "太阳风磁场"
-          }
-        }
-      }
-    },
-    "Solar wind stackplot widget" : {
-      "localizations" : {
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "太陽風スタックプロット"
-          }
-        },
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "태양풍 스택 플롯"
-          }
-        },
-        "nb" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Solvind-stabelplott"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Графики солнечного ветра"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "太阳风堆叠图"
           }
         }
       }
@@ -2748,9 +2745,6 @@
         }
       }
     },
-    "STEREO A" : {
-      "shouldTranslate" : false
-    },
     "Strong aurora above me Widget" : {
       "localizations" : {
         "ja" : {
@@ -2785,36 +2779,36 @@
         }
       }
     },
-    "The norlys model on the globe, as on norlys.live: the auroral ovals, the terminator, substorms and your position, centred on you or on either geomagnetic pole." : {
+    "The norlys model on the globe, depicting where current aurora activity is." : {
       "localizations" : {
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "norlys.live と同じく、norlys モデルを地球儀に表示：オーロラオーバル、昼夜境界線、サブストーム、現在地。現在地またはいずれかの地磁気極を中心に表示します。"
+            "value" : "現在オーロラ活動が起きている場所を示す、地球儀上のnorlysモデル。"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "norlys.live와 같이 지구본 위에 norlys 모델을 표시합니다: 오로라 오벌, 명암 경계선, 서브스톰, 현재 위치. 현재 위치 또는 지자기극을 중심으로 표시합니다."
+            "value" : "현재 오로라 활동이 일어나는 곳을 보여 주는 지구본 위의 norlys 모델입니다."
           }
         },
         "nb" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "norlys-modellen på globusen, som på norlys.live: nordlysovalene, terminatoren, substormer og posisjonen din, sentrert på deg eller på en av de geomagnetiske polene."
+            "value" : "norlys-modellen på globusen, som viser hvor det er nordlysaktivitet nå."
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Модель norlys на глобусе, как на norlys.live: авроральные овалы, терминатор, суббури и ваше местоположение, с центром на вас или на одном из геомагнитных полюсов."
+            "value" : "Модель norlys на глобусе, показывающая, где сейчас наблюдается авроральная активность."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "与 norlys.live 相同，在地球仪上显示 norlys 模型：极光椭圆带、晨昏线、亚暴和您的位置，可以您所在位置或任一地磁极为中心。"
+            "value" : "地球仪上的 norlys 模型，显示当前极光活动的位置。"
           }
         }
       }
@@ -3233,7 +3227,7 @@
         }
       }
     },
-    "Webcam Location" : {
+    "Webcam location" : {
       "localizations" : {
         "ja" : {
           "stringUnit" : {
@@ -3267,7 +3261,7 @@
         }
       }
     },
-    "Webcam location" : {
+    "Webcam Location" : {
       "localizations" : {
         "ja" : {
           "stringUnit" : {

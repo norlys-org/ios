@@ -19,7 +19,13 @@ class WebViewController: UIViewController {
     
     /// Loading view displayed while web content is being loaded
     let loadingView = UIView()
+
+    /// The site's opening aurora, played natively over the web view until the page has drawn
+    var introOverlay: IntroOverlayView?
     
+    /// Hosts the web view navigates to itself; must match WKAppBoundDomains in Info.plist
+    static let appBoundHosts: Set<String> = ["norlys.live", "www.norlys.live"]
+
     /// Initial URL to load in the web view
 //    var initialURL: URL = URL(string: "http://192.168.1.9:3000")!
     var initialURL: URL = URL(string: "https://norlys.live")!
@@ -48,6 +54,7 @@ class WebViewController: UIViewController {
         super.viewDidLoad()
         setupWebView()
         setupLoadingView()
+        setupIntroOverlay()
         loadWebsite()
         
         navigationController?.setNavigationBarHidden(true, animated: false)
@@ -72,6 +79,12 @@ class WebViewController: UIViewController {
             configuration.preferences.javaScriptEnabled = true
         }
         configuration.websiteDataStore = WKWebsiteDataStore.default()
+
+        // WKWebView only runs service workers for the domains listed under WKAppBoundDomains in
+        // Info.plist, and only once navigation is held to them. That is what lets the site's
+        // precache serve the app from disk; links elsewhere are handed to Safari instead
+        // (see decidePolicyFor in WebViewControllerDelegates)
+        configuration.limitsNavigationsToAppBoundDomains = true
         
         let isIOSFlagJS = "window.isIOSApp = true;"
         let isIOSFlagScript = WKUserScript(
@@ -104,12 +117,23 @@ class WebViewController: UIViewController {
         
         configuration.userContentController.add(self, name: "console")
         configuration.userContentController.add(self, name: "requestPush")
+        configuration.userContentController.add(self, name: "introReady")
         
         webView = WKWebView(frame: view.bounds, configuration: configuration)
         webView.navigationDelegate = self
         webView.uiDelegate = self
         webView.scrollView.contentInsetAdjustmentBehavior = .never
-        
+
+        // A WKWebView paints white until the page's first frame, which shows through as a flash
+        // between the launch screen and the site
+        view.backgroundColor = .black
+        webView.isOpaque = false
+        webView.backgroundColor = .black
+        webView.scrollView.backgroundColor = .black
+        if #available(iOS 15.0, *) {
+            webView.underPageBackgroundColor = .black
+        }
+
         // Setup location handler
         locationHandler = LocationScriptMessageHandler(locationBridge: locationBridge, webView: webView)
         configuration.userContentController.add(locationHandler!, name: "location")
@@ -131,6 +155,24 @@ class WebViewController: UIViewController {
         view.bringSubviewToFront(loadingView)
     }
     
+    /**
+     * Covers the launch with the intro, which the page lifts by posting `introReady` once it has
+     * drawn (see WKScriptMessageHandler), or the navigation delegate does if it never does.
+     */
+    private func setupIntroOverlay() {
+        let overlay = IntroOverlayView()
+        overlay.frame = view.bounds
+        overlay.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(overlay)
+        introOverlay = overlay
+    }
+
+    /// Lifts the intro, if it is still up
+    func dismissIntro() {
+        introOverlay?.dismiss()
+        introOverlay = nil
+    }
+
     // MARK: - WebView Actions
     
     /**

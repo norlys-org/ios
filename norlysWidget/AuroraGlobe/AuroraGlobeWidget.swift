@@ -28,9 +28,9 @@ struct AuroraGlobeProvider: AppIntentTimelineProvider {
     typealias Entry = AuroraGlobeEntry
     typealias Intent = SelectGlobeConfigurationIntent
 
-    /// The model is computed every minute; the widget asks to follow it as closely as WidgetKit allows,
-    /// the badge telling the model's age in between.
-    static let reloadInterval: TimeInterval = 5 * 60
+    /// The model is computed every minute, and the widget asks to be redrawn as often. WidgetKit
+    /// spaces reloads out to fit its budget, the badge telling the model's age in between.
+    static let reloadInterval: TimeInterval = 60
 
     func placeholder(in context: Context) -> AuroraGlobeEntry {
         Self.sampleEntry(centre: .location)
@@ -269,8 +269,8 @@ struct AuroraGlobeWidget: Widget {
             AuroraGlobeEntryView(entry: entry)
                 .containerBackground(.black, for: .widget)
         }
-        .configurationDisplayName("Aurora globe")
-        .description("The norlys model on the globe, as on norlys.live: the auroral ovals, the terminator, substorms and your position, centred on you or on either geomagnetic pole.")
+        .configurationDisplayName("Norlys model")
+        .description("The norlys model on the globe, depicting where current aurora activity is.")
         .supportedFamilies([.systemSmall, .systemLarge])
         .contentMarginsDisabled()
     }

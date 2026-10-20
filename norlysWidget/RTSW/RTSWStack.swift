@@ -98,7 +98,6 @@ enum RTSWPalette {
         switch source {
         case RTSWSourceCode.ace: return primary600.color
         case RTSWSourceCode.dscovr: return blue700.color
-        case RTSWSourceCode.stereo: return orange.color
         case RTSWSourceCode.solar1: return magenta.color
         default: return red.color
         }
@@ -108,9 +107,8 @@ enum RTSWPalette {
         switch source {
         case RTSWSourceCode.ace: return "ACE"
         case RTSWSourceCode.dscovr: return "DSCOVR"
-        case RTSWSourceCode.stereo: return "STEREO"
         case RTSWSourceCode.solar1: return "SOLAR 1"
-        default: return "IMAP"
+        default: return ""
         }
     }
 }
@@ -242,8 +240,10 @@ struct RTSWLegendItem {
 
 struct RTSWStack {
     let panels: [RTSWPanel]
-    /// Stretch of the window the wind now reaching Earth was measured in. Hidden for STEREO.
+    /// Stretch of the window the wind now reaching Earth was measured in.
     let earthZone: ClosedRange<Double>?
+    /// Where the latest measurement the arrival is timed off sits, the end of the forecast.
+    let latestPoint: Double?
     /// Seconds the wind measured last takes to cover the 1.5 million km to Earth.
     let travelTime: TimeInterval?
     let timeLabels: [RTSWLabel]
@@ -295,12 +295,12 @@ extension RTSWStack {
             let earthHit = latest.date.addingTimeInterval(-travelTime)
             let spread = travelTime * travelTimeUncertainty
             self.travelTime = travelTime
-            earthZone = satellite == .stereo
-                ? nil
-                : x(earthHit.addingTimeInterval(-spread))...x(earthHit.addingTimeInterval(spread))
+            latestPoint = x(latest.date)
+            earthZone = x(earthHit.addingTimeInterval(-spread))...x(earthHit.addingTimeInterval(spread))
         } else {
             travelTime = nil
             earthZone = nil
+            latestPoint = nil
         }
 
         var panels = [
@@ -439,7 +439,8 @@ extension RTSWStack {
             sector = nil
         }
 
-        let readings = keys.map { key -> RTSWReading in
+        // By is plotted but given no figure: the IMF panel reads Bt and Bz only
+        let readings = keys.filter { $0 != .by }.map { key -> RTSWReading in
             let first = active.first { $0.value(key).isFinite }?.value(key)
             let last = active.last { $0.value(key).isFinite }?.value(key)
             let trend = last.flatMap { last in first.map { last - $0 } }

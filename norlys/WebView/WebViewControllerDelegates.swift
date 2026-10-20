@@ -22,6 +22,12 @@ extension WebViewController: WKNavigationDelegate {
      */
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         loadingView.isHidden = true
+
+        // A version of the site that does not say when it has drawn still gets shown, a moment
+        // after it has loaded
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
+            self?.dismissIntro()
+        }
     }
     
     /**
@@ -30,6 +36,7 @@ extension WebViewController: WKNavigationDelegate {
      */
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
         loadingView.isHidden = true
+        dismissIntro()
         
         let nsError = error as NSError
         if nsError.domain == NSURLErrorDomain &&
@@ -43,10 +50,21 @@ extension WebViewController: WKNavigationDelegate {
     
     /**
      * Called when the web view needs to decide whether to allow navigation to proceed.
-     * Currently allows all navigation requests.
+     * The web view is limited to app-bound domains, so a page elsewhere (or a mailto:, tel:, …)
+     * opened as the whole page or in a new window goes to the system instead. Frames inside the
+     * page are left to load as they are.
      */
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        decisionHandler(.allow)
+        guard let url = navigationAction.request.url,
+              navigationAction.targetFrame?.isMainFrame ?? true,
+              !["about", "blob", "data", "javascript"].contains(url.scheme?.lowercased() ?? ""),
+              !Self.appBoundHosts.contains(url.host ?? "") else {
+            decisionHandler(.allow)
+            return
+        }
+
+        UIApplication.shared.open(url)
+        decisionHandler(.cancel)
     }
     
     /**
@@ -54,6 +72,7 @@ extension WebViewController: WKNavigationDelegate {
      * Shows the error message to the user.
      */
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        dismissIntro()
         showError(message: error.localizedDescription)
     }
 }
@@ -119,6 +138,10 @@ extension WebViewController: WKScriptMessageHandler {
                 }
             }
             
+            else if message.name == "introReady" {
+                dismissIntro()
+            }
+
             else if message.name == "requestPush" {
                 UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, _ in
                     DispatchQueue.main.async {

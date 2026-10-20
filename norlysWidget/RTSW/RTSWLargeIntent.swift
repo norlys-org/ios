@@ -9,23 +9,33 @@
 
 import AppIntents
 
+/// RTSWAngle: Which angle of the field gets a panel. One at most, so the two never crowd the plots.
+enum RTSWAngle: String, AppEnum {
+    case phi
+    case theta
+    case none
+
+    static var typeDisplayRepresentation: TypeDisplayRepresentation = "Field angle"
+    static var caseDisplayRepresentations: [RTSWAngle: DisplayRepresentation] = [
+        .phi: "Phi",
+        .theta: "Theta",
+        .none: "None"
+    ]
+}
+
 /// RTSWSatellite: Which satellite's data is drawn in colour. The others are drawn in grey behind it.
 enum RTSWSatellite: String, AppEnum {
     case auto
     case solar1
     case dscovr
     case ace
-    case imap
-    case stereo
 
     static var typeDisplayRepresentation: TypeDisplayRepresentation = "Satellite"
     static var caseDisplayRepresentations: [RTSWSatellite: DisplayRepresentation] = [
         .auto: "Auto",
         .solar1: "SOLAR 1",
         .dscovr: "DSCOVR",
-        .ace: "ACE",
-        .imap: "IMAP",
-        .stereo: "STEREO A"
+        .ace: "ACE"
     ]
 
     /// Source code of the chosen satellite, nil for auto (whichever NOAA marks as active).
@@ -35,17 +45,6 @@ enum RTSWSatellite: String, AppEnum {
         case .solar1: return RTSWSourceCode.solar1
         case .dscovr: return RTSWSourceCode.dscovr
         case .ace: return RTSWSourceCode.ace
-        case .imap: return RTSWSourceCode.imap
-        case .stereo: return RTSWSourceCode.stereo
-        }
-    }
-
-    /// IMAP and STEREO come from feeds that are only practical to fetch a day of in a widget
-    /// (the website also stops IMAP at a day).
-    var longestTimespan: RTSWTimespan {
-        switch self {
-        case .imap, .stereo: return .oneDay
-        default: return .fiveYears
         }
     }
 }
@@ -116,17 +115,9 @@ enum RTSWTimespan: String, AppEnum {
         }
     }
 
-    /// How often the widget asks to be reloaded. The website re-reads the feed as often as the data
-    /// changes (once a minute at best) and at least every quarter of an hour, but WidgetKit reloads a
-    /// widget every five minutes at most, so asking for more would only count down to nothing.
-    var reloadInterval: TimeInterval {
-        min(max(resolution, 5 * 60), 15 * 60)
-    }
-
-    /// The shorter of two spans.
-    func clamped(to longest: RTSWTimespan) -> RTSWTimespan {
-        duration <= longest.duration ? self : longest
-    }
+    /// How often the widget asks to be reloaded: every minute, as often as the feeds change. WidgetKit
+    /// spaces reloads out to fit its budget, and once one is overdue the badge says how old the data is.
+    var reloadInterval: TimeInterval { 60 }
 }
 
 struct SelectRTSWConfigurationIntent: WidgetConfigurationIntent {
@@ -137,6 +128,5 @@ struct SelectRTSWConfigurationIntent: WidgetConfigurationIntent {
     @Parameter(title: "Time period", default: .oneDay) var timespan: RTSWTimespan
     @Parameter(title: "Show By", default: false) var showBy: Bool
     @Parameter(title: "Show Bz", default: true) var showBz: Bool
-    @Parameter(title: "Show Phi", default: true) var showPhi: Bool
-    @Parameter(title: "Show Theta", default: false) var showTheta: Bool
+    @Parameter(title: "Field angle", default: .phi) var angle: RTSWAngle
 }

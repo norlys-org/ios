@@ -79,8 +79,6 @@ struct RTSWStackView: View {
     let title: String
     let period: String
     let status: RTSWUpdateStatus
-    /// Written across the plots when the satellite's data does not describe the wind heading for Earth.
-    let watermark: String?
     let size: CGSize
 
     var body: some View {
@@ -89,13 +87,17 @@ struct RTSWStackView: View {
         let plotWidth = RTSWStackLayout.plotWidth(forWidgetWidth: size.width)
         let plotsBottom = frames.last?.maxY ?? 0
         let barY = plotsBottom + RTSWStackLayout.timeRow + 2
+        // Every figure at one size, the largest the most crowded panel has room for
+        let valueSize = zip(stack.panels, frames)
+            .map { panel, frame in (frame.height / CGFloat(max(panel.readings.count, 1)) - 9) * 0.95 }
+            .reduce(26, min)
 
         ZStack(alignment: .topLeading) {
             header
             forecastLabel(plotWidth: plotWidth)
 
             ForEach(Array(stack.panels.enumerated()), id: \.offset) { index, panel in
-                readings(of: panel, in: frames[index])
+                readings(of: panel, in: frames[index], valueSize: valueSize)
                 values(of: panel, in: frames[index])
                 RTSWPanelView(panel: panel, stack: stack, size: frames[index].size)
                     .offset(x: frames[index].minX, y: frames[index].minY)
@@ -115,16 +117,6 @@ struct RTSWStackView: View {
 
             footer(width: plotWidth)
                 .offset(x: plotX, y: barY + RTSWStackLayout.satelliteBar + 3)
-
-            if let watermark, let first = frames.first, let last = frames.last {
-                Text(watermark)
-                    .font(.helvetica(64))
-                    .fontWeight(.bold)
-                    .foregroundColor(.white.opacity(0.1))
-                    .fixedSize()
-                    .rotationEffect(.degrees(30))
-                    .position(x: first.midX, y: (first.minY + last.maxY) / 2)
-            }
         }
         .frame(width: size.width, height: size.height, alignment: .topLeading)
     }
@@ -132,14 +124,17 @@ struct RTSWStackView: View {
     /// The title, like the Lys widget's, and the live badge with the wait until the next update.
     private var header: some View {
         HStack(alignment: .center, spacing: 4) {
+            // The title gives way first: what the badge says is never cut short
             Text(title)
                 .font(.helvetica(10))
                 .fontWeight(.bold)
                 .foregroundColor(.white)
+                .lineLimit(1)
             Text(verbatim: "(\(period))")
                 .font(.helvetica(8))
                 .fontWeight(.bold)
                 .foregroundColor(.gray)
+                .lineLimit(1)
 
             Spacer(minLength: 4)
 
@@ -149,6 +144,7 @@ struct RTSWStackView: View {
                 case .updatesIn(let interval):
                     HStack(spacing: 2) {
                         Text("Updates in")
+                            .fixedSize()
                         // Timers reserve more room than they need: sized to "4:59" or "14:59"
                         Text(timerInterval: interval, countsDown: true)
                             .monospacedDigit()
@@ -165,11 +161,13 @@ struct RTSWStackView: View {
             .font(.helvetica(7.5))
             .fontWeight(.bold)
             .foregroundColor(RTSWPalette.textGrey300)
+            .layoutPriority(1)
 
             Text("LIVE")
                 .font(.helvetica(5.5))
                 .fontWeight(.bold)
                 .foregroundColor(.white)
+                .fixedSize()
                 .padding(.horizontal, 2.5)
                 .padding(.vertical, 1.5)
                 .background(RTSWPalette.red.color)
@@ -179,12 +177,13 @@ struct RTSWStackView: View {
         .offset(x: RTSWStackLayout.titleInset, y: RTSWStackLayout.top)
     }
 
-    /// "Forecast" over the band the wind now reaching Earth was measured in, held inside the plot.
+    /// "Forecast" over the stretch still on its way to Earth, halfway from the band the wind now
+    /// reaching Earth was measured in to the latest measurement, held inside the plot.
     @ViewBuilder
     private func forecastLabel(plotWidth: CGFloat) -> some View {
-        if let zone = stack.earthZone {
+        if let zone = stack.earthZone, let latest = stack.latestPoint {
             let width: CGFloat = 34
-            let center = (zone.lowerBound + zone.upperBound) / 2 * plotWidth
+            let center = (zone.upperBound + latest) / 2 * plotWidth
             let left = min(max(center - width / 2, 0), plotWidth - width)
             Text("Forecast")
                 .font(.helvetica(7))
@@ -197,11 +196,9 @@ struct RTSWStackView: View {
     }
 
     /// The panel's latest values and their change over the window, laid out like the small widget's,
-    /// shrunk to share the panel's height when it carries several components.
-    private func readings(of panel: RTSWPanel, in frame: CGRect) -> some View {
-        let count = CGFloat(max(panel.readings.count, 1))
-        let valueSize = min(26, (frame.height / count - 9) * 0.95)
-        return VStack(alignment: .leading, spacing: 0) {
+    /// at the size shared by every panel's figures.
+    private func readings(of panel: RTSWPanel, in frame: CGRect, valueSize: CGFloat) -> some View {
+        VStack(alignment: .leading, spacing: 0) {
             ForEach(Array(panel.readings.enumerated()), id: \.offset) { _, reading in
                 VStack(alignment: .leading, spacing: -3) {
                     Text(reading.name)
