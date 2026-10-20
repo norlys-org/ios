@@ -93,7 +93,16 @@ class WebViewController: UIViewController {
             forMainFrameOnly: false
         )
         configuration.userContentController.addUserScript(isIOSFlagScript)
-        
+
+        // The app plays the intro natively (IntroOverlayView), so the site is told it has already
+        // played, the flag its own intro checks (website app/helpers/intro.ts)
+        let introPlayedScript = WKUserScript(
+            source: "try { sessionStorage.setItem('intro-played', 'true') } catch {}",
+            injectionTime: .atDocumentStart,
+            forMainFrameOnly: true
+        )
+        configuration.userContentController.addUserScript(introPlayedScript)
+
         // Load JavaScript bridge files from bundle
         if let consoleBridgePath = Bundle.main.path(forResource: "console-bridge", ofType: "js"),
            let consoleBridgeScript = try? String(contentsOfFile: consoleBridgePath, encoding: .utf8),
